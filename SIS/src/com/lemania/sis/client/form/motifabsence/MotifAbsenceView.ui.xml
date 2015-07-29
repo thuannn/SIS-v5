@@ -1,0 +1,97 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+    <g:HTMLPanel>
+    	<g:Label text="Motifs d'absences" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+    	<g:DockPanel width="100%">
+    		<g:Dock direction="WEST">
+    			<g:VerticalPanel width="100%" spacing="5">
+    				<g:Label text="Liste des motifs d&apos;absences" width="700px"/>
+    				<p1:DataGrid width="100%" height="450px" ui:field="tblMotifs" styleName="subSection"/>
+    				<g:Cell horizontalAlignment="ALIGN_CENTER">
+    					<p1:SimplePager location="CENTER" ui:field="pagerMotifs"/>
+    				</g:Cell>
+    			</g:VerticalPanel>
+    		</g:Dock>
+    		<g:Dock direction="CENTER">
+    			<g:VerticalPanel width="100%" spacing="5">
+    				<g:Label text="Détails"/>
+    				<g:Grid width="100%" styleName="subSection">
+    					<g:row>
+    						<g:customCell>
+    							<g:Label text="Code"/>
+    						</g:customCell>
+    						<g:customCell>
+    							<g:TextBox ui:field="txtCode"/>
+    						</g:customCell>
+    					</g:row>
+    					<g:row>
+    						<g:customCell>
+    							<g:Label text="Libellé"/>
+    						</g:customCell>
+    						<g:customCell>
+    							<g:TextBox ui:field="txtLabel" width="300px"/>
+    						</g:customCell>
+    					</g:row>
+    					<g:row>
+    						<g:customCell>
+    							<g:Label text="-" styleName="hiddenText"/>
+    						</g:customCell>
+    						<g:customCell>
+    							<g:Grid width="100%">
+    								<g:row>
+    									<g:customCell>
+    										<g:CheckBox text="Recevable" ui:field="chkReceivable"/>
+    									</g:customCell>
+    								</g:row>
+    								<g:row>
+    									<g:customCell>
+    										<g:CheckBox text="Hors établissement" ui:field="chkOutside"/>
+    									</g:customCell>
+    								</g:row>
+    								<g:row>
+    									<g:customCell>
+    										<g:CheckBox text="Santé" ui:field="chkHealth"/>
+    									</g:customCell>
+    								</g:row>
+    								<g:row>
+    									<g:customCell>
+    										<g:CheckBox text="Dispense" ui:field="chkDispense"/>
+    									</g:customCell>
+    								</g:row>
+    							</g:Grid>
+    						</g:customCell>
+    					</g:row>
+    					<g:row>
+    						<g:customCell>
+    							<g:Label text="Lettre Texte"/>
+    						</g:customCell>
+    						<g:customCell>
+    							<g:TextArea characterWidth="40" visibleLines="5" ui:field="txtLetter"/>
+    						</g:customCell>
+    					</g:row>
+    					<g:row>
+    						<g:customCell>
+    							<g:Label text="SMS Texte"/>
+    						</g:customCell>
+    						<g:customCell>
+    							<g:TextArea characterWidth="40" visibleLines="3" ui:field="txtSMS"/>
+    						</g:customCell>
+    					</g:row>
+    					<g:row>
+    						<g:customCell>
+    							<g:Label text="-" styleName="hiddenText"/>
+    						</g:customCell>
+    						<g:customCell>
+    							<g:HorizontalPanel width="100%">
+    								<g:Button styleName="buttonToolbar" ui:field="cmdAdd">Ajouter un nouveau motif</g:Button>
+    								<g:Button styleName="buttonToolbar" width="100px" ui:field="cmdSave">Valider</g:Button>
+    							</g:HorizontalPanel>
+    						</g:customCell>
+    					</g:row>
+    				</g:Grid>
+    			</g:VerticalPanel>
+    		</g:Dock>
+    	</g:DockPanel>
+    </g:HTMLPanel>
+</ui:UiBinder>

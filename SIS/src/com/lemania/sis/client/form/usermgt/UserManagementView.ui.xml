@@ -1,0 +1,75 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default' xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+
+	<g:HTMLPanel width="100%">
+		<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_CENTER">
+			<g:Label text="GESTION DES UTILISATEURS" styleName="pageTitle" width="900" horizontalAlignment="ALIGN_CENTER"/>
+			<g:HorizontalPanel width="80%" visible="false" ui:field="pnlAdd">
+				<g:Grid width="100%">
+					<g:row>
+						<g:customCell>
+							<g:Label text="Nom &amp; Prénom :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="txtFullName"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="Nom d&apos;utilisateur :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="txtUserName"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="Mot de passe :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="txtPassword"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="Email :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="txtEmail"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="." styleName="hiddenText"/>
+						</g:customCell>
+						<g:customCell>
+							<g:Button text="Ajouter" ui:field="cmdAdd"/>
+						</g:customCell>
+					</g:row>
+					<g:row/>
+				</g:Grid>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel spacing="5" verticalAlignment="ALIGN_MIDDLE" styleName="subSection" ui:field="pnlToolbar">
+				<g:Label text="Filtre :"/>
+				<g:ListBox width="300px" ui:field="lstUserTypes"/>
+				<g:Label text="-" width="50px" styleName="hiddenText"/>
+				<g:Label text="Statut :"/>
+				<g:RadioButton name="new name" text="Tout" ui:field="optTout" value="true"/>
+				<g:RadioButton name="new name" text="Actif" ui:field="optActif"/>
+				<g:RadioButton name="new name" text="Inactif" ui:field="optInactif"/>
+				<g:Label styleName="hiddenText" text="-" width="50px"/>
+				<g:Label text="Recherche un nom :"/>
+			</g:HorizontalPanel>
+			<g:Label text="-" styleName="hiddenText"/>
+			<g:Cell width="100%">
+				<p1:DataGrid width="100%" height="450px" ui:field="tblUser" pageSize="15"/>
+			</g:Cell>
+			<p1:SimplePager location="CENTER" ui:field="pagerUser" page="0" pageSize="15" pageStart="0"/>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

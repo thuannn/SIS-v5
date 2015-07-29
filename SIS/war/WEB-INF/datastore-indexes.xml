@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes autoGenerate="true">
+
+	<!-- Student -->
+
+	<datastore-index kind="Student" ancestor="false" source="manual">
+		<property name="LastName" direction="asc" />
+		<property name="FirstName" direction="asc" />
+	</datastore-index>
+
+	<!-- Absence Item -->
+	<datastore-index kind="AbsenceItem" ancestor="false" source="auto">
+		<property name="keyStudent" direction="asc" />
+		<property name="strAbsenceDate" direction="asc" />
+	</datastore-index>
+
+	<!-- Assignments -->
+
+	<datastore-index kind="Assignment" ancestor="false"
+		source="manual">
+		<property name="prof" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="classe" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Assignment" ancestor="false"
+		source="manual">
+		<property name="active" direction="asc" />
+		<property name="prof" direction="asc" />
+		<property name="classe" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Assignment" ancestor="false"
+		source="manual">
+		<property name="classe" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="prof" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Assignment" ancestor="false"
+		source="auto">
+		<property name="prof" direction="asc" />
+		<property name="subject" direction="asc" />
+	</datastore-index>
+
+	<!-- Bulletin -->
+
+	<datastore-index kind="Bulletin" ancestor="false"
+		source="manual">
+		<property name="classe" direction="asc" />
+		<property name="classeName" direction="asc" />
+		<property name="studentName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Bulletin" ancestor="false"
+		source="manual">
+		<property name="classe" direction="asc" />
+		<property name="isActive" direction="asc" />
+		<property name="classeName" direction="asc" />
+		<property name="studentName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Bulletin" ancestor="false"
+		source="manual">
+		<property name="student" direction="asc" />
+		<property name="classeName" direction="asc" />
+		<property name="year" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Bulletin" ancestor="false"
+		source="auto">
+		<property name="isFinished" direction="asc" />
+		<property name="classeName" direction="asc" />
+		<property name="studentName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="Bulletin" ancestor="false"
+		source="manual">
+		<property name="student" direction="asc" />
+		<property name="classeName" direction="asc" />
+		<property name="year" direction="asc" />
+	</datastore-index>
+
+	<!-- Bulletin Subject -->
+	
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="auto">
+		<property name="bulletin" direction="asc" />
+		<property name="subjectCoef" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="manual">
+		<property name="professor" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="subjectName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="auto">
+		<property name="professor1" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="subjectName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="auto">
+		<property name="professor2" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="subjectName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="manual">
+		<property name="bulletin" direction="asc" />
+		<property name="subjectName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="auto">
+		<property name="isActive" direction="asc" />
+		<property name="professor" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="bulletin" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="auto">
+		<property name="isActive" direction="asc" />
+		<property name="professor1" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="bulletin" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="BulletinSubject" ancestor="false"
+		source="auto">
+		<property name="isActive" direction="asc" />
+		<property name="professor2" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="bulletin" direction="asc" />
+	</datastore-index>
+
+	<!-- Bulletin Branche -->
+
+	<datastore-index kind="BulletinBranche" ancestor="false"
+		source="manual">
+		<property name="bulletinSubject" direction="asc" />
+		<property name="bulletinBrancheName" direction="asc" />
+	</datastore-index>
+
+	<!-- Cours -->
+
+	<datastore-index kind="Cours" ancestor="false" source="manual">
+		<property name="ecole" direction="asc" />
+		<property name="coursNom" direction="asc" />
+	</datastore-index>
+	
+	<!-- Class -->
+
+	<datastore-index kind="Classe" ancestor="false" source="manual">
+		<property name="programme" direction="asc" />
+		<property name="className" direction="asc" />
+	</datastore-index>
+
+	<!-- Profile -->
+
+	<datastore-index kind="Profile" ancestor="false"
+		source="manual">
+		<property name="classe" direction="asc" />
+		<property name="isActive" direction="asc" />
+		<property name="profileName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="ProfileSubject" ancestor="false"
+		source="manual">
+		<property name="profile" direction="asc" />
+		<property name="subjectName" direction="asc" />
+	</datastore-index>
+
+
+	<datastore-index kind="ProfileSubject" ancestor="false"
+		source="manual">
+		<property name="profile" direction="asc" />
+		<property name="subject" direction="asc" />
+		<property name="profName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="ProfileBranche" ancestor="false"
+		source="manual">
+		<property name="profileSubject" direction="asc" />
+		<property name="profileBrancheName" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="ProfileBranche" ancestor="false"
+		source="manual">
+		<property name="profileSubject" direction="asc" />
+		<property name="profileBranche" direction="asc" />
+	</datastore-index>
+	
+	<!-- Class -->
+
+	<datastore-index kind="Classe" ancestor="false" source="manual">
+		<property name="programme" direction="asc" />
+		<property name="className" direction="asc" />
+	</datastore-index>
+
+
+	<datastore-index kind="ProfileBranche" ancestor="false"
+		source="manual">
+		<property name="profileSubject" direction="asc" />
+		<property name="profileBranche" direction="asc" />
+	</datastore-index>
+
+
+	<!-- Student -->
+
+	<datastore-index kind="Student" ancestor="false"
+		source="manual">
+		<property name="LastName" direction="asc" />
+		<property name="FirstName" direction="asc" />
+	</datastore-index>
+
+
+	<!-- Study Log -->
+
+	<datastore-index kind="StudyLog" ancestor="false"
+		source="auto">
+		<property name="keySubject" direction="asc" />
+		<property name="logDate" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="StudyLog" ancestor="false"
+		source="auto">
+		<property name="keyClasse" direction="asc" />
+		<property name="keySubject" direction="asc" />
+		<property name="logDate" direction="asc" />
+	</datastore-index>
+
+	<datastore-index kind="StudyLog" ancestor="false"
+		source="auto">
+		<property name="keyClasse" direction="asc" />
+		<property name="logDate" direction="asc" />
+	</datastore-index>
+
+
+	<!-- Professor -->
+
+	<datastore-index kind="Professor" ancestor="false"
+		source="manual">
+		<property name="profActive" direction="asc" />
+		<property name="profName" direction="asc" />
+	</datastore-index>
+
+
+</datastore-indexes>

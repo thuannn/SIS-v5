@@ -1,0 +1,47 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default' xmlns:p1="urn:import:com.google.gwt.user.datepicker.client">
+	<ui:style>
+    </ui:style>
+	<g:DialogBox ui:field="dialog" text="Saisir les absences pour l'élève" width="900px" height="" glassEnabled="true">
+		<g:VerticalPanel width="900px">
+			<g:Button styleName="popupCloseButton" ui:field="cmdClose">Fermer X</g:Button>
+			<g:HorizontalPanel width="100%" spacing="5" styleName="subSection">
+				<g:Cell width="60%">
+					<g:Label text="-" styleName="header" ui:field="lblStudentName"/>
+				</g:Cell>
+				<g:Cell width="10%">
+					<g:VerticalPanel>
+						<g:Label text="Date :" horizontalAlignment="ALIGN_LEFT" height=""/>
+						<p1:DateBox ui:field="dateAbsence"/>
+					</g:VerticalPanel>
+				</g:Cell>
+				<g:VerticalPanel width="100%">
+					<g:Label text="Type d&apos;absence à saisir :" horizontalAlignment="ALIGN_LEFT" height=""/>
+					<g:Grid width="100%" cellSpacing="5">
+						<g:row>
+							<g:customCell>
+								<g:RadioButton name="absenceType" text="Absence" checked="true" ui:field="optAbsent"/>
+							</g:customCell>
+							<g:customCell>
+								<g:RadioButton name="absenceType" text="Exclusion" ui:field="optExclude"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:RadioButton name="absenceType" text="Retard" ui:field="optLate"/>
+							</g:customCell>
+							<g:customCell>
+								<g:RadioButton name="absenceType" text="Infirmerie" ui:field="optHealth"/>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
+				</g:VerticalPanel>
+    		</g:HorizontalPanel>
+			<g:FlexTable width="100%" ui:field="tblAbsences"/>
+		</g:VerticalPanel>
+		</g:DialogBox>
+</ui:UiBinder>

@@ -1,0 +1,70 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client" xmlns:p2="urn:import:com.google.gwt.user.datepicker.client">
+    <g:HTMLPanel>
+    	<g:Label text="Feuille d&apos;appel" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+    	<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_CENTER" spacing="5">
+    		<g:HorizontalPanel width="90%" styleName="subSection">
+    			<g:HorizontalPanel width="" verticalAlignment="ALIGN_MIDDLE" spacing="2">
+    				<g:Label text="1." styleName="step"/>
+    				<g:Label text="Date :" horizontalAlignment="ALIGN_RIGHT" width="50px"/>
+    				<p2:DateBox ui:field="dtAbsenceDate"/>
+    			</g:HorizontalPanel>
+    			<g:Grid width="100%">
+    				<g:row>
+    					<g:customCell>
+    						<g:Label text="2." styleName="step"/>
+    					</g:customCell>
+    					<g:customCell>
+    						<g:Label text="Professeur :" horizontalAlignment="ALIGN_LEFT"/>
+    					</g:customCell>
+    					<g:customCell>
+    						<g:ListBox ui:field="lstProfs"/>
+    					</g:customCell>
+    				</g:row>
+    				<g:row>
+    					<g:customCell>
+    						<g:Label text="-" styleName="hiddenText"/>
+    					</g:customCell>
+    					<g:customCell>
+    						<g:Label text="Classe &amp; Cours :" horizontalAlignment="ALIGN_LEFT"/>
+    					</g:customCell>
+    					<g:customCell>
+    						<g:ListBox ui:field="lstAssignments"/>
+    					</g:customCell>
+    				</g:row>
+    			</g:Grid>
+    			<g:HorizontalPanel width="100%" spacing="4">
+							<g:Label text="3." styleName="step"/>
+							<g:VerticalPanel width="100%">
+								<g:Label text="Type d&apos;absence à saisir :" horizontalAlignment="ALIGN_LEFT" height=""/>
+							<g:Grid width="100%" cellSpacing="5">
+								<g:row>
+									<g:customCell>
+										<g:RadioButton name="absenceType" text="Absence" checked="true" ui:field="optAbsent"/>
+									</g:customCell>
+									<g:customCell>
+										<g:RadioButton name="absenceType" text="Exclusion" ui:field="optExclude"/>
+									</g:customCell>
+								</g:row>
+								<g:row>
+									<g:customCell>
+										<g:RadioButton name="absenceType" text="Retard" ui:field="optLate"/>
+									</g:customCell>
+									<g:customCell>
+										<g:RadioButton name="absenceType" text="Infirmerie" ui:field="optHealth"/>
+									</g:customCell>
+								</g:row>
+							</g:Grid>
+						</g:VerticalPanel>
+    			</g:HorizontalPanel>
+    		</g:HorizontalPanel>
+    		<g:HorizontalPanel spacing="5" verticalAlignment="ALIGN_MIDDLE">
+    			<g:Label text="4." horizontalAlignment="ALIGN_LEFT" styleName="step" width=""/>
+    			<g:Label text="-" styleName="header" ui:field="lblTitle"/>
+    		</g:HorizontalPanel>
+    		<g:FlexTable width="100%" ui:field="tblAttendance"/>
+    		<g:Label text="-" styleName="hiddenText"/>
+    	</g:VerticalPanel>
+    </g:HTMLPanel>
+</ui:UiBinder>

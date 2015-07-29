@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default' xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+
+	<g:HTMLPanel width="100%">
+		<g:VerticalPanel width="100%">
+			<g:Label text="LISTE DES BRANCHES" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+			<p1:DataGrid width="100%" ui:field="tblBranche" height="450px" pageSize="15"/>
+			<g:Cell horizontalAlignment="ALIGN_CENTER">
+				<p1:SimplePager location="CENTER" ui:field="pagerBranches" page="0" pageSize="15" pageStart="0"/>
+			</g:Cell>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

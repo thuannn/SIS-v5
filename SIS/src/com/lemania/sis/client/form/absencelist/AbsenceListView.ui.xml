@@ -1,0 +1,25 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    
+    <g:HTMLPanel width="100%">
+		<g:VerticalPanel width="100%">
+			<g:Label text="Consulter les absences" horizontalAlignment="ALIGN_CENTER" styleName="pageTitle"/>
+			<g:VerticalPanel width="100%" spacing="5">
+				<g:VerticalPanel spacing="5" styleName="subSection">
+					<g:HorizontalPanel width="400px" spacing="2" horizontalAlignment="ALIGN_RIGHT" ui:field="pnlAdmin" visible="false">
+					<g:Label text="Classe :" width="100px" horizontalAlignment="ALIGN_LEFT"/>
+					<g:ListBox ui:field="lstClasses" width="300px"/>
+				</g:HorizontalPanel>
+					<g:HorizontalPanel spacing="2" width="400px" horizontalAlignment="ALIGN_RIGHT">
+					<g:Label text="Elèves :" width="100px" horizontalAlignment="ALIGN_LEFT"/>
+					<g:ListBox width="300px" ui:field="lstStudents"/>
+				</g:HorizontalPanel>
+				</g:VerticalPanel>
+				<g:VerticalPanel styleName="subSection" width="100%">
+					<g:FlexTable width="100%" ui:field="tblAbsences"/>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>
