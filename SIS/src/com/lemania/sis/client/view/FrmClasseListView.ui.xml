@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default' xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+
+	<g:HTMLPanel width="100%">
+		<g:VerticalPanel width="100%">
+			<g:Label text="LISTE DES CLASSES" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+			<g:Grid cellPadding="5" cellSpacing="5" width="80%">
+				<g:row>
+					<g:customCell>
+						<g:Label text="Ecole :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="lstEcoles" styleName="sis_textbox"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Programme :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="lstCours" styleName="sis_textbox"/>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+			<p1:DataGrid width="80%" height="500px" ui:field="tblClasseList"/>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

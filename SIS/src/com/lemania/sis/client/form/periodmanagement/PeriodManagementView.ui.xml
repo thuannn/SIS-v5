@@ -1,0 +1,78 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+    <g:HTMLPanel width="100%" height="100%">
+    	<g:Label text="ORGANISATION DES PERIODES" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+		<g:VerticalPanel width="100%" spacing="5" horizontalAlignment="ALIGN_CENTER">
+			<g:VerticalPanel width="600px" styleName="subSection" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+				<g:Label text="Rajouter une période" styleName="sectionTitle"/>
+				<g:Grid cellPadding="2" cellSpacing="2" width="100%">
+				<g:row>
+					<g:customCell>
+						<g:Label text="Classe :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="lstClasses"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Période :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="lstPeriods"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Button text="Rajouter une période" ui:field="cmdAddPeriodItem" styleName="gridButton"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Format personnalisé :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="txtDescription"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Ordre :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:IntegerBox ui:field="txtOrder"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Note :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox styleName="sis_textbox" ui:field="txtNote"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Actif :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:CheckBox ui:field="chkActif" checked="true"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label/>
+					</g:customCell>
+					<g:customCell>
+						<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_RIGHT">
+								<g:Button ui:field="cmdAdd" text="Enregistrer" styleName="buttonToolbar" width="150px">Ajouter</g:Button>
+							</g:HorizontalPanel>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+			</g:VerticalPanel>
+			<g:Label text="." styleName="hiddenText"/>
+			<g:Label text="Liste des salles de classe" styleName="sectionTitle"/>
+			<p1:CellTable ui:field="tblPeriods" width="100%" height="" pageSize="1000" tableLayoutFixed="true"/>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

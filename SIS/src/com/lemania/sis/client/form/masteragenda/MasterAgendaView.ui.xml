@@ -1,0 +1,77 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui">
+    <g:HTMLPanel>
+    	<g:Label text="HORAIRES CADRES" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+		<g:VerticalPanel width="100%" spacing="5" horizontalAlignment="ALIGN_CENTER" ui:field="pnlPrincipal">
+			<g:VerticalPanel width="100%" spacing="10" horizontalAlignment="ALIGN_CENTER">
+				<g:HorizontalPanel width="50%" horizontalAlignment="ALIGN_LEFT" spacing="5" styleName="toolbar">
+				<g:Label text="Classe :" horizontalAlignment="ALIGN_RIGHT"/>
+				<g:ListBox ui:field="lstClasses"/>
+				<g:Label text="Profil :" horizontalAlignment="ALIGN_RIGHT"/>
+				<g:ListBox ui:field="lstProfiles"/>
+			</g:HorizontalPanel>
+				<g:FlexTable width="100%" ui:field="tblAgenda" borderWidth="0"/>
+			</g:VerticalPanel>
+			<g:FlowPanel ui:field="pnlAdd" width="500px" visible="false">
+				<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_RIGHT">
+					<g:Grid width="100%" cellPadding="2" cellSpacing="2">
+						<g:row>
+							<g:customCell>
+								<g:Label text="Jour :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label ui:field="txtJour"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Période :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label ui:field="txtPeriod"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Matière :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:ListBox ui:field="lstSubject"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Durée :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:ListBox ui:field="lstDuration"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Salle de classe :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:ListBox ui:field="lstClassrooms"/>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label ui:field="txtPeriodId" text="" styleName="hiddenText"/>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
+					<g:HorizontalPanel width="100%" spacing="5">
+						<g:Button ui:field="cmdDelete" text="Supprimer"/>
+						<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_RIGHT">
+							<g:Label text="................................" styleName="hiddenText"/>
+						<g:Button text="Enregistrer" ui:field="cmdSave"/>
+						<g:Button ui:field="cmdClose">Fermer</g:Button>
+					</g:HorizontalPanel>
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+			</g:FlowPanel>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

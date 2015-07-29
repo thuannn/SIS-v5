@@ -1,0 +1,171 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default' xmlns:p1="urn:import:com.google.gwt.user.cellview.client" xmlns:p2="urn:import:com.google.gwt.user.datepicker.client">
+
+	<g:HTMLPanel ui:field="pnlMainAbsenceMgt">
+		<g:AbsolutePanel ui:field="pnlWhiteBackground" width="100%"/>
+		<g:Label text="Gestion des absences des élèves" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+		<g:VerticalPanel width="100%" spacing="5" horizontalAlignment="ALIGN_CENTER">
+			<g:HorizontalPanel width="100%" styleName="subSection" horizontalAlignment="ALIGN_RIGHT" verticalAlignment="ALIGN_MIDDLE">
+				<g:VerticalPanel width="100%">
+					<g:Grid>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Date du :"/>
+							</g:customCell>
+							<g:customCell>
+								<p2:DateBox ui:field="dateFrom" width="100px"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="au :"/>
+							</g:customCell>
+							<g:customCell>
+								<p2:DateBox ui:field="dateTo" width="100px"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Button styleName="gridButton" ui:field="cmdFilter" text="Lister les élèves">Valider</g:Button>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
+				</g:VerticalPanel>
+				<g:HorizontalPanel ui:field="pnlNames" spacing="2" verticalAlignment="ALIGN_MIDDLE" height="28px">
+						<g:Label text="Recherche un élève specifique :"/>
+								</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="5">
+				<g:Button text="Saisir" styleName="buttonToolbar" ui:field="cmdAddAbsence">Saisir des absences</g:Button>
+				<g:Button text="Imprimer" styleName="buttonToolbar" ui:field="cmdPrint"/>
+			</g:HorizontalPanel>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel width="100%" spacing="5">
+				<g:cell width="20%">
+				<g:VerticalPanel width="100%" styleName="subSection">
+					<g:Label text="Liste des élèves" styleName="sectionTitle"></g:Label>
+					<g:Label text="Choisir un élève pour consulter ses absences."/>
+					<p1:DataGrid width="100%" ui:field="tblStudents" pageSize="15" height="550px"></p1:DataGrid>
+					<g:Cell horizontalAlignment="ALIGN_CENTER">
+						<p1:SimplePager location="CENTER" ui:field="pagerStudents" page="0" pageSize="15" pageStart="0"/>
+					</g:Cell>
+				</g:VerticalPanel>
+				</g:cell>
+				<g:VerticalPanel width="100%" styleName="subSection" ui:field="pnlMainAbsences">
+					<g:Label text="Liste des absences" styleName="sectionTitle"/>
+					<g:Label text="-" styleName="header" ui:field="lblStudentName"/>
+					<p1:DataGrid width="100%" height="550px" ui:field="tblAbsences" pageSize="15"/>
+					<g:Label text="Types d&apos;absences : AB : Absence - R : Retard - Excl : Exclusion - IN : Infirmerie" styleName="bulletinFooter"/>
+					<g:Cell horizontalAlignment="ALIGN_CENTER">
+						<p1:SimplePager location="CENTER" ui:field="pagerAbsences" page="0" pageSize="15" pageStart="0"/>
+					</g:Cell>
+				</g:VerticalPanel>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		<g:VerticalPanel ui:field="pnlMainBulletin" width="" visible="false">
+			<g:VerticalPanel ui:field="pnlBulletin" width="" styleName="page" spacing="5">
+				<g:HorizontalPanel width="100%" verticalAlignment="ALIGN_MIDDLE">
+					<g:Image url="images/logo_lemania.png" height="80px"/>
+					<g:Label text="RELEVE DES ABSENCES" styleName="absenceBulletinTitle"/>
+				</g:HorizontalPanel>
+				<g:HorizontalPanel width="100%" spacing="5">
+					<g:Grid>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Absences de :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="-" ui:field="lblBulletinStudentName"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="-------" styleName="hiddenText"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="Classe :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="-" ui:field="lblBulletinClasse"/>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
+					<g:Grid width="">
+						<g:row>
+							<g:customCell>
+								<g:Label text="Date du :"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="-" ui:field="lblFromDate"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="au"/>
+							</g:customCell>
+							<g:customCell>
+								<g:Label text="-" ui:field="lblToDate"/>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
+				</g:HorizontalPanel>
+				<g:VerticalPanel width="100%" styleName="bulletinMainSection">
+					<g:FlexTable width="100%" ui:field="tblFlexAbsences" styleName="bulletinMainSection"/>
+					<g:Grid>
+								<g:row>
+									<g:customCell>
+										<g:Label text="AB = " styleName="bulletinFooter"/>
+									</g:customCell>
+									<g:customCell>
+										<g:Label text="Absence ;" styleName="bulletinFooter"/>
+									</g:customCell>
+									<g:customCell>
+										<g:Label text="R =" styleName="bulletinFooter"/>
+									</g:customCell>
+									<g:customCell>
+										<g:Label text="Retard ;" styleName="bulletinFooter"/>
+									</g:customCell>
+									<g:customCell>
+										<g:Label text="Excl = " styleName="bulletinFooter"/>
+									</g:customCell>
+									<g:customCell>
+										<g:Label text="Exclusion ;" styleName="bulletinFooter"/>
+									</g:customCell>
+									<g:customCell>
+										<g:Label text="IN = " styleName="bulletinFooter"/>
+									</g:customCell>
+									<g:customCell>
+										<g:Label text="Infirmerie" styleName="bulletinFooter"/>
+									</g:customCell>
+								</g:row>
+							</g:Grid>
+					<g:Label text="-" styleName="hiddenText" ui:field="lblSpace" height="10px"/>
+				</g:VerticalPanel>
+				<g:VerticalPanel ui:field="pnlDirection" styleName="absencePnlDirection">
+					<g:HorizontalPanel width="100%" ui:field="non">
+						<g:Label text="La Direction des Etudes" horizontalAlignment="ALIGN_RIGHT"/>
+						<g:Label text="-" styleName="hiddenText" width="10px"/>
+				</g:HorizontalPanel>
+					<g:HorizontalPanel width="100%">
+						<g:Label text="New Label" height="100px" styleName="hiddenText"/>
+					</g:HorizontalPanel>
+					<g:Label text="Il est possible de justifier les absences non excusées en tout temps. En cas de doute, n&apos;hésitez pas à prendre contact avec l&apos;école. Un trop grand nombre d&apos;absences remet en cause la réussite aux examens." styleName="bulletinFooter"/>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+		</g:VerticalPanel>
+		<g:VerticalPanel ui:field="pnlSMSEmail" width="600px" spacing="2" height="" visible="false">
+			<g:Label text="-" styleName="header" ui:field="lblNotifStudentName"/>
+			<g:HorizontalPanel width="" horizontalAlignment="ALIGN_LEFT">
+				<g:Label text="Responsable : "/>
+				<g:ListBox ui:field="lstParents"/>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel width="" verticalAlignment="ALIGN_MIDDLE">
+				<g:Label text="Type de communication :"/>
+				<g:Label text="-" ui:field="lblSendMethod" styleName="header"/>
+			</g:HorizontalPanel>
+			<g:Label text="Message :"/>
+			<g:TextArea width="100%" visibleLines="5" ui:field="txtSendMessage" enabled="false"/>
+			<g:HTML wordWrap="true" ui:field="lblNotificationDates"/>
+			<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_RIGHT" verticalAlignment="ALIGN_MIDDLE">
+				<g:Button styleName="buttonToolbar" ui:field="cmdSend">Envoyer</g:Button>
+				<g:Button styleName="gridButton" ui:field="cmdClosePopupSMS">Fermer</g:Button>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>
