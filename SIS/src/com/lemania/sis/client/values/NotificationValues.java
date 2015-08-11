@@ -44,6 +44,7 @@ public class NotificationValues {
 	public static String pierreViret = "PV";
 	public static String lemaniacollegelaussane = "LCL";
 	public static String ebsr = "EBSR";
+	public static String athenaeum = "ATHENAEUM";
 	
 	// Read only
 	public static String readOnly = "Vous avez l'accès en lecture seule - La modification n'a pas été effectuée";

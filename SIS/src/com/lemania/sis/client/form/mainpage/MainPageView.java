@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.lemania.sis.client.values.AppSettingValues;
 import com.lemania.sis.client.values.NotificationValues;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Hyperlink;
@@ -21,13 +20,9 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.lemania.sis.client.CurrentUser;
 import com.sencha.gxt.core.client.Style.LayoutRegion;
 import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
-import com.sencha.gxt.widget.core.client.ContentPanel;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.FlowLayoutContainer;
-import com.sencha.gxt.widget.core.client.container.MarginData;
 import com.google.gwt.user.client.ui.Tree;
-import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -402,6 +397,7 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	/*
 	 * Change school logo base on currently selected School in the settings
 	 * 20150728 - Add EBSR
+	 * 20150811 - Add ATHENAEUM
 	 * */
 	@Override
 	public void drawSchoolInterface(String schoolCode) {
@@ -421,6 +417,10 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 		if (schoolCode.equals( NotificationValues.ebsr )) {
 			imgLogo.setUrl("images/logo_ebsr.png");
 			txtCopyright.setText("Copyright © Ecole Bilingue de Suisse Romande -");
+		}
+		if ( schoolCode.equals( NotificationValues.athenaeum )) {
+			imgLogo.setUrl("images/logo_athenaeum.png");
+			txtCopyright.setText("Copyright © ATHENAEUM -");
 		}
 	}
 	

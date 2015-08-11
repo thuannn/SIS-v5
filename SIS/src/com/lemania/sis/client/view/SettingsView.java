@@ -109,6 +109,7 @@ public class SettingsView
 		lstEcoles.addItem("Pierre Viret", NotificationValues.pierreViret);
 		lstEcoles.addItem("Lemania College Lausanne", NotificationValues.lemaniacollegelaussane);
 		lstEcoles.addItem("EBSR", NotificationValues.ebsr);
+		lstEcoles.addItem("ATHENAEUM", NotificationValues.athenaeum);
 	}
 	
 
