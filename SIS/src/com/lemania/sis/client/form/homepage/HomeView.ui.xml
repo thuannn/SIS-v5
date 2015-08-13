@@ -12,7 +12,7 @@
 	<g:HTMLPanel width="100%" height="100%">
 		<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_CENTER"
 			height="600px" ui:field="pnlLogin">
-			<g:Label text="EBSR eProfil" styleName="pageTitle" width="" />
+			<g:Label text="eProfil" styleName="pageTitle" width="" />
 			<g:Image url="images/Capture.PNG" width="339px" height="336px" />
 
 			<c:FramedPanel headingText="Se connecter" ui:field="panelLogin"

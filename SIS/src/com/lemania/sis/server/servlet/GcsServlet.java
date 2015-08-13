@@ -150,7 +150,7 @@ public class GcsServlet extends HttpServlet {
 							+ "Expecting /gcs/<bucket>/<object>");
 		}
 		
-		AppIdentityService appIdentity = AppIdentityServiceFactory.getAppIdentityService();
+		// AppIdentityService appIdentity = AppIdentityServiceFactory.getAppIdentityService();
 		
 		String filename;
 		String fullPath = splits[3];
@@ -164,9 +164,9 @@ public class GcsServlet extends HttpServlet {
 			filename = fullPath;
 		}
 		
-		return new GcsFilename( appIdentity.getDefaultGcsBucketName() , filename );
+		// return new GcsFilename( appIdentity.getDefaultGcsBucketName() , filename );
 		
-		// return new GcsFilename(splits[2], splits[3]);
+		return new GcsFilename(splits[2], splits[3]);
 	}
 
 	/**
