@@ -321,7 +321,7 @@ class StudyLogManagementView extends
 			if (!studyLog.getFileName().equals("")) {
 				Anchor lnkLogFileName = new Anchor();
 				lnkLogFileName.setText(studyLog.getFileName());
-				lnkLogFileName.setHref( "/gcs//" + studyLog.getFileName() );
+				lnkLogFileName.setHref( "/gcs/eprofil-uploads/" + studyLog.getFileName() );
 				lnkLogFileName.setTarget( "_blank" );
 				lnkLogFileName.setStyleName("slLogLine");
 				vp.add(lnkLogFileName);
@@ -362,6 +362,8 @@ class StudyLogManagementView extends
 	}
 
 	/*
+	 * 20150813 - BUG FIX - Update edited title
+	 * 		((HorizontalPanel) vp.getWidget(1)).getWidget(2))  -> ((HorizontalPanel) vp.getWidget(1)).getWidget(0))
 	 * */
 	@Override
 	public void showUpdatedLog(String editLogId, String logTitle,
@@ -372,11 +374,11 @@ class StudyLogManagementView extends
 			if (tblLogs.getWidget(i, 0) instanceof VerticalPanel) {
 				vp = (VerticalPanel) tblLogs.getWidget(i, 0);
 				if (((Label) vp.getWidget(0)).getText().equals(editLogId)) {
-					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(2))
+					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(0))
 							.setText(logTitle);
 					((Label) vp.getWidget(2)).setText(logContent);
 					((Anchor) vp.getWidget(3)).setText( logFileName );
-					((Anchor) vp.getWidget(3)).setHref( "/gcs//" + logFileName );
+					((Anchor) vp.getWidget(3)).setHref( "/gcs/eprofil-uploads/" + logFileName );
 				}
 			}
 		}
@@ -575,7 +577,7 @@ class StudyLogManagementView extends
 				} else {
 					//
 					pnlLogEntryButtons.setVisible(false);
-					formPanel.setAction("/gcs//" 
+					formPanel.setAction("/gcs/eprofil-uploads/" 
 							+ FieldValidation.getFileNameFormat( 
 									DateTimeFormat.getFormat("yyyyMMdd").format( dateEntry.getValue() ),
 									upload.getFilename() ) ); 
