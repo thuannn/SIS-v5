@@ -93,7 +93,9 @@ public class ProfessorDao extends MyDAOBase {
 		Query<User> q = ofy().load().type(User.class)
 				.filter( "email", prof.getProfEmail() );
 		if ( q.count() > 0 ) {
-			throw new Exception("Cette adresse email existe déjà.");
+			if ( prof.getId() == null ) {
+				throw new Exception("Cette adresse email existe déjà.");
+			}
 		}
 		//
 		// If not, save this professor
