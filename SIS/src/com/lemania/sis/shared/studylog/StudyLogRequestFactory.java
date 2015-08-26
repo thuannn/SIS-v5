@@ -36,6 +36,9 @@ public interface StudyLogRequestFactory extends RequestFactory {
 
 		Request<List<StudyLogProxy>> listAllBySubjectClass(String subjectId,
 				String classeId, String dateFrom, String dateTo);
+		
+		Request<List<StudyLogProxy>> listAllBySubjectProf(String profId, String subjectId,
+				String dateFrom, String dateTo);
 
 		Request<List<StudyLogProxy>> listAllBySubject(String subjectId, String dateFrom, String dateTo);
 

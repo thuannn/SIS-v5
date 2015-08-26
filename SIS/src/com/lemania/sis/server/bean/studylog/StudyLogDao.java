@@ -15,7 +15,9 @@ import com.google.appengine.tools.cloudstorage.RetryParams;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 import com.lemania.sis.server.Subject;
+import com.lemania.sis.server.bean.assignment.Assignment;
 import com.lemania.sis.server.bean.classe.Classe;
+import com.lemania.sis.server.bean.professor.Professor;
 import com.lemania.sis.server.service.MyDAOBase;
 
 public class StudyLogDao extends MyDAOBase {
@@ -229,6 +231,57 @@ public class StudyLogDao extends MyDAOBase {
 		Collections.sort( returnList, new StudyLogDateComparator() );
 		return returnList;
 	}
+	
+	
+	/* 
+	 * 20150826 - List all study logs from classes for which this professor is responsible
+	 * */
+	public List<StudyLog> listAllBySubjectProf( String profId, String subjectId, String dateFrom, String dateTo ) {
+		//
+		// List all classes by prof and subject
+		Query<Assignment> qClass = ofy().load().type(Assignment.class)
+				.filter("prof", Key.create( Professor.class, Long.parseLong(profId) ))
+				.filter("subject", Key.create(Subject.class, Long.parseLong(subjectId)))
+				.order("classe");
+		List<Classe> listClasses = new ArrayList<Classe>();
+		// Goes through the list of assignments and populate the subject list
+		Classe cl = new Classe();
+		for ( Assignment a : qClass ){
+			if (a.getActive()) {				
+				cl = ofy().load().key( a.getClasse() ).now();
+				listClasses.add( cl );
+			}
+		}
+		
+		//
+		// Loop through the classes and get the study logs
+		Key<Subject> keySubject = Key.create( Subject.class, Long.parseLong(subjectId) );
+		Key<Classe> keyClasse;
+		Query<StudyLog> q;
+		List<StudyLog> returnList = new ArrayList<StudyLog>();
+		//
+		for ( Classe classe : listClasses ) {
+			//
+			keyClasse = Key.create( Classe.class, classe.getId() );
+			//
+			q = ofy().load().type( StudyLog.class )
+					.filter("keySubject", keySubject)
+					.filter("keyClasse", keyClasse )
+					.filter("logDate >=", dateFrom )
+					.filter("logDate <=", dateTo )
+					.order("logDate");
+			for ( StudyLog studyLog : q.list() ){
+				returnList.add( studyLog );
+			}
+			q.list().clear();
+		}
+		
+		//
+		populateIgnoredData( returnList );
+		Collections.sort( returnList, new StudyLogDateComparator() );
+		return returnList;
+	}
+	
 	
 	/*************************/
 	
