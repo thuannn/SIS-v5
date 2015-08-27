@@ -18,7 +18,7 @@
 						<p2:DateBox ui:field="dateFrom" width="100px" />
 						<g:Label text=" au :"></g:Label>
 						<p2:DateBox ui:field="dateTo" width="100px" />
-						<g:Button styleName="buttonToolbar" ui:field="cmdFilter">Filtrer</g:Button>
+						<g:Button styleName="buttonGreen" ui:field="cmdFilter">Afficher</g:Button>
 					</g:HorizontalPanel>
 				</g:cell>
 				<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT" >

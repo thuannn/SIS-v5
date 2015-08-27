@@ -17,6 +17,7 @@ public class StudyLogLoadLogsEvent extends GwtEvent<StudyLogLoadLogsEvent.StudyL
     }
     
     private final String message;
+    private String profId;
     private String subjectId;
     private String classeId;
     private String dateFrom;
@@ -26,8 +27,9 @@ public class StudyLogLoadLogsEvent extends GwtEvent<StudyLogLoadLogsEvent.StudyL
         this.message = message;
     }
     
-    StudyLogLoadLogsEvent(final String message, String subjectId, String classeId, String dateFrom, String dateTo ) {
+    StudyLogLoadLogsEvent(final String message, String profId, String subjectId, String classeId, String dateFrom, String dateTo ) {
         this.message = message;
+        this.profId = profId;
         this.subjectId = subjectId;
         this.classeId = classeId;
         this.dateFrom = dateFrom;
@@ -74,5 +76,9 @@ public class StudyLogLoadLogsEvent extends GwtEvent<StudyLogLoadLogsEvent.StudyL
 
 	public String getDateTo() {
 		return dateTo;
+	}
+
+	public String getProfId() {
+		return profId;
 	}
 }
