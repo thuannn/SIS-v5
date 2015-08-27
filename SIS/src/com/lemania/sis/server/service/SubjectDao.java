@@ -3,6 +3,7 @@ package com.lemania.sis.server.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.appengine.api.datastore.Cursor;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 import com.lemania.sis.server.Profile;
@@ -140,8 +141,7 @@ public class SubjectDao extends MyDAOBase {
 
 		}
 
-		public SubjectPagingLoadResultBean(List<Subject> list, int totalLength,
-				int offset) {
+		public SubjectPagingLoadResultBean(List<Subject> list, int totalLength, int offset) {
 			super(list, totalLength, offset);
 		}
 	}
@@ -150,8 +150,17 @@ public class SubjectDao extends MyDAOBase {
 	public SubjectPagingLoadResultBean listAll(int offset, int limit, List<SortInfoBean> sortInfo, 
 		      List<FilterConfigBean> filterConfig) {
 		//
-		List<Subject> subjects = listAll();
-		SubjectPagingLoadResultBean resultBean = new SubjectPagingLoadResultBean( subjects, subjects.size(), 0);
+		List<Subject> subjects = new ArrayList<Subject>();
+		Query<Subject> q = ofy().load().type(Subject.class)
+				.order("subjectName");
+		Subject subject;
+		for (int i=1; i< limit; i++ ) {
+			if ( (i + offset) >= q.count() )
+				break;
+			subject = q.list().get( i + offset );
+			subjects.add(subject);
+		}
+		SubjectPagingLoadResultBean resultBean = new SubjectPagingLoadResultBean( subjects, q.count(), offset);
 		return resultBean;
 	}
 	

@@ -30,6 +30,7 @@ import com.lemania.sis.shared.service.SubjectRequestFactory;
 import com.lemania.sis.shared.service.EventSourceRequestTransport;
 import com.lemania.sis.shared.service.SubjectRequestFactory.SubjectRequestContext;
 import com.sencha.gxt.data.shared.SortInfo;
+import com.sencha.gxt.data.shared.Store.Change;
 import com.sencha.gxt.data.shared.loader.FilterConfig;
 import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfigBean;
@@ -50,6 +51,7 @@ public class FrmSubjectListPresenter
 		void setSubjectListData(List<SubjectProxy> subjectList);
 		void refreshUpdatedSubject(SubjectProxy subject);
 		void initializeGrid( PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>> loader );
+		void commitStoreChange( SubjectProxy updatedSubject );
 	}
 
 	@ProxyCodeSplit
@@ -100,7 +102,8 @@ public class FrmSubjectListPresenter
 		final SubjectRequestFactory requestFactory = GWT.create(SubjectRequestFactory.class);
 		requestFactory.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
 		//
-		RequestFactoryProxy<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>> proxy = new RequestFactoryProxy<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>>() {
+		RequestFactoryProxy<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>> proxy = new 
+				RequestFactoryProxy<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>>() {
 			@Override
 			public void load(FilterPagingLoadConfig loadConfig,
 					Receiver<? super PagingLoadResult<SubjectProxy>> receiver) {
@@ -109,14 +112,16 @@ public class FrmSubjectListPresenter
 						loadConfig.getSortInfo());
 				List<FilterConfig> filterConfig = createRequestFilterConfig(
 						request, loadConfig.getFilters());
+				
 				request.listAll(loadConfig.getOffset(), loadConfig.getLimit(),
 						sortInfo, filterConfig).to(receiver);
 				request.fire();
 			}
 		};
 
-		final PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>> loader = new PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>>(
-				proxy);
+		final PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>> loader = new 
+				PagingLoader<FilterPagingLoadConfig, PagingLoadResult<SubjectProxy>>(proxy);
+		
 		loader.useLoadConfig(new FilterPagingLoadConfigBean());
 		loader.setRemoteSort(true);
 		
@@ -216,6 +221,27 @@ public class FrmSubjectListPresenter
 			@Override
 			public void onSuccess(SubjectProxy response) {
 				getView().refreshUpdatedSubject(response);
+			}
+		});
+	}
+
+	
+	/*
+	 * */
+	@Override
+	public void updateSubjectFromStore( Change<SubjectProxy, ?> change, SubjectProxy sp) {
+		//
+		SubjectRequestContext rc = getSubjectRequestContext();
+		SubjectProxy editedSubject = rc.edit(sp);
+		change.modify( editedSubject );
+		rc.saveAndReturn( editedSubject ).fire(new Receiver<SubjectProxy>(){
+			@Override
+			public void onFailure(ServerFailure error){
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(SubjectProxy response) {
+				getView().commitStoreChange( response );
 			}
 		});
 	}

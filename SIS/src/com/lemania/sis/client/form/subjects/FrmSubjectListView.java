@@ -4,36 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
-import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.SubjectProxy.SubjectProxyProperties;
+import com.sencha.gxt.core.client.dom.ScrollSupport.ScrollMode;
 import com.sencha.gxt.data.shared.ListStore;
+import com.sencha.gxt.data.shared.Store;
+import com.sencha.gxt.data.shared.Store.Change;
 import com.sencha.gxt.data.shared.loader.FilterPagingLoadConfig;
 import com.sencha.gxt.data.shared.loader.LoadResultListStoreBinding;
 import com.sencha.gxt.data.shared.loader.PagingLoadResult;
 import com.sencha.gxt.data.shared.loader.PagingLoader;
-import com.sencha.gxt.widget.core.client.FramedPanel;
+import com.sencha.gxt.widget.core.client.ContentPanel;
+import com.sencha.gxt.widget.core.client.container.FlowLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.VerticalLayoutContainer.VerticalLayoutData;
+import com.sencha.gxt.widget.core.client.event.CompleteEditEvent;
+import com.sencha.gxt.widget.core.client.event.CompleteEditEvent.CompleteEditHandler;
+import com.sencha.gxt.widget.core.client.event.ViewReadyEvent;
+import com.sencha.gxt.widget.core.client.event.ViewReadyEvent.ViewReadyHandler;
+import com.sencha.gxt.widget.core.client.form.CheckBox;
+import com.sencha.gxt.widget.core.client.form.DoubleField;
+import com.sencha.gxt.widget.core.client.form.TextField;
 import com.sencha.gxt.widget.core.client.grid.ColumnConfig;
 import com.sencha.gxt.widget.core.client.grid.ColumnModel;
 import com.sencha.gxt.widget.core.client.grid.Grid;
+import com.sencha.gxt.widget.core.client.grid.editing.GridEditing;
+import com.sencha.gxt.widget.core.client.grid.editing.GridInlineEditing;
 import com.sencha.gxt.widget.core.client.toolbar.PagingToolBar;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.user.cellview.client.SimplePager;
 
 public class FrmSubjectListView extends
 		ViewWithUiHandlers<FrmSubjectListUiHandler> implements
@@ -62,10 +68,10 @@ public class FrmSubjectListView extends
 //	@UiField(provided = true) DataGrid<SubjectProxy> tblSubjectList = new DataGrid<SubjectProxy>();
 //	@UiField SimplePager pagerSubjects;
 	
-	@UiField VerticalPanel pnlContainer;
+	@UiField FlowLayoutContainer pnlContainer;
 	
 	//
-	private FramedPanel panel;
+	ListStore<SubjectProxy> store;
 
 	/*
 	 * */
@@ -74,24 +80,26 @@ public class FrmSubjectListView extends
 		//
 		SubjectProxyProperties properties = GWT.create(SubjectProxyProperties.class);
 
-		ListStore<SubjectProxy> store = new ListStore<SubjectProxy>(properties.getId());
+		//
+		store = new ListStore<SubjectProxy>(properties.getId());
 		loader.addLoadHandler(
 				new LoadResultListStoreBinding<FilterPagingLoadConfig, SubjectProxy, PagingLoadResult<SubjectProxy>>(store));
+		
 		//
-		ColumnConfig<SubjectProxy, String> forumColumn = new ColumnConfig<SubjectProxy, String>(
-				properties.getSubjectName(), 150, "Nom");
-		ColumnConfig<SubjectProxy, String> usernameColumn = new ColumnConfig<SubjectProxy, String>(
-				properties.getSubjectName2(), 150, "Nom - EN");
-		ColumnConfig<SubjectProxy, Double> subjectColumn = new ColumnConfig<SubjectProxy, Double>(
-				properties.getDefaultCoef(), 150, "Coef");
-		ColumnConfig<SubjectProxy, Boolean> dateColumn = new ColumnConfig<SubjectProxy, Boolean>(
-				properties.getIsActive(), 150, "Active");
+		ColumnConfig<SubjectProxy, String> colName = new ColumnConfig<SubjectProxy, String>(
+				properties.subjectName(), 150, "Nom");
+		ColumnConfig<SubjectProxy, String> colName2 = new ColumnConfig<SubjectProxy, String>(
+				properties.subjectName2(), 150, "Nom - EN");
+		ColumnConfig<SubjectProxy, Double> colCoef = new ColumnConfig<SubjectProxy, Double>(
+				properties.defaultCoef(), 150, "Coef");
+		ColumnConfig<SubjectProxy, Boolean> colActive = new ColumnConfig<SubjectProxy, Boolean>(
+				properties.isActive(), 150, "Active");
 
 		List<ColumnConfig<SubjectProxy, ?>> columns = new ArrayList<ColumnConfig<SubjectProxy, ?>>();
-		columns.add(forumColumn);
-		columns.add(usernameColumn);
-		columns.add(subjectColumn);
-		columns.add(dateColumn);
+		columns.add( colName );
+		columns.add( colName2 );
+		columns.add( colCoef );
+		columns.add( colActive );
 
 		ColumnModel<SubjectProxy> cm = new ColumnModel<SubjectProxy>(columns);
 
@@ -111,26 +119,50 @@ public class FrmSubjectListView extends
 		gridView.getView().setForceFit(true);
 		gridView.setLoadMask(true);
 		gridView.setLoader(loader);
+		//
+		// Set the size of this grid to fit the containing container
+		gridView.addViewReadyHandler( new ViewReadyHandler() {
+
+			@Override
+			public void onViewReady(ViewReadyEvent event) {
+				//
+				event.getSource().setPixelSize( 
+						pnlContainer.getParent().getOffsetWidth(), 
+						pnlContainer.getParent().getOffsetHeight() - event.getSource().getAbsoluteTop() );
+			}
+			
+		});
+		
+		//
+		GridEditing<SubjectProxy> editing = new GridInlineEditing<SubjectProxy>( gridView );
+		editing.addEditor( colName, new TextField() );
+		editing.addEditor( colName2, new TextField() );
+		editing.addEditor( colCoef, new DoubleField() );
+		editing.addEditor( colActive, new CheckBox() );
+		//
+		editing.addCompleteEditHandler( new CompleteEditHandler<SubjectProxy>() {
+
+			@Override
+			public void onCompleteEdit(CompleteEditEvent<SubjectProxy> event) {
+				//
+				for (Store<SubjectProxy>.Record record : store.getModifiedRecords()) {
+				  SubjectProxy model = record.getModel();
+				  for (Change<SubjectProxy, ?> change : record.getChanges()) {
+					  getUiHandlers().updateSubjectFromStore( change, model ); 
+				  }
+				}
+			}
+			
+		});
 
 		//
-		final PagingToolBar toolBar = new PagingToolBar(50);
+		final PagingToolBar toolBar = new PagingToolBar( 30 );
 		toolBar.getElement().getStyle().setProperty("borderBottom", "none");
 		toolBar.bind(loader);
-
+		
 		//
-		VerticalLayoutContainer con = new VerticalLayoutContainer();
-		con.setBorders(true);
-		con.add( gridView, new VerticalLayoutData(1, 1) );
-		con.add( toolBar, new VerticalLayoutData(1, -1) );
-
-		//
-		panel = new FramedPanel();
-		panel.setHeadingText("");
-		panel.setPixelSize(500, 400);
-		panel.addStyleName("margin-10");
-		panel.setWidget(con);
-
-		pnlContainer.add(panel);
+		pnlContainer.add(gridView);
+		pnlContainer.add(toolBar);
 	}
 
 	/*
@@ -256,5 +288,16 @@ public class FrmSubjectListView extends
 		dataProvider.getList().remove(selectedSubject);
 		dataProvider.getList().add(selectedSubject, subject);
 		dataProvider.refresh();
+	}
+
+	
+	/*
+	 * */
+	@Override
+	public void commitStoreChange( SubjectProxy updatedSubject ) {
+		//
+		if (store != null) {
+			store.update( updatedSubject );
+		}
 	}
 }
