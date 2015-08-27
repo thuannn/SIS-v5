@@ -208,7 +208,7 @@ public class StudyLogManagementPresenter extends Presenter<StudyLogManagementPre
 	public void onLstClassChange( String profId, String subjectId, String classId, String dateFrom, String dateTo) {
 		//
 		getEventBus().fireEvent( new StudyLogStudentLoadEvent("", profId, subjectId, classId) );
-		getEventBus().fireEvent( new StudyLogLoadLogsEvent("", subjectId, classId, dateFrom, dateTo ));
+		getEventBus().fireEvent( new StudyLogLoadLogsEvent("", profId, subjectId, classId, dateFrom, dateTo ));
 	}
 	
 	
@@ -395,7 +395,7 @@ public class StudyLogManagementPresenter extends Presenter<StudyLogManagementPre
 			});
 		} else {
 			//
-			rc.listAllBySubject( event.getSubjectId(), event.getDateFrom(), event.getDateTo() ).fire(new Receiver<List<StudyLogProxy>>(){
+			rc.listAllBySubjectProf( event.getProfId(), event.getSubjectId(), event.getDateFrom(), event.getDateTo() ).fire(new Receiver<List<StudyLogProxy>>(){
 				@Override
 				public void onFailure(ServerFailure error){
 					Window.alert(error.getMessage());
