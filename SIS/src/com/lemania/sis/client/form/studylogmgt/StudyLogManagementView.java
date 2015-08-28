@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteEvent;
 import com.google.gwt.user.client.ui.FormPanel.SubmitCompleteHandler;
@@ -48,6 +49,10 @@ import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.bulletin.BulletinProxy;
 import com.lemania.sis.shared.studylog.StudyLogProxy;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
+import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
 
 class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHandlers>
 		implements StudyLogManagementPresenter.MyView {
@@ -221,6 +226,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		//
 		List<StudyLogProxy> logs = new ArrayList<StudyLogProxy>();
 		logs.add(studyLog);
+		//
 		showAddedLogs(logs);
 		//
 		if (pp != null)
@@ -238,6 +244,8 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		Button cmdEdit, cmdDelete;
 		String prevDate = "";
 		Label logContent, logTitle, logId, logClass;
+		//
+		HorizontalPanel pnlFileLinks;
 		//
 		for (final StudyLogProxy studyLog : studyLogs) {
 			//
@@ -319,17 +327,17 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 			// Show log content
 			logContent = new Label(studyLog.getLogContent());
 			logContent.setStyleName("slLogLine");
+			//
 			vp.add(logContent);
 			//
 			// Show attached file
+			pnlFileLinks = new HorizontalPanel();
 			if (!studyLog.getFileName().equals("")) {
-				Anchor lnkLogFileName = new Anchor();
-				lnkLogFileName.setText(studyLog.getFileName());
-				lnkLogFileName.setHref("/gcs/eprofil-uploads/" + studyLog.getFileName());
-				lnkLogFileName.setTarget("_blank");
-				lnkLogFileName.setStyleName("slLogLine");
-				vp.add(lnkLogFileName);
+				//
+				showLogFile( pnlFileLinks, studyLog );
 			}
+			//
+			vp.add( pnlFileLinks );
 			//
 			tblLogs.setWidget(tblLogs.getRowCount(), 0, vp);
 		}
@@ -338,6 +346,59 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		if (pp != null)
 			pp.hide();
 	}
+	
+	
+	/*
+	 * */
+	void showLogFile( HorizontalPanel pnlFileLinks, final StudyLogProxy studyLog ) {
+		//
+		Anchor lnkLogFileName;
+		Label lnkDeleteFile;
+		//
+		lnkLogFileName = new Anchor();
+		lnkLogFileName.setText(studyLog.getFileName());
+		lnkLogFileName.setHref("/gcs/eprofil-uploads/" + studyLog.getFileName());
+		lnkLogFileName.setTarget("_blank");
+		lnkLogFileName.setStyleName("slLogLine");
+		//
+		pnlFileLinks.add( lnkLogFileName );
+		//
+		lnkDeleteFile = new Label("Supprimer");
+		lnkDeleteFile.setStyleName("redLink");
+		lnkDeleteFile.addClickHandler( new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				//
+				ConfirmMessageBox messageBox = new ConfirmMessageBox("Supprimer un fichier", "Etes-vous sûr de vouloir supprimer le fichier : " + studyLog.getFileName() + " ?");
+				messageBox.addDialogHideHandler(new DialogHideHandler() {
+				      @Override
+				      public void onDialogHide(DialogHideEvent event) {
+				        switch (event.getHideButton()) {
+				          case YES:
+				        	  //
+				        	  getUiHandlers().removeStudyLogFile( studyLog );
+				        	  break;
+				          case NO:
+				        	  //perform NO action
+				        	  break;
+				          default:
+				        	  //error, button added with no specific action ready
+				        }
+				      }
+				    });
+				messageBox.setWidth(300);
+				messageBox.show();
+			}
+			
+		});
+		//
+		pnlFileLinks.add( new Label(" -- "));
+		pnlFileLinks.add( lnkDeleteFile );
+	}
+	
+	
+	
 
 	/*
 	 * */
@@ -370,17 +431,27 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	 * vp.getWidget(1)).getWidget(0))
 	 */
 	@Override
-	public void showUpdatedLog(String editLogId, String logTitle, String logContent, String logFileName) {
+	public void showUpdatedLog( StudyLogProxy updatedLog ) {
 		//
 		VerticalPanel vp;
+		HorizontalPanel pnlFileLinks;
 		for (int i = 0; i < tblLogs.getRowCount(); i++) {
 			if (tblLogs.getWidget(i, 0) instanceof VerticalPanel) {
 				vp = (VerticalPanel) tblLogs.getWidget(i, 0);
-				if (((Label) vp.getWidget(0)).getText().equals(editLogId)) {
-					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(0)).setText(logTitle);
-					((Label) vp.getWidget(2)).setText(logContent);
-					((Anchor) vp.getWidget(3)).setText(logFileName);
-					((Anchor) vp.getWidget(3)).setHref("/gcs/eprofil-uploads/" + logFileName);
+				if (((Label) vp.getWidget(0)).getText().equals( updatedLog.getId().toString() )) {
+					//
+					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(0)).setText( updatedLog.getLogTitle() );
+					((Label) vp.getWidget(2)).setText( updatedLog.getLogContent() );
+					//
+					//
+					pnlFileLinks = (HorizontalPanel) vp.getWidget(3);
+					if ( updatedLog.getFileName() != "" ) {
+						//
+						showLogFile( pnlFileLinks, updatedLog );
+					} else {
+						for (int j=pnlFileLinks.getWidgetCount()-1; j>-1; j--)
+							pnlFileLinks.getWidget(j).removeFromParent();
+					}
 				}
 			}
 		}
@@ -388,6 +459,8 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		if (pp != null)
 			pp.hide();
 	}
+	
+	
 
 	/*************************
 	 * Controls Events
@@ -478,8 +551,8 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 				pp.hide();
 				return;
 			}
-			if (Window.confirm("Etes-vous sûr de vouloir fermer cette fenêtre sans sauvegarder les données ?"))
-				pp.hide();
+			//
+			pp.hide();
 		}
 	}
 

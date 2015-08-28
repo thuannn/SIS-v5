@@ -16,4 +16,6 @@ interface StudyLogManagementUiHandlers extends UiHandlers {
 			String title, String content, String editLogId, String logFileName, String logEntryDate );
 	//
 	void deleteLog( StudyLogProxy log );
+	//
+	void removeStudyLogFile( StudyLogProxy slp );
 }
