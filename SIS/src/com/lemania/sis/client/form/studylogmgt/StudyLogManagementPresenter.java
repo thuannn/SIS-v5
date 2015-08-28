@@ -74,7 +74,8 @@ public class StudyLogManagementPresenter extends Presenter<StudyLogManagementPre
 		//
 		void removeDeletedLog( String logId );
 		//
-		void showUpdatedLog( String editLogId, String logTitle, String logContent, String logFileName );
+//		void showUpdatedLog( String editLogId, String logTitle, String logContent, String logFileName );
+		void showUpdatedLog( StudyLogProxy updatedLog );
     }
 	
     @ContentSlot
@@ -257,7 +258,7 @@ public class StudyLogManagementPresenter extends Presenter<StudyLogManagementPre
 					}
 					@Override
 					public void onSuccess(StudyLogProxy response) {
-						getView().showUpdatedLog( editLogId, logTitle, logContent, FieldValidation.getFileName(logFileName) );
+						getView().showUpdatedLog( response );
 					}
 				});
 			}
@@ -303,6 +304,33 @@ public class StudyLogManagementPresenter extends Presenter<StudyLogManagementPre
 			@Override
 			public void onSuccess(Void response) {
 				getView().removeDeletedLog( log.getId().toString() );
+			}
+		});
+	}
+	
+	
+	
+	/*
+	 * 20150827 - Remove study log file, for the moment only remove the file name, the actual file is not deleted
+	 * */
+	@Override
+	public void removeStudyLogFile( StudyLogProxy slp ) {
+		//
+		StudyLogRequestFactory rf = GWT.create(StudyLogRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		StudyLogRequestContext rc = rf.studyLogRequestContext();
+		
+		StudyLogProxy editLog = rc.edit( slp );
+		editLog.setFileName( "" );
+		
+		rc.saveAndReturn( editLog ).fire(new Receiver<StudyLogProxy>() {
+			@Override
+			public void onFailure(ServerFailure error) {
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(StudyLogProxy response) {
+				getView().showUpdatedLog( response );
 			}
 		});
 	}
@@ -407,5 +435,8 @@ public class StudyLogManagementPresenter extends Presenter<StudyLogManagementPre
 			});
 		}
 	}
+
+	
+	
 }
 
