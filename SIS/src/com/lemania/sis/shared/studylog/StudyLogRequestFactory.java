@@ -26,8 +26,8 @@ public interface StudyLogRequestFactory extends RequestFactory {
 				String logTitle, String logContent, String logDate,
 				String editLogId, String logFileName);
 
-		Request<List<StudyLogProxy>> saveAndReturnBatch(String subjectId,
-				String classeId, String logTitle, String logContent,
+		Request<List<StudyLogProxy>> saveAndReturnBatch(
+				String assIdList, String logTitle, String logContent,
 				String logDate, String logFileName);
 
 		Request<Void> removeStudyLog(StudyLogProxy studyLog);

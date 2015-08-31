@@ -219,6 +219,13 @@
 		<property name="LastName" direction="asc" />
 		<property name="FirstName" direction="asc" />
 	</datastore-index>
+	
+	<datastore-index kind="Student" ancestor="false" source="manual">
+        <property name="isActive" direction="asc"/>
+        <property name="LastName" direction="asc"/>
+        <property name="FirstName" direction="asc"/>
+    </datastore-index>
+	
 
 
 	<!-- Study Log -->

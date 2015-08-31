@@ -1,4 +1,4 @@
-<!-- Indices written at Thu, 27 Aug 2015 21:45:38 CEST -->
+<!-- Indices written at Mon, 31 Aug 2015 22:02:29 CEST -->
 
 <datastore-indexes>
 
@@ -8,7 +8,7 @@
         <property name="subject" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
         <property name="isActive" direction="asc"/>
         <property name="professor" direction="asc"/>
@@ -16,14 +16,14 @@
         <property name="bulletin" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 6 times in query history -->
     <datastore-index kind="StudyLog" ancestor="false" source="auto">
         <property name="keyClasse" direction="asc"/>
         <property name="keySubject" direction="asc"/>
         <property name="logDate" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
         <property name="isActive" direction="asc"/>
         <property name="professor1" direction="asc"/>
@@ -31,7 +31,7 @@
         <property name="bulletin" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
         <property name="isActive" direction="asc"/>
         <property name="professor2" direction="asc"/>

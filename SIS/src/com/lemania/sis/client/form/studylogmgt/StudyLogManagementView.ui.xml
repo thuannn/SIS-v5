@@ -7,28 +7,13 @@
 
 	<g:HTMLPanel width="100%">
 		<g:VerticalPanel width="100%">
-			<g:Label text="Cahier de texte" horizontalAlignment="ALIGN_CENTER" styleName="pageTitle" />
-			<g:HorizontalPanel width="100%" styleName="subSection" verticalAlignment="ALIGN_MIDDLE" spacing="2">
-				<g:cell width="30%">
-					<g:Label></g:Label>
-				</g:cell>
-				<g:cell>
-					<g:HorizontalPanel spacing="3" verticalAlignment="ALIGN_MIDDLE">
-						<g:Label text="Date du :"></g:Label>
-						<p2:DateBox ui:field="dateFrom" width="100px" />
-						<g:Label text=" au :"></g:Label>
-						<p2:DateBox ui:field="dateTo" width="100px" />
-						<g:Button styleName="buttonGreen" ui:field="cmdFilter">Afficher</g:Button>
-					</g:HorizontalPanel>
-				</g:cell>
-				<g:cell width="20%" horizontalAlignment="ALIGN_RIGHT" >
-					<g:Button styleName="buttonToolbar" ui:field="cmdAdd">Saisir</g:Button>
-				</g:cell>
-			</g:HorizontalPanel>
-			<g:HorizontalPanel width="100%" spacing="2">
+			<g:Label text="Cahier de texte" horizontalAlignment="ALIGN_CENTER"
+				styleName="pageTitle" />
+
+			<g:HorizontalPanel width="100%" spacing="0">
 				<g:cell width="25%">
-					<g:VerticalPanel width="100%" spacing="2">
-						<g:Grid width="100%">
+					<g:VerticalPanel width="100%" spacing="5"  styleName="subSection">
+						<g:Grid width="100%" cellSpacing="5">
 							<g:row>
 								<g:customCell>
 									<g:Label text="Professeur :" />
@@ -42,7 +27,7 @@
 									<g:Label text="Matière :" />
 								</g:customCell>
 								<g:customCell>
-									<g:ListBox ui:field="lstAssignments"  width="200px" />
+									<g:ListBox ui:field="lstAssignments" width="200px" />
 								</g:customCell>
 							</g:row>
 							<g:row>
@@ -50,7 +35,7 @@
 									<g:Label text="Classe :" />
 								</g:customCell>
 								<g:customCell>
-									<g:ListBox ui:field="lstClasses"  width="200px" />
+									<g:ListBox ui:field="lstClasses" width="200px" />
 								</g:customCell>
 							</g:row>
 						</g:Grid>
@@ -58,82 +43,116 @@
 							<g:Label>Liste d'élèves :</g:Label>
 							<g:Label ui:field="lblStudentQty"></g:Label>
 						</g:HorizontalPanel>
-						<g:ScrollPanel width="300px" height="400px" ui:field="pnlStudents">
+						<g:ScrollPanel width="300px" height="400px"
+							ui:field="pnlStudents">
 							<g:FlexTable ui:field="tblStudents" width="100%" />
 						</g:ScrollPanel>
 					</g:VerticalPanel>
 				</g:cell>
 				<g:cell>
 					<g:VerticalPanel width="100%">
-						<g:ScrollPanel height="400px" ui:field="pnlLogs" width="100%">
+						<g:HorizontalPanel width="100%" styleName="subSection"
+							verticalAlignment="ALIGN_MIDDLE" spacing="2">
+							<g:cell width="30%">
+								<g:Label></g:Label>
+							</g:cell>
+							<g:cell>
+								<g:HorizontalPanel spacing="3"
+									verticalAlignment="ALIGN_MIDDLE">
+									<g:Label text="Date du :"></g:Label>
+									<p2:DateBox ui:field="dateFrom" width="100px" />
+									<g:Label text=" au :"></g:Label>
+									<p2:DateBox ui:field="dateTo" width="100px" />
+									<g:Button styleName="buttonGreen" ui:field="cmdFilter">Afficher</g:Button>
+								</g:HorizontalPanel>
+							</g:cell>
+							<g:cell width="20%" horizontalAlignment="ALIGN_CENTER">
+								<g:Button styleName="buttonToolbar" ui:field="cmdAdd">Saisir</g:Button>
+							</g:cell>
+						</g:HorizontalPanel>
+						<g:ScrollPanel height="400px" ui:field="pnlLogs"
+							width="100%">
 							<g:FlexTable ui:field="tblLogs" width="100%"></g:FlexTable>
 						</g:ScrollPanel>
-						<g:VerticalPanel width="500px" ui:field="pnlAdd">
-							<g:Grid width="100%" >
-								<g:row>
-									<g:customCell>
-										<g:Label ui:field="lblEditLogId" visible="true"></g:Label>
-									</g:customCell>
-									<g:customCell>
-										<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_CENTER" styleName="slTitleLine">
-											<g:Label ui:field="lblSubject"></g:Label>
-											<g:Label ui:field="lblClass"></g:Label>
-										</g:HorizontalPanel>
-									</g:customCell>
-								</g:row>
-								<g:row>
-									<g:customCell>
-										<g:Label>Date :</g:Label>
-									</g:customCell>
-									<g:customCell>
-										<p2:DateBox ui:field="dateEntry" />
-									</g:customCell>
-								</g:row>
-								<g:row>
-									<g:customCell>
-										<g:Label>Titre :</g:Label>
-									</g:customCell>
-									<g:customCell>
-										<g:TextBox width="100%" ui:field="txtTitle"></g:TextBox>
-									</g:customCell>
-								</g:row>
-								<g:row>
-									<g:customCell>
-										<g:Label>Contenu :</g:Label>
-									</g:customCell>
-									<g:customCell>
-										<g:TextArea width="500px" height="350px" ui:field="txtContent"></g:TextArea>
-									</g:customCell>
-								</g:row>
-								<g:row>
-									<g:customCell>
-										<g:Label>Fichier joint :</g:Label>
-									</g:customCell>
-									<g:customCell>
-										<g:VerticalPanel ui:field="pnlFileUpload"></g:VerticalPanel>
-									</g:customCell>
-								</g:row>
-								<g:row>
-									<g:customCell>
-										<g:Label height="20px"></g:Label>
-									</g:customCell>
-									<g:customCell>
-										<g:Label></g:Label>
-									</g:customCell>
-								</g:row>
-								<g:row>
-									<g:customCell>
-										<g:Label></g:Label>
-									</g:customCell>
-									<g:customCell>
-										<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_CENTER" ui:field="pnlLogEntryButtons">
-											<g:Button styleName="darkBlueButton" ui:field="cmdSave">Enregistrer</g:Button>
-											<g:Button styleName="redButton" ui:field="cmdClose">Fermer</g:Button>
-										</g:HorizontalPanel>
-									</g:customCell>
-								</g:row>
-							</g:Grid>
+
+						<!-- Study log input window -->
+						<g:VerticalPanel width="700px" ui:field="pnlAdd">
+							<g:HorizontalPanel spacing="5">
+							    <g:VerticalPanel width="100%" spacing="10">
+							        <g:Label text="Choisir les classes pour ce contenu:"></g:Label>
+							    	<g:FlexTable ui:field="tblAssignments" width="200px"></g:FlexTable>    
+							    </g:VerticalPanel>
+								<g:Grid width="500px">
+									<g:row>
+										<g:customCell>
+											<g:Label ui:field="lblEditLogId" visible="true"></g:Label>
+										</g:customCell>
+										<g:customCell>
+											<g:HorizontalPanel width="100%"
+												horizontalAlignment="ALIGN_CENTER">
+												<g:Label ui:field="lblSubject"></g:Label>
+												<g:Label ui:field="lblClass"></g:Label>
+											</g:HorizontalPanel>
+										</g:customCell>
+									</g:row>
+									<g:row>
+										<g:customCell>
+											<g:Label>Date</g:Label>
+										</g:customCell>
+										<g:customCell>
+											<p2:DateBox ui:field="dateEntry" />
+										</g:customCell>
+									</g:row>
+									<g:row>
+										<g:customCell>
+											<g:Label>Titre</g:Label>
+										</g:customCell>
+										<g:customCell>
+											<g:TextBox width="100%" ui:field="txtTitle"></g:TextBox>
+										</g:customCell>
+									</g:row>
+									<g:row>
+										<g:customCell>
+											<g:Label>Contenu</g:Label>
+										</g:customCell>
+										<g:customCell>
+											<g:TextArea width="500px" height="350px" ui:field="txtContent"></g:TextArea>
+										</g:customCell>
+									</g:row>
+									<g:row>
+										<g:customCell>
+											<g:Label>Fichier joint</g:Label>
+										</g:customCell>
+										<g:customCell>
+											<g:VerticalPanel ui:field="pnlFileUpload"></g:VerticalPanel>
+										</g:customCell>
+									</g:row>
+									<g:row>
+										<g:customCell>
+											<g:Label height="20px"></g:Label>
+										</g:customCell>
+										<g:customCell>
+											<g:Label></g:Label>
+										</g:customCell>
+									</g:row>
+									<g:row>
+										<g:customCell>
+											<g:Label></g:Label>
+										</g:customCell>
+										<g:customCell>
+											<g:HorizontalPanel width="100%"
+												horizontalAlignment="ALIGN_CENTER" ui:field="pnlLogEntryButtons">
+												<g:Button styleName="darkBlueButton" ui:field="cmdSave">Enregistrer</g:Button>
+												<g:Button styleName="redButton" ui:field="cmdClose">Fermer</g:Button>
+											</g:HorizontalPanel>
+										</g:customCell>
+									</g:row>
+								</g:Grid>
+							</g:HorizontalPanel>
 						</g:VerticalPanel>
+						<!-- Study log input window -->
+
+
 					</g:VerticalPanel>
 				</g:cell>
 			</g:HorizontalPanel>

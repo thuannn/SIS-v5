@@ -30,4 +30,7 @@ public interface AssignmentProxy extends EntityProxy {
 	
 	public String getClassId();
 	public void setClassId(String classId);
+	
+	public String getSubjectId();
+	public void setSubjectId(String subjectId);
 }

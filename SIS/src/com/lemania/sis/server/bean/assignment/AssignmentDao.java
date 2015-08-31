@@ -27,6 +27,7 @@ public class AssignmentDao extends MyDAOBase {
 				a.setProgrammeName( ofy().load().key(ofy().load().key(a.getClasse()).now().getProgramme()).now().getCoursNom());
 				a.setClasseName(ofy().load().key(a.getClasse()).now().getClassName());
 				a.setClassId( ofy().load().key(a.getClasse()).now().getId().toString() );
+				a.setSubjectId( ofy().load().key( a.getSubject() ).now().getId().toString() );
 			}
 			if (a.getSubject() != null)
 				a.setSubjectName(ofy().load().key(a.getSubject()).now().getSubjectName());
@@ -48,6 +49,7 @@ public class AssignmentDao extends MyDAOBase {
 				a.setProgrammeName( ofy().load().key(ofy().load().key(a.getClasse()).now().getProgramme()).now().getCoursNom());
 				a.setClasseName(ofy().load().key(a.getClasse()).now().getClassName());
 				a.setClassId( ofy().load().key(a.getClasse()).now().getId().toString() );
+				a.setSubjectId( ofy().load().key( a.getSubject() ).now().getId().toString() );
 			}
 			if (a.getSubject() != null)
 				a.setSubjectName(ofy().load().key(a.getSubject()).now().getSubjectName());
@@ -170,6 +172,7 @@ public class AssignmentDao extends MyDAOBase {
 				a.setProgrammeName( ofy().load().key(ofy().load().key(a.getClasse()).now().getProgramme()).now().getCoursNom());
 				a.setClasseName(ofy().load().key(a.getClasse()).now().getClassName());
 				a.setClassId( ofy().load().key(a.getClasse()).now().getId().toString() );
+				a.setSubjectId( ofy().load().key( a.getSubject() ).now().getId().toString() );
 			}
 			if (a.getSubject() != null)
 				a.setSubjectName(ofy().load().key(a.getSubject()).now().getSubjectName());
@@ -194,6 +197,7 @@ public class AssignmentDao extends MyDAOBase {
 				savedA.setProgrammeName( ofy().load().key(ofy().load().key(savedA.getClasse()).now().getProgramme()).now().getCoursNom());
 				savedA.setClasseName(ofy().load().key(savedA.getClasse()).now().getClassName());
 				savedA.setClassId( ofy().load().key(a.getClasse()).now().getId().toString() );
+				savedA.setSubjectId( ofy().load().key( a.getSubject() ).now().getId().toString() );
 			}
 			if (savedA.getSubject() != null)
 				savedA.setSubjectName(ofy().load().key(savedA.getSubject()).now().getSubjectName());
@@ -229,6 +233,7 @@ public class AssignmentDao extends MyDAOBase {
 				savedA.setProgrammeName( ofy().load().key(ofy().load().key(savedA.getClasse()).now().getProgramme()).now().getCoursNom());
 				savedA.setClasseName(ofy().load().key(savedA.getClasse()).now().getClassName());
 				savedA.setClassId( ofy().load().key(a.getClasse()).now().getId().toString() );
+				savedA.setSubjectId( ofy().load().key( a.getSubject() ).now().getId().toString() );
 			}
 			if (savedA.getSubject() != null)
 				savedA.setSubjectName(ofy().load().key(savedA.getSubject()).now().getSubjectName());

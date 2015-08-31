@@ -26,6 +26,9 @@ public class Assignment extends DatastoreObject implements Comparable<Assignment
 	private String classId;
 	
 	@IgnoreSave
+	private String subjectId;
+	
+	@IgnoreSave
 	private String programmeName;
 	
 	@IgnoreSave
@@ -128,6 +131,8 @@ public class Assignment extends DatastoreObject implements Comparable<Assignment
 	public String getClassId() {
 		return classId;
 	}
+	
+	
 
 
 	public void setClassId(String classId) {
@@ -149,5 +154,15 @@ public class Assignment extends DatastoreObject implements Comparable<Assignment
 				return this.subjectName.compareTo(a.getSubjectName());
 		}
 			
+	}
+
+
+	public String getSubjectId() {
+		return subjectId;
+	}
+
+
+	public void setSubjectId(String subjectId) {
+		this.subjectId = subjectId;
 	}
 }

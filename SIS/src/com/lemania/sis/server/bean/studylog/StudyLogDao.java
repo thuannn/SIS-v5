@@ -98,20 +98,22 @@ public class StudyLogDao extends MyDAOBase {
 	
 	/*
 	 * */
-	public List<StudyLog> saveAndReturnBatch( String subjectId, String classeIdList, 
+	public List<StudyLog> saveAndReturnBatch( String assIdList, 
 			String logTitle, String logContent, String logDate, String logFileName ) {
 		//
 		StudyLog studyLog;
 		List<StudyLog> studyLogs = new ArrayList<StudyLog>();
 		Key<StudyLog> key;
-		String[] classeIds = classeIdList.split(Pattern.quote("|"));
+		String[] assIds = assIdList.split(Pattern.quote("|"));
+		Assignment assignment;
 		//
-		for (String classeId : classeIds ) {
-			if (classeId.equals(""))
+		for (String assId : assIds ) {
+			if (assId.equals(""))
 				continue;
 			studyLog = new StudyLog();
-			studyLog.setKeySubject( Key.create(Subject.class, Long.parseLong(subjectId)) );
-			studyLog.setKeyClasse( Key.create(Classe.class, Long.parseLong(classeId)) );
+			assignment = ofy().load().key( Key.create(Assignment.class, Long.parseLong(assId)) ).now();
+			studyLog.setKeySubject( assignment.getSubject() );
+			studyLog.setKeyClasse( assignment.getClasse() );
 			studyLog.setLogTitle(logTitle);
 			studyLog.setLogContent(logContent);
 			studyLog.setLogDate(logDate);
@@ -135,16 +137,17 @@ public class StudyLogDao extends MyDAOBase {
 	public void removeStudyLog( StudyLog studyLog ){
 		//
 		// Delete file
-		AppIdentityService appIdentity = AppIdentityServiceFactory.getAppIdentityService();
-		GcsService gcsService = GcsServiceFactory
-				.createGcsService(new RetryParams.Builder()
-						.initialRetryDelayMillis(10).retryMaxAttempts(10)
-						.totalRetryPeriodMillis(15000).build());
-		try {
-			gcsService.delete( new GcsFilename( appIdentity.getDefaultGcsBucketName(), studyLog.getFileName() ) );
-		} catch (IOException e) {
-			//
-			e.printStackTrace();
+		if ( !studyLog.getFileName().equals("") ) {
+			GcsService gcsService = GcsServiceFactory
+					.createGcsService(new RetryParams.Builder()
+							.initialRetryDelayMillis(10).retryMaxAttempts(10)
+							.totalRetryPeriodMillis(15000).build());
+			try {
+				gcsService.delete( new GcsFilename( "eprofil-uploads", studyLog.getFileName() ) );
+			} catch (IOException e) {
+				//
+				e.printStackTrace();
+			}
 		}
 		//
 		ofy().delete().entities( studyLog ).now();
