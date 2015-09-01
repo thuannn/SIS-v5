@@ -427,34 +427,37 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 
 	/*
 	 * 20150813 - BUG FIX - Update edited title ((HorizontalPanel)
-	 * vp.getWidget(1)).getWidget(2)) -> ((HorizontalPanel)
-	 * vp.getWidget(1)).getWidget(0))
+	 * 		vp.getWidget(1)).getWidget(2)) -> ((HorizontalPanel)
+	 * 		vp.getWidget(1)).getWidget(0))
+	 * 20150901 - Always refresh the log list to have all the latest data
 	 */
 	@Override
 	public void showUpdatedLog( StudyLogProxy updatedLog ) {
 		//
-		VerticalPanel vp;
-		HorizontalPanel pnlFileLinks;
-		for (int i = 0; i < tblLogs.getRowCount(); i++) {
-			if (tblLogs.getWidget(i, 0) instanceof VerticalPanel) {
-				vp = (VerticalPanel) tblLogs.getWidget(i, 0);
-				if (((Label) vp.getWidget(0)).getText().equals( updatedLog.getId().toString() )) {
-					//
-					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(0)).setText( updatedLog.getLogTitle() );
-					((Label) vp.getWidget(2)).setText( updatedLog.getLogContent() );
-					//
-					//
-					pnlFileLinks = (HorizontalPanel) vp.getWidget(3);
-					if ( updatedLog.getFileName() != "" ) {
-						//
-						showLogFile( pnlFileLinks, updatedLog );
-					} else {
-						for (int j=pnlFileLinks.getWidgetCount()-1; j>-1; j--)
-							pnlFileLinks.getWidget(j).removeFromParent();
-					}
-				}
-			}
-		}
+		onLstClassesChange( null );
+		//
+//		VerticalPanel vp;
+//		HorizontalPanel pnlFileLinks;
+//		for (int i = 0; i < tblLogs.getRowCount(); i++) {
+//			if (tblLogs.getWidget(i, 0) instanceof VerticalPanel) {
+//				vp = (VerticalPanel) tblLogs.getWidget(i, 0);
+//				if (((Label) vp.getWidget(0)).getText().equals( updatedLog.getId().toString() )) {
+//					//
+//					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(0)).setText( updatedLog.getLogTitle() );
+//					((Label) vp.getWidget(2)).setText( updatedLog.getLogContent() );
+//					//
+//					//
+//					pnlFileLinks = (HorizontalPanel) vp.getWidget(3);
+//					if ( updatedLog.getFileName() != "" ) {
+//						//
+//						showLogFile( pnlFileLinks, updatedLog );
+//					} else {
+//						for (int j=pnlFileLinks.getWidgetCount()-1; j>-1; j--)
+//							pnlFileLinks.getWidget(j).removeFromParent();
+//					}
+//				}
+//			}
+//		}
 		//
 		if (pp != null)
 			pp.hide();
