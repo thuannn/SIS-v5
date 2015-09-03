@@ -50,6 +50,7 @@ import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.assignment.AssignmentProxy;
 import com.lemania.sis.shared.bulletin.BulletinProxy;
 import com.lemania.sis.shared.studylog.StudyLogProxy;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
@@ -74,10 +75,10 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 
 	@UiField
 	ListBox lstProfs;
-	@UiField
-	ListBox lstAssignments;
-	@UiField
-	ListBox lstClasses;
+//	@UiField
+//	ListBox lstAssignments;
+//	@UiField
+//	ListBox lstClasses;
 	@UiField
 	FlexTable tblStudents;
 	@UiField
@@ -120,13 +121,17 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	HorizontalPanel pnlLogEntryButtons;
 	
 	@UiField FlexTable tblAssignments;
+	@UiField FlexTable tblAssignmentView;
+
+	@UiField Label cmdSelectAll;
+	@UiField Label cmdDeselectAll;
 
 	
 	//
 	private DialogBox pp;
 	private String logFileName = "";
 	private List<String> assignmentIDs = new ArrayList<String>();		// | deliminated string that contains list of assignments Ids
-	
+	private List<String> assignmentViewIDs = new ArrayList<String>();
 	
 	
 	/*
@@ -138,6 +143,8 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		clearStudentList();
 		//
 		clearLogList();
+		//
+		resetAssignments();
 		//
 		if (getUiHandlers() != null)
 			getUiHandlers().onProfessorSelected(lstProfs.getValue(lstProfs.getSelectedIndex()));
@@ -164,15 +171,15 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	/*
 	 * 
 	 * */
-	@Override
-	public void setSubjectsData(List<SubjectProxy> subjects) {
-		//
-		lstAssignments.clear();
-		lstAssignments.addItem("-", "");
-		for (SubjectProxy sub : subjects) {
-			lstAssignments.addItem(sub.getSubjectName(), sub.getId().toString());
-		}
-	}
+//	@Override
+//	public void setSubjectsData(List<SubjectProxy> subjects) {
+//		//
+//		lstAssignments.clear();
+//		lstAssignments.addItem("-", "");
+//		for (SubjectProxy sub : subjects) {
+//			lstAssignments.addItem(sub.getSubjectName(), sub.getId().toString());
+//		}
+//	}
 
 	/*
 	 * 
@@ -181,12 +188,14 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	public void resetForm() {
 		//
 		lstProfs.clear();
-		lstAssignments.clear();
-		lstClasses.clear();
+//		lstAssignments.clear();
+//		lstClasses.clear();
 		//
 		clearStudentList();
 		//
 		tblLogs.removeAllRows();
+		//
+		resetAssignments();
 		//
 		// Set the height of the Student scroll panel
 		pnlStudents.setHeight(
@@ -197,23 +206,36 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		//
 		FieldValidation.setDaysOfTheMonth(dateFrom, dateTo);
 	}
+	
+	
+	/* */
+	public void resetAssignments(){
+		//
+		tblAssignmentView.removeAllRows();
+		tblAssignments.removeAllRows();
+		//
+		assignmentIDs.clear();
+		assignmentViewIDs.clear();
+	}
+	
+	
 
 	/*************************
 	 * Data Population
 	 ****************************************/
 
-	/*
-	 * */
-	@Override
-	public void setClassListData(List<ClasseProxy> classes) {
-		//
-		lstClasses.clear();
-		lstClasses.addItem("- Choisir", "");
-		lstClasses.addItem("* Toutes les classes", DataValues.optionAll);
-		for (ClasseProxy cl : classes) {
-			lstClasses.addItem(cl.getClassName(), cl.getId().toString());
-		}
-	}
+//	/*
+//	 * */
+//	@Override
+//	public void setClassListData(List<ClasseProxy> classes) {
+//		//
+//		lstClasses.clear();
+//		lstClasses.addItem("- Choisir", "");
+//		lstClasses.addItem("* Toutes les classes", DataValues.optionAll);
+//		for (ClasseProxy cl : classes) {
+//			lstClasses.addItem(cl.getClassName(), cl.getId().toString());
+//		}
+//	}
 
 	/*
 	 * */
@@ -447,28 +469,30 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	@Override
 	public void showUpdatedLog( StudyLogProxy updatedLog ) {
 		//
-		VerticalPanel vp;
-		HorizontalPanel pnlFileLinks;
-		for (int i = 0; i < tblLogs.getRowCount(); i++) {
-			if (tblLogs.getWidget(i, 0) instanceof VerticalPanel) {
-				vp = (VerticalPanel) tblLogs.getWidget(i, 0);
-				if (((Label) vp.getWidget(0)).getText().equals( updatedLog.getId().toString() )) {
-					//
-					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(0)).setText( updatedLog.getLogTitle() );
-					((Label) vp.getWidget(2)).setText( updatedLog.getLogContent() );
-					//
-					//
-					pnlFileLinks = (HorizontalPanel) vp.getWidget(3);
-					if ( updatedLog.getFileName() != "" ) {
-						//
-						showLogFile( pnlFileLinks, updatedLog );
-					} else {
-						for (int j=pnlFileLinks.getWidgetCount()-1; j>-1; j--)
-							pnlFileLinks.getWidget(j).removeFromParent();
-					}
-				}
-			}
-		}
+//		VerticalPanel vp;
+//		HorizontalPanel pnlFileLinks;
+//		for (int i = 0; i < tblLogs.getRowCount(); i++) {
+//			if (tblLogs.getWidget(i, 0) instanceof VerticalPanel) {
+//				vp = (VerticalPanel) tblLogs.getWidget(i, 0);
+//				if (((Label) vp.getWidget(0)).getText().equals( updatedLog.getId().toString() )) {
+//					//
+//					((Label) ((HorizontalPanel) vp.getWidget(1)).getWidget(0)).setText( updatedLog.getLogTitle() );
+//					((Label) vp.getWidget(2)).setText( updatedLog.getLogContent() );
+//					//
+//					//
+//					pnlFileLinks = (HorizontalPanel) vp.getWidget(3);
+//					if ( updatedLog.getFileName() != "" ) {
+//						//
+//						showLogFile( pnlFileLinks, updatedLog );
+//					} else {
+//						for (int j=pnlFileLinks.getWidgetCount()-1; j>-1; j--)
+//							pnlFileLinks.getWidget(j).removeFromParent();
+//					}
+//				}
+//			}
+//		}
+		//
+		loadStudyLogs();
 		//
 		if (pp != null)
 			pp.hide();
@@ -518,66 +542,115 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		}
 	}
 	
+	
+	
+	/*
+	 * */
+	@Override
+	public void setAssignmentViewData(List<AssignmentProxy> assignments) {
+		//
+		int row = 0;
+		int colClassId = 0, colSubject = 1, colClass = 2;
+		Label lblAssignmentId;
+		CheckBox chkAssignment;
+		HorizontalPanel hp;
+		for ( AssignmentProxy ap : assignments ) {
+			//
+			hp = new HorizontalPanel();
+			//
+			lblAssignmentId = new Label( ap.getId().toString() );
+			lblAssignmentId.setVisible(false);
+			hp.add( lblAssignmentId );
+			//
+			chkAssignment = new CheckBox();
+			chkAssignment.addValueChangeHandler( new ValueChangeHandler<Boolean>(){
+
+				@Override
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					//
+					if ( ((CheckBox)event.getSource()).getValue() ) {
+						assignmentViewIDs.add( ((Label)((HorizontalPanel)((CheckBox)event.getSource()).getParent()).getWidget(0)).getText() );
+					}
+					else { 
+						assignmentViewIDs.remove( ((Label)((HorizontalPanel)((CheckBox)event.getSource()).getParent()).getWidget(0)).getText() );
+					}
+				}
+				
+			});
+			hp.add( chkAssignment );
+			tblAssignmentView.setWidget( row, colClassId, hp );
+			//
+			tblAssignmentView.setText( row, colSubject, ap.getSubjectName() );
+			tblAssignmentView.setText( row, colClass, ap.getClasseName() );
+			//
+			row++;
+		}
+	}
+	
 
 	/*************************
 	 * Controls Events
 	 ****************************************/
 
-	/*
-	 * */
-	@UiHandler("lstClasses")
-	public void onLstClassesChange(ChangeEvent event) {
-		//
-		if (lstClasses.getValue(lstClasses.getSelectedIndex()).equals("")) {
-			clearStudentList();
-			clearLogList();
-			return;
-		}
-		//
-		if (getUiHandlers() != null)
-			getUiHandlers().onLstClassChange(lstProfs.getValue(lstProfs.getSelectedIndex()),
-					lstAssignments.getValue(lstAssignments.getSelectedIndex()),
-					lstClasses.getValue(lstClasses.getSelectedIndex()),
-					DateTimeFormat.getFormat("yyyyMMdd").format(dateFrom.getValue()),
-					DateTimeFormat.getFormat("yyyyMMdd").format(dateTo.getValue()));
-	}
+//	/*
+//	 * */
+//	@UiHandler("lstClasses")
+//	public void onLstClassesChange(ChangeEvent event) {
+//		//
+//		if (lstClasses.getValue(lstClasses.getSelectedIndex()).equals("")) {
+//			clearStudentList();
+//			clearLogList();
+//			return;
+//		}
+//		//
+//		if (getUiHandlers() != null)
+//			getUiHandlers().onLstClassChange(lstProfs.getValue(lstProfs.getSelectedIndex()),
+//					lstAssignments.getValue(lstAssignments.getSelectedIndex()),
+//					lstClasses.getValue(lstClasses.getSelectedIndex()),
+//					DateTimeFormat.getFormat("yyyyMMdd").format(dateFrom.getValue()),
+//					DateTimeFormat.getFormat("yyyyMMdd").format(dateTo.getValue()));
+//	}
 
 	/*
 	 * When user select a subject, load the class list and student list
 	 */
-	@UiHandler("lstAssignments")
-	void onLstAssignmentsChange(ChangeEvent event) {
-		//
-		clearStudentList();
-		clearLogList();
-		//
-		if (getUiHandlers() != null)
-			getUiHandlers().onLstAssignmentsChange(lstProfs.getValue(lstProfs.getSelectedIndex()),
-					lstAssignments.getValue(lstAssignments.getSelectedIndex()));
-	}
+//	@UiHandler("lstAssignments")
+//	void onLstAssignmentsChange(ChangeEvent event) {
+//		//
+//		clearStudentList();
+//		clearLogList();
+//		//
+//		if (getUiHandlers() != null)
+//			getUiHandlers().onLstAssignmentsChange(lstProfs.getValue(lstProfs.getSelectedIndex()),
+//					lstAssignments.getValue(lstAssignments.getSelectedIndex()));
+//	}
 
 	/*
 	 * If for saving an existing log, do not put class Id in the call
+	 * To update, no need subjectId and classId
 	 */
 	@UiHandler("cmdSave")
 	void onCmdSaveClicked(ClickEvent event) {
 		//
 		if (getUiHandlers() != null) {
 			if (lblEditLogId.getText().equals("")) {
-				getUiHandlers().onStudyLogAdd(
-						lstProfs.getValue(lstProfs.getSelectedIndex()),
-						"",
-						"", 
-						txtTitle.getText(), 
-						txtContent.getText(),
-						"", 
-						logFileName, 
-						DateTimeFormat.getFormat("yyyyMMdd").format(dateEntry.getValue()), 
-						assignmentIDs );
+				//
+					getUiHandlers().onStudyLogAdd(
+							lstProfs.getValue(lstProfs.getSelectedIndex()),
+							"",
+							"", 
+							txtTitle.getText(), 
+							txtContent.getText(),
+							"", 
+							logFileName, 
+							DateTimeFormat.getFormat("yyyyMMdd").format(dateEntry.getValue()), 
+							assignmentIDs );
+				
 			} else {
+				//
 				getUiHandlers().onStudyLogAdd(
 						lstProfs.getValue(lstProfs.getSelectedIndex()),
-						lstAssignments.getValue(lstAssignments.getSelectedIndex()), 
+						"", 
 						"", 
 						txtTitle.getText(),
 						txtContent.getText(), 
@@ -648,8 +721,24 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	@UiHandler("cmdFilter")
 	void onCmdShow(ClickEvent event) {
 		//
-		onLstClassesChange(null);
+//		onLstClassesChange(null);
+		//
+		loadStudyLogs();
 	}
+	
+	
+	/*
+	 * Load the study logs with the chosen date and assignments
+	 * */
+	public void loadStudyLogs() {
+		//
+		getUiHandlers().loadStudyLogs(
+				DateTimeFormat.getFormat("yyyyMMdd").format(dateFrom.getValue()),
+				DateTimeFormat.getFormat("yyyyMMdd").format(dateTo.getValue()),
+				assignmentViewIDs );
+	}
+	
+	
 
 	/*************************
 	 * UI Manipulation
@@ -687,6 +776,40 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		initializeRichTextArea();
 		//
 		initializeAddPopup();
+		//
+		initializeSelectButtons();
+	}
+
+	/*
+	 * */
+	private void initializeSelectButtons() {
+		//
+		cmdDeselectAll.addClickHandler( new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// 
+				assignmentViewIDs.clear();
+				for (int row=0; row<tblAssignmentView.getRowCount(); row++) {
+					((CheckBox)((HorizontalPanel)tblAssignmentView.getWidget( row , 0)).getWidget(1)).setValue(false);
+				}
+			}
+			
+		});
+		//
+		cmdSelectAll.addClickHandler( new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// 
+				assignmentViewIDs.clear();
+				for (int row=0; row<tblAssignmentView.getRowCount(); row++) {
+					((CheckBox)((HorizontalPanel)tblAssignmentView.getWidget( row , 0)).getWidget(1)).setValue(true);
+					assignmentViewIDs.add( ((Label)((HorizontalPanel)(tblAssignmentView.getWidget( row , 0))).getWidget(0)).getText() );
+				}
+			}
+			
+		});
 	}
 
 	/*
@@ -830,7 +953,5 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		});
 		dateEntry.setValue(new Date());
 	}
-
 	
-
 }

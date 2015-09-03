@@ -75,8 +75,7 @@ public class StudyLogDao extends MyDAOBase {
 	
 	/*
 	 * */
-	public StudyLog updateLog( String subjectId, String classeId, String logTitle, 
-			String logContent, String logDate, String editLogId, String logFileName ) {
+	public StudyLog updateLog( String logTitle, String logContent, String logDate, String editLogId, String logFileName ) {
 		//
 		StudyLog studyLog = ofy().load().key( Key.create( StudyLog.class, Long.parseLong(editLogId)) ).now();
 		studyLog.setLogTitle(logTitle);
@@ -277,6 +276,47 @@ public class StudyLogDao extends MyDAOBase {
 				returnList.add( studyLog );
 			}
 			q.list().clear();
+		}
+		
+		//
+		populateIgnoredData( returnList );
+		Collections.sort( returnList, new StudyLogDateComparator() );
+		return returnList;
+	}
+	
+	
+	/*
+	 * */
+	public List<StudyLog> loadBatch( String dateFrom, String dateTo, String assIDs ) {
+		//
+		Assignment ass;
+		Query<StudyLog> q;
+		
+		List<StudyLog> returnList = new ArrayList<StudyLog>();
+		
+		//
+		if( assIDs == "")
+			return returnList;
+		String[] assIds = assIDs.split(Pattern.quote("|"));
+		
+		//
+		for( String assignmentId : assIds ) {
+			//
+			if( assignmentId.equals("") )
+				continue;
+			
+			ass = ofy().load().key( Key.create(Assignment.class, Long.parseLong(assignmentId))).now();
+			
+			q = ofy().load().type( StudyLog.class )
+					.filter("keySubject", ass.getSubject() )
+					.filter("keyClasse", ass.getClasse() )
+					.filter("logDate >=", dateFrom )
+					.filter("logDate <=", dateTo )
+					.order("logDate");
+			
+			for ( StudyLog studyLog : q.list() ){
+				returnList.add( studyLog );
+			}
 		}
 		
 		//

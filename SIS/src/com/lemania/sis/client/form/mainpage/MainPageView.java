@@ -101,7 +101,6 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@UiField Hyperlink cmdPeriodMgt;
 	@UiField Hyperlink cmdStudentAgendaPage;
 	@UiField Hyperlink cmdClassAgendaPage;
-	@UiField AbsolutePanel pnlNorth;
 	@UiField Hyperlink cmdProfessorAgendaPage;
 	@UiField Hyperlink cmdParentMgt;
 	@UiField Hyperlink cmdMotifAbsence;
@@ -454,15 +453,15 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@Override
 	public void setWindowEventHanlder() {
 		//
-		Window.addResizeHandler( new ResizeHandler() {
-
-			@Override
-			public void onResize(ResizeEvent event) {
-				//
-				leftPanel.setHeight( Window.getClientHeight() - pnlNorth.getOffsetHeight() - 20 + "px");
-			}
-			
-		});
+//		Window.addResizeHandler( new ResizeHandler() {
+//
+//			@Override
+//			public void onResize(ResizeEvent event) {
+//				//
+//				leftPanel.setHeight( Window.getClientHeight() - pnlNorth.getOffsetHeight() - 20 + "px");
+//			}
+//			
+//		});
 	}
 	
 	

@@ -71,4 +71,7 @@ public class NotificationValues {
 	// User management
 	public static String user_created = "Code d'accès créé pour cet utilisateur.";
 	
+	// Study log
+	public static String assignment_not_selected = "Merci de sélectionner les cours et les classes.";
+	
 }

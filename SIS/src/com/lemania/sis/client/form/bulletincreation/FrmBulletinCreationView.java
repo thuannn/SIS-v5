@@ -27,6 +27,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -147,15 +148,28 @@ public class FrmBulletinCreationView extends ViewWithUiHandlers<FrmBulletinCreat
 	    };
 	    tblBulletins.setColumnWidth(colLastName, 25, Unit.PCT);
 	    tblBulletins.addColumn(colLastName, "Classe");
-	    //
-	    TextColumn<BulletinProxy> colYear = new TextColumn<BulletinProxy>() {
+	    
+	    
+	    // Year
+	    Column<BulletinProxy, String> colYear = new Column<BulletinProxy, String>( new EditTextCell() ) {
 	      @Override
 	      public String getValue(BulletinProxy object) {
 	        return object.getYear();
 	      } 
 	    };
+	    colYear.setFieldUpdater(new FieldUpdater<BulletinProxy, String>(){
+	    	@Override
+	    	public void update(int index, BulletinProxy bp, String value){
+	    		if (getUiHandlers() != null) {	    			
+	    			selectedBulletinIndex = index;
+	    			selectedBulletin = bp;
+	    			getUiHandlers().updateBulletinYear(bp, value);
+	    		}	    		
+	    	}
+	    });
 	    tblBulletins.addColumn(colYear, "Year");
 	    tblBulletins.setColumnWidth(colYear, 10, Unit.PCT);
+	    
 	    
 	    // Finished bulletin
 	    CheckboxCell cellFinished = new CheckboxCell();

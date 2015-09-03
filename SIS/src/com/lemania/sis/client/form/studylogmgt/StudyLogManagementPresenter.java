@@ -50,6 +50,7 @@ import com.lemania.sis.shared.service.ProfessorRequestFactory.ProfessorRequestCo
 import com.lemania.sis.shared.studylog.StudyLogProxy;
 import com.lemania.sis.shared.studylog.StudyLogRequestFactory;
 import com.lemania.sis.shared.studylog.StudyLogRequestFactory.StudyLogRequestContext;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
 public class StudyLogManagementPresenter
 		extends Presenter<StudyLogManagementPresenter.MyView, StudyLogManagementPresenter.MyProxy>
@@ -67,17 +68,20 @@ public class StudyLogManagementPresenter
 		//
 		void setProfListData(List<ProfessorProxy> profs);
 
-		//
-		void setSubjectsData(List<SubjectProxy> subjects);
-
-		//
-		void setClassListData(List<ClasseProxy> classes);
+//		//
+//		void setSubjectsData(List<SubjectProxy> subjects);
+//
+//		//
+//		void setClassListData(List<ClasseProxy> classes);
 
 		//
 		void setStudentListData(List<BulletinProxy> students);
 
 		//
 		void setAssignmentsData(List<AssignmentProxy> assignments);
+		
+		//
+		void setAssignmentViewData(List<AssignmentProxy> assignments);
 
 		//
 		void showAddedLog(StudyLogProxy studyLog);
@@ -90,6 +94,7 @@ public class StudyLogManagementPresenter
 
 		//
 		void removeDeletedLog(String logId);
+		
 
 		//
 		// void showUpdatedLog( String editLogId, String logTitle, String
@@ -172,6 +177,33 @@ public class StudyLogManagementPresenter
 	}
 
 	/***************** UI Handlers **********************/
+	
+	/*
+	 * */
+	@Override
+	public void loadStudyLogs(String dateFrom, String dateTo, List<String> assignmentIDs) {
+		//
+		StudyLogRequestFactory rf = GWT.create(StudyLogRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		StudyLogRequestContext rc = rf.studyLogRequestContext();
+
+		String assIDs = "";
+		for ( String a : assignmentIDs )
+			assIDs = assIDs + "|" + a;
+		
+		rc.loadBatch( dateFrom, dateTo, assIDs ).fire(new Receiver<List<StudyLogProxy>>() {
+			@Override
+			public void onFailure(ServerFailure error) {
+				Window.alert(error.getMessage());
+			}
+
+			@Override
+			public void onSuccess(List<StudyLogProxy> response) {
+				getView().showLogs( response );
+			}
+		});
+	}
+	
 
 	/*
 	 * When a professor is selected, load the subjects he/she takes care of
@@ -187,47 +219,47 @@ public class StudyLogManagementPresenter
 		// load professor assignments at the same time
 		getEventBus().fireEvent(new StudyLogAssignmentLoadEvent("", profId));
 		//
-		AssignmentRequestFactory rf = GWT.create(AssignmentRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		AssignmentRequestContext rc = rf.assignmentRequest();
-		rc.listAllSubjectByProfessor(profId).fire(new Receiver<List<SubjectProxy>>() {
-			@Override
-			public void onFailure(ServerFailure error) {
-				Window.alert(error.getMessage());
-			}
-
-			@Override
-			public void onSuccess(List<SubjectProxy> response) {
-				getView().setSubjectsData(response);
-			}
-		});
+//		AssignmentRequestFactory rf = GWT.create(AssignmentRequestFactory.class);
+//		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+//		AssignmentRequestContext rc = rf.assignmentRequest();
+//		rc.listAllSubjectByProfessor(profId).fire(new Receiver<List<SubjectProxy>>() {
+//			@Override
+//			public void onFailure(ServerFailure error) {
+//				Window.alert(error.getMessage());
+//			}
+//
+//			@Override
+//			public void onSuccess(List<SubjectProxy> response) {
+//				getView().setSubjectsData(response);
+//			}
+//		});
 	}
 
 	/*
 	 * When user select a subject, load the class list, student list and logs
 	 * using events
 	 */
-	@Override
-	public void onLstAssignmentsChange(String profId, String subjectId) {
-		//
-		if (profId.isEmpty() || subjectId.isEmpty()) {
-			return;
-		}
-		// Load the class list
-		getEventBus().fireEvent(new StudyLogClassLoadEvent("", profId, subjectId));
-	}
+//	@Override
+//	public void onLstAssignmentsChange(String profId, String subjectId) {
+//		//
+//		if (profId.isEmpty() || subjectId.isEmpty()) {
+//			return;
+//		}
+//		// Load the class list
+//		getEventBus().fireEvent(new StudyLogClassLoadEvent("", profId, subjectId));
+//	}
 
 	/*
 	 * When user change a class: - filter the student list and keep the updated
 	 * list for log saving purpose - load the logs of this class selectedBsp :
 	 * list of bulletins for log saving purpose
 	 */
-	@Override
-	public void onLstClassChange(String profId, String subjectId, String classId, String dateFrom, String dateTo) {
-		//
-		getEventBus().fireEvent(new StudyLogStudentLoadEvent("", profId, subjectId, classId));
-		getEventBus().fireEvent(new StudyLogLoadLogsEvent("", profId, subjectId, classId, dateFrom, dateTo));
-	}
+//	@Override
+//	public void onLstClassChange(String profId, String subjectId, String classId, String dateFrom, String dateTo) {
+//		//
+//		getEventBus().fireEvent(new StudyLogStudentLoadEvent("", profId, subjectId, classId));
+//		getEventBus().fireEvent(new StudyLogLoadLogsEvent("", profId, subjectId, classId, dateFrom, dateTo));
+//	}
 
 	/*
 	 * If user choose the option of all classes, concatenate the class Ids to
@@ -266,7 +298,7 @@ public class StudyLogManagementPresenter
 		// });
 		// } else {
 		if (!editLogId.equals("")) {
-			rc.updateLog(subjectId, classeId, logTitle, logContent, logEntryDate, editLogId,
+			rc.updateLog(logTitle, logContent, logEntryDate, editLogId,
 					FieldValidation.getFileNameFormat(logEntryDate, logFileName)).fire(new Receiver<StudyLogProxy>() {
 						@Override
 						public void onFailure(ServerFailure error) {
@@ -280,6 +312,15 @@ public class StudyLogManagementPresenter
 					});
 
 		} else {
+			//
+			if (assignmentIDs.size() < 1) {
+				AlertMessageBox amb = new AlertMessageBox("Erreur", NotificationValues.assignment_not_selected);
+				amb.setModal(false);
+				amb.setAutoHide(true);
+				amb.setZIndex(2000);
+				amb.show();
+				return;
+			}
 			//
 			String assIdList = "";
 			for (String ass : assignmentIDs)
@@ -295,7 +336,7 @@ public class StudyLogManagementPresenter
 
 						@Override
 						public void onSuccess(List<StudyLogProxy> response) {
-							getView().showAddedLogs(response);
+							getView().showUpdatedLog( null );
 						}
 					});
 		}
@@ -317,7 +358,7 @@ public class StudyLogManagementPresenter
 
 			@Override
 			public void onSuccess(Void response) {
-				getView().removeDeletedLog(log.getId().toString());
+				getView().showUpdatedLog( null );
 			}
 		});
 	}
@@ -358,24 +399,24 @@ public class StudyLogManagementPresenter
 	@Override
 	public void onStudyLogClassLoad(StudyLogClassLoadEvent event) {
 		//
-		AssignmentRequestFactory rf = GWT.create(AssignmentRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		AssignmentRequestContext rc = rf.assignmentRequest();
-		rc.listAllClassByProfAndSubject(event.getProfId(), event.getSubjectId())
-				.fire(new Receiver<List<ClasseProxy>>() {
-					@Override
-					public void onFailure(ServerFailure error) {
-						Window.alert(error.getMessage());
-					}
-
-					@Override
-					public void onSuccess(List<ClasseProxy> response) {
-						getView().setClassListData(response);
-						// //
-						// classes.clear();
-						// classes.addAll(response);
-					}
-				});
+//		AssignmentRequestFactory rf = GWT.create(AssignmentRequestFactory.class);
+//		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+//		AssignmentRequestContext rc = rf.assignmentRequest();
+//		rc.listAllClassByProfAndSubject(event.getProfId(), event.getSubjectId())
+//				.fire(new Receiver<List<ClasseProxy>>() {
+//					@Override
+//					public void onFailure(ServerFailure error) {
+//						Window.alert(error.getMessage());
+//					}
+//
+//					@Override
+//					public void onSuccess(List<ClasseProxy> response) {
+//						getView().setClassListData(response);
+//						// //
+//						// classes.clear();
+//						// classes.addAll(response);
+//					}
+//				});
 	}
 
 	/*
@@ -420,38 +461,38 @@ public class StudyLogManagementPresenter
 	@Override
 	public void onStudyLogLoadLogs(StudyLogLoadLogsEvent event) {
 		//
-		StudyLogRequestFactory rf = GWT.create(StudyLogRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		StudyLogRequestContext rc = rf.studyLogRequestContext();
-		if (!event.getClasseId().equals(DataValues.optionAll)) {
-			//
-			rc.listAllBySubjectClass(event.getSubjectId(), event.getClasseId(), event.getDateFrom(), event.getDateTo())
-					.fire(new Receiver<List<StudyLogProxy>>() {
-						@Override
-						public void onFailure(ServerFailure error) {
-							Window.alert(error.getMessage());
-						}
-
-						@Override
-						public void onSuccess(List<StudyLogProxy> response) {
-							getView().showLogs(response);
-						}
-					});
-		} else {
-			//
-			rc.listAllBySubjectProf(event.getProfId(), event.getSubjectId(), event.getDateFrom(), event.getDateTo())
-					.fire(new Receiver<List<StudyLogProxy>>() {
-						@Override
-						public void onFailure(ServerFailure error) {
-							Window.alert(error.getMessage());
-						}
-
-						@Override
-						public void onSuccess(List<StudyLogProxy> response) {
-							getView().showLogs(response);
-						}
-					});
-		}
+//		StudyLogRequestFactory rf = GWT.create(StudyLogRequestFactory.class);
+//		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+//		StudyLogRequestContext rc = rf.studyLogRequestContext();
+//		if (!event.getClasseId().equals(DataValues.optionAll)) {
+//			//
+//			rc.listAllBySubjectClass(event.getSubjectId(), event.getClasseId(), event.getDateFrom(), event.getDateTo())
+//					.fire(new Receiver<List<StudyLogProxy>>() {
+//						@Override
+//						public void onFailure(ServerFailure error) {
+//							Window.alert(error.getMessage());
+//						}
+//
+//						@Override
+//						public void onSuccess(List<StudyLogProxy> response) {
+//							getView().showLogs(response);
+//						}
+//					});
+//		} else {
+//			//
+//			rc.listAllBySubjectProf(event.getProfId(), event.getSubjectId(), event.getDateFrom(), event.getDateTo())
+//					.fire(new Receiver<List<StudyLogProxy>>() {
+//						@Override
+//						public void onFailure(ServerFailure error) {
+//							Window.alert(error.getMessage());
+//						}
+//
+//						@Override
+//						public void onSuccess(List<StudyLogProxy> response) {
+//							getView().showLogs(response);
+//						}
+//					});
+//		}
 	}
 
 	/*
@@ -472,8 +513,12 @@ public class StudyLogManagementPresenter
 			@Override
 			public void onSuccess(List<AssignmentProxy> response) {
 				getView().setAssignmentsData(response);
+				getView().setAssignmentViewData(response);
 			}
 		});
 	}
+
+	
+	
 
 }

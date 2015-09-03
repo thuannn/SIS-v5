@@ -386,4 +386,30 @@ public class FrmBulletinCreationPresenter
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void updateBulletinYear(BulletinProxy bp, String year) {
+		//
+		if (this.currentUser.isReadOnly()){
+			Window.alert(NotificationValues.readOnly);
+			return;
+		}
+		
+		//
+		BulletinRequestFactory rf = GWT.create(BulletinRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		BulletinRequestContext rc = rf.bulletinRequest();
+		BulletinProxy editBP = rc.edit(bp);
+		editBP.setYear(year);
+		rc.saveAndReturn(editBP).fire(new Receiver<BulletinProxy>() {
+			@Override
+			public void onFailure(ServerFailure error){
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(BulletinProxy response) {
+					getView().refreshBulletinTable(response);
+			}
+		});	
+	}
 }

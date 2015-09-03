@@ -69,34 +69,20 @@
 					<gxt:ContentPanel headerVisible="false">
 
 						<!-- <g:Dock direction="NORTH"> -->
-
-						<g:AbsolutePanel height="40px" width="100%"
-							ui:field="pnlNorth">
-							<g:at left="0" top="0">
-								<g:Image url="" width="" height="40px" ui:field="imgLogo" />
-							</g:at>
-							<g:at left="170" top="30">
-								<g:Label styleName="logoText">eProfil</g:Label>
-							</g:at>
-							<g:at left="552" top="0">
-								<g:Grid height="24px" width="60%" borderWidth="0">
-									<g:row>
-										<g:customCell>
-											<g:Label ui:field="lblCurrentMonth" />
-										</g:customCell>
-										<g:customCell>
-											<g:HorizontalPanel>
-												<g:Label width="" horizontalAlignment="ALIGN_LEFT"
-													ui:field="txtWelcome" />
-												<g:Label text="." width="30px" styleName="hiddenText" />
-												<g:Hyperlink targetHistoryToken="newHistoryToken"
-													width="" ui:field="cmdLogout" />
-											</g:HorizontalPanel>
-										</g:customCell>
-									</g:row>
-								</g:Grid>
-							</g:at>
-						</g:AbsolutePanel>
+						<g:HorizontalPanel>
+						    <g:HorizontalPanel verticalAlignment="ALIGN_BOTTOM">
+						    	<g:Image url="" width="" height="40px" ui:field="imgLogo" />
+						    	<g:Label styleName="logoText">eProfil</g:Label>
+						    </g:HorizontalPanel>
+						    <g:HorizontalPanel spacing="10">
+						    	<g:Label ui:field="lblCurrentMonth" />
+						    	<g:Label width="" horizontalAlignment="ALIGN_LEFT"
+														ui:field="txtWelcome" />
+													<g:Label text="." width="30px" styleName="hiddenText" />
+													<g:Hyperlink targetHistoryToken="newHistoryToken"
+														width="" ui:field="cmdLogout" />
+						    </g:HorizontalPanel>
+						</g:HorizontalPanel>
 
 						<!-- </g:Dock> -->
 

@@ -9,14 +9,16 @@ interface StudyLogManagementUiHandlers extends UiHandlers {
 	
 	//
 	void onProfessorSelected(String profsId);
-	//
-	void onLstAssignmentsChange( String profId, String subjectId );
-	//
-	void onLstClassChange( String profId, String subjectId, String classId, String dateFrom, String dateTo );
+//	//
+//	void onLstAssignmentsChange( String profId, String subjectId );
+//	//
+//	void onLstClassChange( String profId, String subjectId, String classId, String dateFrom, String dateTo );
 	//
 	void onStudyLogAdd( String profId, String subjectId, String classId, 
 			String title, String content, String editLogId, String logFileName, String logEntryDate, 
 			List<String> assignmentIDs );
+	//
+	void loadStudyLogs( String dateFrom, String dateTo, List<String> assignmentIDs );
 	//
 	void deleteLog( StudyLogProxy log );
 	//

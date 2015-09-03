@@ -12,8 +12,26 @@
 
 			<g:HorizontalPanel width="100%" spacing="0">
 				<g:cell width="25%">
-					<g:VerticalPanel width="100%" spacing="5"  styleName="subSection">
+					<g:VerticalPanel width="100%" spacing="5"
+						styleName="subSection">
+
 						<g:Grid width="100%" cellSpacing="5">
+							<g:row>
+								<g:customCell>
+									<g:Label text="Date du :"></g:Label>
+								</g:customCell>
+								<g:customCell>
+									<p2:DateBox ui:field="dateFrom" width="100px" />
+								</g:customCell>
+							</g:row>
+							<g:row>
+								<g:customCell>
+									<g:Label text=" au :"></g:Label>
+								</g:customCell>
+								<g:customCell>
+									<p2:DateBox ui:field="dateTo" width="100px" />
+								</g:customCell>
+							</g:row>
 							<g:row>
 								<g:customCell>
 									<g:Label text="Professeur :" />
@@ -22,66 +40,74 @@
 									<g:ListBox ui:field="lstProfs" width="200px" />
 								</g:customCell>
 							</g:row>
-							<g:row>
-								<g:customCell>
-									<g:Label text="Matière :" />
-								</g:customCell>
-								<g:customCell>
-									<g:ListBox ui:field="lstAssignments" width="200px" />
-								</g:customCell>
-							</g:row>
-							<g:row>
-								<g:customCell>
-									<g:Label text="Classe :" />
-								</g:customCell>
-								<g:customCell>
-									<g:ListBox ui:field="lstClasses" width="200px" />
-								</g:customCell>
-							</g:row>
+<!-- 							<g:row> -->
+<!-- 								<g:customCell> -->
+<!-- 									<g:Label text="Matière :" /> -->
+<!-- 								</g:customCell> -->
+<!-- 								<g:customCell> -->
+<!-- 									<g:ListBox ui:field="lstAssignments" width="200px" /> -->
+<!-- 								</g:customCell> -->
+<!-- 							</g:row> -->
+<!-- 							<g:row> -->
+<!-- 								<g:customCell> -->
+<!-- 									<g:Label text="Classe :" /> -->
+<!-- 								</g:customCell> -->
+<!-- 								<g:customCell> -->
+<!-- 									<g:ListBox ui:field="lstClasses" width="200px" /> -->
+<!-- 								</g:customCell> -->
+<!-- 							</g:row> -->
 						</g:Grid>
-						<g:HorizontalPanel width="150px">
-							<g:Label>Liste d'élèves :</g:Label>
+
+						<g:HorizontalPanel width="100%">
+							<g:Label>Liste les matières et les classes :</g:Label>
+							<g:Label></g:Label>
+						</g:HorizontalPanel>
+						
+						<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_CENTER">
+							<g:Label ui:field="cmdSelectAll" styleName="blueLink">Sélectionner tous</g:Label>
+							<g:Label ui:field="cmdDeselectAll" styleName="blueLink">Désélectionner tous</g:Label>
+						</g:HorizontalPanel>
+						
+						<g:ScrollPanel width="300px" height="400px"
+							ui:field="pnlAssignmentView">
+							<g:FlexTable ui:field="tblAssignmentView" width="100%" />
+						</g:ScrollPanel>
+						
+						<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_CENTER">
+							<g:Button styleName="buttonToolbar" ui:field="cmdFilter">Afficher les textes</g:Button>
+						</g:HorizontalPanel>
+						
+						<g:HorizontalPanel width="100%">
+							<g:Label></g:Label>
 							<g:Label ui:field="lblStudentQty"></g:Label>
 						</g:HorizontalPanel>
+						
 						<g:ScrollPanel width="300px" height="400px"
-							ui:field="pnlStudents">
+							ui:field="pnlStudents" visible="false">
 							<g:FlexTable ui:field="tblStudents" width="100%" />
 						</g:ScrollPanel>
+						
+						
+
 					</g:VerticalPanel>
 				</g:cell>
 				<g:cell>
-					<g:VerticalPanel width="100%">
-						<g:HorizontalPanel width="100%" styleName="subSection"
-							verticalAlignment="ALIGN_MIDDLE" spacing="2">
-							<g:cell width="30%">
-								<g:Label></g:Label>
-							</g:cell>
-							<g:cell>
-								<g:HorizontalPanel spacing="3"
-									verticalAlignment="ALIGN_MIDDLE">
-									<g:Label text="Date du :"></g:Label>
-									<p2:DateBox ui:field="dateFrom" width="100px" />
-									<g:Label text=" au :"></g:Label>
-									<p2:DateBox ui:field="dateTo" width="100px" />
-									<g:Button styleName="buttonGreen" ui:field="cmdFilter">Afficher</g:Button>
-								</g:HorizontalPanel>
-							</g:cell>
-							<g:cell width="20%" horizontalAlignment="ALIGN_CENTER">
-								<g:Button styleName="buttonToolbar" ui:field="cmdAdd">Saisir</g:Button>
-							</g:cell>
-						</g:HorizontalPanel>
-						<g:ScrollPanel height="400px" ui:field="pnlLogs"
-							width="100%">
+					<g:VerticalPanel width="100%" spacing="5">
+
+						<!-- Main study log table -->
+						<g:Button styleName="buttonGreen" ui:field="cmdAdd">Saisir un nouveau texte</g:Button>
+
+						<g:ScrollPanel height="400px" ui:field="pnlLogs" width="100%">
 							<g:FlexTable ui:field="tblLogs" width="100%"></g:FlexTable>
 						</g:ScrollPanel>
 
 						<!-- Study log input window -->
 						<g:VerticalPanel width="700px" ui:field="pnlAdd">
 							<g:HorizontalPanel spacing="5">
-							    <g:VerticalPanel width="100%" spacing="10">
-							        <g:Label text="Choisir les classes pour ce contenu:"></g:Label>
-							    	<g:FlexTable ui:field="tblAssignments" width="200px"></g:FlexTable>    
-							    </g:VerticalPanel>
+								<g:VerticalPanel width="100%" spacing="10" styleName="subSection">
+									<g:Label text="Choisir les classes pour ce contenu:"></g:Label>
+									<g:FlexTable ui:field="tblAssignments" width="200px"></g:FlexTable>
+								</g:VerticalPanel>
 								<g:Grid width="500px">
 									<g:row>
 										<g:customCell>

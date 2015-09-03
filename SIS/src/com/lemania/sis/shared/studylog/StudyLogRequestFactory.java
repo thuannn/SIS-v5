@@ -6,6 +6,7 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.shared.Service;
+import com.lemania.sis.server.bean.studylog.StudyLog;
 import com.lemania.sis.server.bean.studylog.StudyLogDao;
 import com.lemania.sis.server.service.DaoServiceLocator;
 
@@ -22,7 +23,7 @@ public interface StudyLogRequestFactory extends RequestFactory {
 				String logTitle, String logContent, String logDate,
 				String logFileName);
 
-		Request<StudyLogProxy> updateLog(String subjectId, String classeId,
+		Request<StudyLogProxy> updateLog(
 				String logTitle, String logContent, String logDate,
 				String editLogId, String logFileName);
 
@@ -43,6 +44,8 @@ public interface StudyLogRequestFactory extends RequestFactory {
 		Request<List<StudyLogProxy>> listAllBySubject(String subjectId, String dateFrom, String dateTo);
 
 		Request<List<StudyLogProxy>> listAllByClass(String classId, String dateFrom, String dateTo);
+		
+		Request<List<StudyLogProxy>> loadBatch( String dateFrom, String dateTo, String assIDs );
 	}
 
 	StudyLogRequestContext studyLogRequestContext();
