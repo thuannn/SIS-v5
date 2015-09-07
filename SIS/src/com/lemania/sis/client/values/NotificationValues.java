@@ -74,4 +74,6 @@ public class NotificationValues {
 	// Study log
 	public static String assignment_not_selected = "Merci de sélectionner les cours et les classes.";
 	
+	public static String bucketName = "/gcs/eprofil-uploads/";
+	
 }

@@ -120,6 +120,8 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	@UiField
 	HorizontalPanel pnlLogEntryButtons;
 	
+	@UiField VerticalPanel pnlLogAddAssignments;
+	
 	@UiField FlexTable tblAssignments;
 	@UiField FlexTable tblAssignmentView;
 
@@ -335,6 +337,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 						txtContent.setText(studyLog.getLogContent());
 						lblEditLogId.setText(studyLog.getId().toString());
 						isFileUploaded = false;
+						pnlLogAddAssignments.setVisible(false);
 						pnlAdd.setVisible(true);
 						pp.center();
 					}
@@ -697,6 +700,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 			//
 			resetAssignmentSelection();
 			//
+			pnlLogAddAssignments.setVisible(true);
 			pnlAdd.setVisible(true);
 			//
 			resetFileUpload();				// clear the file upload field

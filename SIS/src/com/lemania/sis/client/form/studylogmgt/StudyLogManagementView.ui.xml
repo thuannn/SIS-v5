@@ -104,14 +104,14 @@
 						<!-- Study log input window -->
 						<g:VerticalPanel width="700px" ui:field="pnlAdd">
 							<g:HorizontalPanel spacing="5">
-								<g:VerticalPanel width="100%" spacing="10" styleName="subSection">
+								<g:VerticalPanel width="100%" spacing="10" styleName="subSection" ui:field="pnlLogAddAssignments">
 									<g:Label text="Choisir les classes pour ce contenu:"></g:Label>
 									<g:FlexTable ui:field="tblAssignments" width="200px"></g:FlexTable>
 								</g:VerticalPanel>
 								<g:Grid width="500px">
 									<g:row>
 										<g:customCell>
-											<g:Label ui:field="lblEditLogId" visible="true"></g:Label>
+											<g:Label ui:field="lblEditLogId" visible="false"></g:Label>
 										</g:customCell>
 										<g:customCell>
 											<g:HorizontalPanel width="100%"
