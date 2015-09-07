@@ -80,7 +80,8 @@ public class StudyLogDao extends MyDAOBase {
 		StudyLog studyLog = ofy().load().key( Key.create( StudyLog.class, Long.parseLong(editLogId)) ).now();
 		studyLog.setLogTitle(logTitle);
 		studyLog.setLogContent(logContent);
-		studyLog.setFileName( logFileName );
+		if ( ! logFileName.equals("") )					// since we're updating a log, only overwrite if user re-upload a file
+			studyLog.setFileName( logFileName );
 		//
 		Key<StudyLog> key = ofy().save().entities( studyLog ).now().keySet().iterator().next();
 		try {

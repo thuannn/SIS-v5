@@ -69,7 +69,7 @@ class StudyLogStudentView extends ViewWithUiHandlers<StudyLogStudentUiHandlers> 
 		tblLogs.removeAllRows();
 		//
 		initializeDateFields();
-		FieldValidation.setDaysOfTheMonth(dateFrom, dateTo);
+		FieldValidation.setDateRangeCurrentMonth(dateFrom, dateTo);
 		//
 		// Set the height of the log table
 		pnlLogs.setHeight(Window.getClientHeight() - pnlLogs.getAbsoluteTop()

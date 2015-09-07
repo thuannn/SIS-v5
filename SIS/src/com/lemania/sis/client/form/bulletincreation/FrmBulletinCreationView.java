@@ -352,9 +352,11 @@ public class FrmBulletinCreationView extends ViewWithUiHandlers<FrmBulletinCreat
 	 * */
 	@UiHandler("cmdCreateBulletin")
 	void onCmdCreateBulletinClick(ClickEvent event) {
+		//
 		// Check if student is already exist in the selected class
 		for (BulletinProxy bp : fullBulletins) {
-			if (bp.getStudentId().equals(selectedStudent.getId())) {
+			if ( bp.getStudentId().equals(selectedStudent.getId()) 
+					&& bp.getYear().equals(lstYear.getSelectedValue() )) {
 				Window.alert( NotificationValues.student_already_attribued );
 				return;
 			}

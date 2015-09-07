@@ -132,6 +132,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	private String logFileName = "";
 	private List<String> assignmentIDs = new ArrayList<String>();		// | deliminated string that contains list of assignments Ids
 	private List<String> assignmentViewIDs = new ArrayList<String>();
+	private Boolean isFileUploaded = false;								// set true when a file is uploaded to save the file name
 	
 	
 	/*
@@ -204,7 +205,8 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		// Set the height of the log table
 		pnlLogs.setHeight(Window.getClientHeight() - pnlLogs.getAbsoluteTop() - NotificationValues.footerHeight + "px");
 		//
-		FieldValidation.setDaysOfTheMonth(dateFrom, dateTo);
+//		FieldValidation.setDateRangeCurrentMonth( dateFrom, dateTo );
+		FieldValidation.setDateRangeCurrentWeek( dateFrom, dateTo );
 	}
 	
 	
@@ -332,6 +334,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 						txtTitle.setText(studyLog.getLogTitle());
 						txtContent.setText(studyLog.getLogContent());
 						lblEditLogId.setText(studyLog.getId().toString());
+						isFileUploaded = false;
 						pnlAdd.setVisible(true);
 						pp.center();
 					}
@@ -633,7 +636,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 	void onCmdSaveClicked(ClickEvent event) {
 		//
 		if (getUiHandlers() != null) {
-			if (lblEditLogId.getText().equals("")) {
+			if (lblEditLogId.getText().equals("")) {		// If this is a new text
 				//
 					getUiHandlers().onStudyLogAdd(
 							lstProfs.getValue(lstProfs.getSelectedIndex()),
@@ -648,7 +651,8 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 				
 			} else {
 				//
-				getUiHandlers().onStudyLogAdd(
+				if (isFileUploaded){						// If editing an existing log, and a file is uploaded, send the file name
+					getUiHandlers().onStudyLogAdd(
 						lstProfs.getValue(lstProfs.getSelectedIndex()),
 						"", 
 						"", 
@@ -658,6 +662,18 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 						logFileName,
 						DateTimeFormat.getFormat("yyyyMMdd").format(dateEntry.getValue()),
 						assignmentIDs );
+				} else {						// If a file is NOT loaded, send the file name as empty
+					getUiHandlers().onStudyLogAdd(
+						lstProfs.getValue(lstProfs.getSelectedIndex()),
+						"", 
+						"", 
+						txtTitle.getText(),
+						txtContent.getText(), 
+						lblEditLogId.getText(), 
+						"",
+						DateTimeFormat.getFormat("yyyyMMdd").format(dateEntry.getValue()),
+						assignmentIDs );
+				}
 			}
 		}
 
@@ -683,10 +699,19 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 			//
 			pnlAdd.setVisible(true);
 			//
-			logFileName = "";
+			resetFileUpload();				// clear the file upload field
 			//
 			pp.center();
 		}
+	}
+	
+	
+	/*
+	 * */
+	public void resetFileUpload() {
+		//
+		logFileName = "";
+		isFileUploaded = false;
 	}
 	
 	
@@ -871,6 +896,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 				pnlLogEntryButtons.setVisible(true);
 				status.setUrl("images/done.png");
 				logFileName = upload.getFilename();
+				isFileUploaded = true;
 			}
 		});
 		//
