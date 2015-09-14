@@ -69,7 +69,7 @@ class StudyLogStudentView extends ViewWithUiHandlers<StudyLogStudentUiHandlers> 
 		tblLogs.removeAllRows();
 		//
 		initializeDateFields();
-		FieldValidation.setDaysOfTheMonth(dateFrom, dateTo);
+		FieldValidation.setDateRangeCurrentMonth(dateFrom, dateTo);
 		//
 		// Set the height of the log table
 		pnlLogs.setHeight(Window.getClientHeight() - pnlLogs.getAbsoluteTop()
@@ -204,7 +204,7 @@ class StudyLogStudentView extends ViewWithUiHandlers<StudyLogStudentUiHandlers> 
 			if (!studyLog.getFileName().equals("")) {
 				Anchor lnkLogFileName = new Anchor();
 				lnkLogFileName.setText(studyLog.getFileName());
-				lnkLogFileName.setHref( "/gcs//" + studyLog.getFileName() );
+				lnkLogFileName.setHref( NotificationValues.bucketName + studyLog.getFileName() );
 				lnkLogFileName.setTarget( "_blank" );
 				lnkLogFileName.setStyleName("slLogLine");
 				vp.add(lnkLogFileName);

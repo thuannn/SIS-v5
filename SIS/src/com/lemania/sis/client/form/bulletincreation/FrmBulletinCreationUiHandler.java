@@ -18,4 +18,6 @@ public interface FrmBulletinCreationUiHandler extends UiHandlers {
 	void removeBulletin( BulletinProxy bp );
 	//
 	void updateBulletinFinishedStatus( BulletinProxy bp, Boolean isFinished );
+	//
+	void updateBulletinYear( BulletinProxy bp, String year );
 }

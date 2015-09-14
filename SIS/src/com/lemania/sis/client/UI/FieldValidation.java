@@ -2,6 +2,8 @@ package com.lemania.sis.client.UI;
 
 import java.util.Date;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.datepicker.client.CalendarUtil;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -99,7 +101,7 @@ public class FieldValidation {
 	
 	/*
 	 * */
-	public static void setDaysOfTheMonth( DateBox dateFrom, DateBox dateTo ) {
+	public static void setDateRangeCurrentMonth( DateBox dateFrom, DateBox dateTo ) {
 		//
 		Date date = new Date();
 		
@@ -108,6 +110,32 @@ public class FieldValidation {
 		
 		CalendarUtil.addMonthsToDate(date, 1);
 		CalendarUtil.addDaysToDate(date, -1);
+		dateTo.setValue(date);
+	}
+	
+	/*
+	 * */
+	public static void setDateRangeCurrentWeek( DateBox dateFrom, DateBox dateTo ) {
+		//
+		DateTimeFormat fmt = DateTimeFormat.getFormat("yyyyMMdd");
+		Date firstMonday2015 = fmt.parse("20150105");
+		//
+		Date date = new Date();
+		//
+		int weekDayCount = 7;
+		int dayCount = CalendarUtil.getDaysBetween(firstMonday2015, date);
+		int firstDayOfWeekMargin = 0;
+		for (int i=0; i<60; i++) {
+			if ( (i * weekDayCount) > dayCount ) {
+				firstDayOfWeekMargin = dayCount - ((i-1) * weekDayCount);
+				break;
+			}
+		}
+		
+		CalendarUtil.addDaysToDate(date, firstDayOfWeekMargin * (-1) );
+		dateFrom.setValue(date);
+		
+		CalendarUtil.addDaysToDate(date, 6);
 		dateTo.setValue(date);
 	}
 	

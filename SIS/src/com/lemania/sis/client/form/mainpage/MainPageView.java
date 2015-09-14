@@ -101,7 +101,6 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@UiField Hyperlink cmdPeriodMgt;
 	@UiField Hyperlink cmdStudentAgendaPage;
 	@UiField Hyperlink cmdClassAgendaPage;
-	@UiField AbsolutePanel pnlNorth;
 	@UiField Hyperlink cmdProfessorAgendaPage;
 	@UiField Hyperlink cmdParentMgt;
 	@UiField Hyperlink cmdMotifAbsence;
@@ -118,6 +117,7 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@UiField Hyperlink cmdHelpParent;
 	@UiField Hyperlink cmdAbsencesViewProf;
 	@UiField Hyperlink cmdStudyLogMgt;
+	@UiField Hyperlink cmdStudyLogMgtProf;
 	@UiField Hyperlink cmdStudyLogStudent;
 	@UiField Hyperlink cmdStudyLogStudentStudent;
 	@UiField Hyperlink cmdStudyLogStudentParent;
@@ -453,15 +453,15 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@Override
 	public void setWindowEventHanlder() {
 		//
-		Window.addResizeHandler( new ResizeHandler() {
-
-			@Override
-			public void onResize(ResizeEvent event) {
-				//
-				leftPanel.setHeight( Window.getClientHeight() - pnlNorth.getOffsetHeight() - 20 + "px");
-			}
-			
-		});
+//		Window.addResizeHandler( new ResizeHandler() {
+//
+//			@Override
+//			public void onResize(ResizeEvent event) {
+//				//
+//				leftPanel.setHeight( Window.getClientHeight() - pnlNorth.getOffsetHeight() - 20 + "px");
+//			}
+//			
+//		});
 	}
 	
 	
@@ -758,6 +758,11 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	}
 	@UiHandler("cmdStudyLogMgt")
 	void onCmdStudyLogMgtClick(ClickEvent event) {
+		//
+		switchButton( (Hyperlink)event.getSource() );
+	}
+	@UiHandler("cmdStudyLogMgtProf")
+	void onCmdStudyLogMgtProfClick(ClickEvent event) {
 		//
 		switchButton( (Hyperlink)event.getSource() );
 	}
