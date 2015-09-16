@@ -12,16 +12,18 @@
 	xmlns:form="urn:import:com.sencha.gxt.widget.core.client.form"
 	xmlns:grid="urn:import:com.sencha.gxt.widget.core.client.grid">
 
-	<g:HTMLPanel width="100%">
-		<g:VerticalPanel width="100%" ui:field="pnlContainer">
-			<g:Label text="LISTE DES MATIERES" styleName="pageTitle"
-				horizontalAlignment="ALIGN_CENTER" />
-<!-- 			<p1:DataGrid width="100%" height="450px" ui:field="tblSubjectList" -->
-<!-- 				pageSize="15" /> -->
-<!-- 			<g:Cell horizontalAlignment="ALIGN_CENTER"> -->
-<!-- 				<p1:SimplePager location="CENTER" ui:field="pagerSubjects" -->
-<!-- 					page="0" pageSize="15" pageStart="0" /> -->
-<!-- 			</g:Cell> -->
-		</g:VerticalPanel>
-	</g:HTMLPanel>
+
+	<container:FlowLayoutContainer ui:field="pnlContainer">
+		<g:Label text="LISTE DES MATIERES" styleName="pageTitle"
+			horizontalAlignment="ALIGN_CENTER" />
+
+		<!-- <p1:DataGrid width="100%" height="450px" ui:field="tblSubjectList" -->
+		<!-- pageSize="15" /> -->
+		<!-- <g:Cell horizontalAlignment="ALIGN_CENTER"> -->
+		<!-- <p1:SimplePager location="CENTER" ui:field="pagerSubjects" -->
+		<!-- page="0" pageSize="15" pageStart="0" /> -->
+		<!-- </g:Cell> -->
+
+	</container:FlowLayoutContainer>
+
 </ui:UiBinder>

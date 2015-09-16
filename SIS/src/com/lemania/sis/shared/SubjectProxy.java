@@ -31,11 +31,11 @@ public interface SubjectProxy extends EntityProxy {
 	public interface SubjectProxyProperties extends PropertyAccess<SubjectProxy> {
 		//
 		ModelKeyProvider<SubjectProxy> getId();
-
-		ValueProvider<SubjectProxy, String> getSubjectName();
-		ValueProvider<SubjectProxy, String> getSubjectName2();
-		ValueProvider<SubjectProxy, Double> getDefaultCoef();
-		ValueProvider<SubjectProxy, Boolean> getIsActive();
+		
+		ValueProvider<SubjectProxy, String> subjectName();		
+		ValueProvider<SubjectProxy, String> subjectName2();
+		ValueProvider<SubjectProxy, Double> defaultCoef();
+		ValueProvider<SubjectProxy, Boolean> isActive();
 	}
 
 }

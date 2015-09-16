@@ -26,6 +26,7 @@ import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData;
 import com.sencha.gxt.widget.core.client.container.FlowLayoutContainer;
 import com.sencha.gxt.widget.core.client.container.MarginData;
+import com.sencha.gxt.widget.core.client.container.SimpleContainer;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -44,7 +45,7 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	private static MainPageViewUiBinder uiBinder = GWT.create(MainPageViewUiBinder.class);
 
 	private final Widget widget;
-	@UiField FlowPanel mainContentPanel;
+	@UiField FlowLayoutContainer mainContentPanel;
 	@UiField Hyperlink cmdLogout;
 	@UiField Label txtWelcome;
 	@UiField Label lblCurrentMonth;
@@ -124,7 +125,7 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	
 	@UiField BorderLayoutContainer con;
 	@UiField FlowLayoutContainer conWest;
-	@UiField FlowLayoutContainer conCenter;
+//	@UiField SimpleContainer conCenter;
 	
 	Hyperlink currentSelectedItem;
 	
@@ -207,7 +208,7 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 		//
 		// Set scrollbar for WEST and CENTER
 		conWest.setScrollMode( ScrollMode.AUTO );
-		conCenter.setScrollMode( ScrollMode.AUTO );
+		mainContentPanel.setScrollMode( ScrollMode.AUTO );
 	}
 	
 	

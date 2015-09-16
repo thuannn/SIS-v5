@@ -314,17 +314,13 @@
 				<container:center layoutData="{centerData}">
 					<gxt:ContentPanel headingText="BorderLayout UiBinder Example"
 						headerVisible="false" resize="true">
-						<container:FlowLayoutContainer
-							ui:field="conCenter">
+						<container:FlowLayoutContainer ui:field="mainContentPanel">
+							
 							<!-- <g:Dock direction="CENTER"> -->
+							
+<!-- 								<g:FlowPanel ui:field="mainContentPanel" width="100%" -->
+<!-- 									height="" styleName="paneMain" /> -->
 
-
-							<g:VerticalPanel width="100%"
-								horizontalAlignment="ALIGN_LEFT" height="">
-								<g:FlowPanel ui:field="mainContentPanel" width="100%"
-									height="" styleName="paneMain" />
-
-							</g:VerticalPanel>
 						</container:FlowLayoutContainer>
 					</gxt:ContentPanel>
 				</container:center>

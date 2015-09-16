@@ -106,7 +106,9 @@
 							<g:HorizontalPanel spacing="5">
 								<g:VerticalPanel width="100%" spacing="10" styleName="subSection" ui:field="pnlLogAddAssignments">
 									<g:Label text="Choisir les classes pour ce contenu:"></g:Label>
-									<g:FlexTable ui:field="tblAssignments" width="200px"></g:FlexTable>
+									<g:ScrollPanel height="450px">
+										<g:FlexTable ui:field="tblAssignments" width="200px"></g:FlexTable>
+									</g:ScrollPanel>
 								</g:VerticalPanel>
 								<g:Grid width="500px">
 									<g:row>

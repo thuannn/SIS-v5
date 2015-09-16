@@ -1,42 +1,4 @@
-<!-- Indices written at Thu, 27 Aug 2015 21:45:38 CEST -->
+<!-- Indices written at Wed, 16 Sep 2015 16:43:12 CEST -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Assignment" ancestor="false" source="auto">
-        <property name="prof" direction="asc"/>
-        <property name="subject" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
-        <property name="isActive" direction="asc"/>
-        <property name="professor" direction="asc"/>
-        <property name="subject" direction="asc"/>
-        <property name="bulletin" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="StudyLog" ancestor="false" source="auto">
-        <property name="keyClasse" direction="asc"/>
-        <property name="keySubject" direction="asc"/>
-        <property name="logDate" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
-        <property name="isActive" direction="asc"/>
-        <property name="professor1" direction="asc"/>
-        <property name="subject" direction="asc"/>
-        <property name="bulletin" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
-        <property name="isActive" direction="asc"/>
-        <property name="professor2" direction="asc"/>
-        <property name="subject" direction="asc"/>
-        <property name="bulletin" direction="asc"/>
-    </datastore-index>
-
-</datastore-indexes>
