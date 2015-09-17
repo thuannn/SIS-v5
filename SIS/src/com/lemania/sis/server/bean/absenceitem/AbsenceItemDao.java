@@ -273,9 +273,11 @@ public class AbsenceItemDao extends MyDAOBase {
 			@Override
 			public int compare(AbsenceItem o1, AbsenceItem o2) {
 				//
-				return ofy().load().key( o1.getKeyStudent() ).now().getLastName()
+				Student student1 = ofy().load().key( o1.getKeyStudent() ).now();
+				Student student2 = ofy().load().key( o2.getKeyStudent() ).now(); 
+				return (student1.getLastName() + student1.getFirstName())
 						.compareTo( 
-								ofy().load().key( o2.getKeyStudent() ).now().getLastName() );
+								(student2.getLastName() + student2.getFirstName()) );
 			}
 		});
   		//
