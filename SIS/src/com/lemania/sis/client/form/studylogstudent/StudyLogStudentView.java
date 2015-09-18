@@ -127,8 +127,19 @@ class StudyLogStudentView extends ViewWithUiHandlers<StudyLogStudentUiHandlers> 
 	@Override
 	public void showLogs(List<StudyLogProxy> studyLogs) {
 		//
+		// Only show the subject this student is learning
+		List<StudyLogProxy> studentLogs = new ArrayList<StudyLogProxy>();
+		for ( StudyLogProxy sLog : studyLogs ) {
+			for ( int i=0; i < lstSubjects.getItemCount(); i++ ) {
+				if ( sLog.getSubjectName().equals( lstSubjects.getItemText(i)) ) {
+					studentLogs.add( sLog );
+					break;
+				}
+			}
+		}
+		//
 		tblLogs.removeAllRows();
-		showAddedLogs( studyLogs );
+		showAddedLogs( studentLogs );
 	}
 	
 	
