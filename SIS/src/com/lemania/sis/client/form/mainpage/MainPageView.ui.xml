@@ -282,6 +282,7 @@
 											ui:field="cmdPasswordStudent" />
 										<g:Hyperlink targetHistoryToken="!contact" text="Aide / Contact"
 											ui:field="cmdHelpStudent" />
+<<<<<<< HEAD
 									</g:TreeItem>
 								</g:Tree>
 								<g:Tree styleName="sideBar" ui:field="treeMenuParent"
@@ -301,11 +302,13 @@
 											ui:field="cmdHelpParent" />
 									</g:TreeItem>
 								</g:Tree>
+
 							</g:VerticalPanel>
 
 							<!-- </g:Dock> -->
 						</container:FlowLayoutContainer>
 					</gxt:ContentPanel>
+<<<<<<< HEAD
 
 
 
@@ -320,6 +323,7 @@
 							
 <!-- 								<g:FlowPanel ui:field="mainContentPanel" width="100%" -->
 <!-- 									height="" styleName="paneMain" /> -->
+
 
 						</container:FlowLayoutContainer>
 					</gxt:ContentPanel>
