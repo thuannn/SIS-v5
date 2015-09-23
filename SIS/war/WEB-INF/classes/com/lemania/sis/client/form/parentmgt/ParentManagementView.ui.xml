@@ -1,0 +1,21 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+    <g:HTMLPanel>
+    	<g:Label text="Responsables" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+    	<g:VerticalPanel width="100%" spacing="5" horizontalAlignment="ALIGN_RIGHT">
+    		<g:HorizontalPanel width="100%" verticalAlignment="ALIGN_MIDDLE" styleName="subSection">
+    			<g:HorizontalPanel width="100%" ui:field="pnlSearch">
+    				<g:Label text="Recherche par nom - "/>
+    			</g:HorizontalPanel>
+    			<g:HorizontalPanel horizontalAlignment="ALIGN_RIGHT" width="100%">
+    			<g:Button text="Rajouter un Responsable" ui:field="cmdAdd" styleName="buttonToolbar"/>
+    		</g:HorizontalPanel>
+    		</g:HorizontalPanel>
+    		<p1:DataGrid width="100%" height="550px" ui:field="tblParents" pageSize="15"/>
+    		<g:Cell horizontalAlignment="ALIGN_CENTER">
+    			<p1:SimplePager location="CENTER" page="0" pageSize="15" pageStart="0" ui:field="pagerParents"/>
+    		</g:Cell>
+    	</g:VerticalPanel>
+    </g:HTMLPanel>
+</ui:UiBinder>

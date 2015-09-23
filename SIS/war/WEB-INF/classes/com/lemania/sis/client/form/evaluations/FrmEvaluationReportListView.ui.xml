@@ -1,0 +1,114 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default' xmlns:p1="urn:import:com.google.gwt.user.datepicker.client" xmlns:p2="urn:import:com.google.gwt.user.cellview.client">
+
+	<g:HTMLPanel width="100%" height="">
+		<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_CENTER" spacing="0" height="">
+			<g:Label text="LISTE DES RAPPORTS D&apos;EVALUATION INTERMEDIAIRE" styleName="pageTitle" width=""/>
+			<g:HorizontalPanel spacing="5" width="100%">
+				<g:Grid width="100%" styleName="subSection">
+					<g:row>
+						<g:customCell>
+							<g:Label text="Année :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:ListBox ui:field="lstYears" styleName="sis-combobox"/>
+						</g:customCell>
+					</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Ecole :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="lstEcoles" styleName="sis-combobox"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Programme :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="lstProgrammes" styleName="sis-combobox"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Classe :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:ListBox ui:field="lstClasses" styleName="sis-combobox"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Liste des rapports d&apos;évaluation :"/>
+					</g:customCell>
+					<g:customCell>
+						<p2:DataGrid width="250px" height="200px" ui:field="tblReports"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="." styleName="hiddenText"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="." styleName="hiddenText"/>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+				<g:VerticalPanel width="100%">
+				<g:Grid width="100%" styleName="subSection">
+					<g:row>
+						<g:customCell>
+							<g:Label text="Du :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="dateFrom"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="Au :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:TextBox ui:field="dateTo"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="Maître de classe :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:ListBox ui:field="lstClassMaster" styleName="sis-combobox"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="Note d&apos;objectif spécifique :"/>
+						</g:customCell>
+						<g:customCell>
+							<g:RichTextArea ui:field="txtObjective"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="."/>
+						</g:customCell>
+						<g:customCell>
+							<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_LEFT">
+								<g:Button ui:field="cmdSave" text="Enregistrer">Créer un nouveau rapport</g:Button>
+								<g:Button ui:field="cmdCreate" text="Créer un nouveau rapport">Enregistrer</g:Button>
+							</g:HorizontalPanel>
+						</g:customCell>
+					</g:row>
+				</g:Grid>
+			</g:VerticalPanel>
+			</g:HorizontalPanel>			
+		</g:VerticalPanel></g:HTMLPanel>
+</ui:UiBinder>

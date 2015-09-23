@@ -1,0 +1,58 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default'>
+
+	<g:HTMLPanel width="100%">
+		<g:VerticalPanel width="100%">
+			<g:Label text="AJOUTER UNE NOUVELLE BRANCHE" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+			<g:Grid cellPadding="5" cellSpacing="5" width="80%">
+				<g:row>
+					<g:customCell>
+						<g:Label text="Nom de la branche :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox styleName="sis_textbox" ui:field="txtBrancheName"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Coefficient :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox ui:field="txtBrancheCoef"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="." styleName="hiddenText"/>
+					</g:customCell>
+					<g:customCell>
+						<g:CheckBox text="Active" checked="true" ui:field="chkBrancheActive"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="." styleName="hiddenText"/>
+					</g:customCell>
+					<g:customCell>
+						<g:HorizontalPanel>
+							<g:Button text="Enregistrer" ui:field="cmdSave"/>
+						</g:HorizontalPanel>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="." styleName="hiddenText"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="lblStatus"/>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

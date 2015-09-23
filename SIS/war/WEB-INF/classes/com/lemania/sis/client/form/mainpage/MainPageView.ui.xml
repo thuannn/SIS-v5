@@ -1,0 +1,402 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default'
+	xmlns:container="urn:import:com.sencha.gxt.widget.core.client.container"
+	xmlns:gxt="urn:import:com.sencha.gxt.widget.core.client">
+
+	<ui:with type="com.sencha.gxt.core.client.util.Margins" field="outerMargins">
+		<ui:attributes top="0" right="0" bottom="0" left="0" />
+	</ui:with>
+	<ui:with type="com.sencha.gxt.core.client.util.Margins" field="northMargins">
+		<ui:attributes top="0" right="0" bottom="1" left="0" />
+	</ui:with>
+	<ui:with type="com.sencha.gxt.core.client.util.Margins" field="westMargins">
+		<ui:attributes top="0" right="6" bottom="0" left="0" />
+	</ui:with>
+	<ui:with type="com.sencha.gxt.core.client.util.Margins" field="centerMargins">
+		<ui:attributes top="0" right="0" bottom="0" left="0" />
+	</ui:with>
+	<ui:with type="com.sencha.gxt.core.client.util.Margins" field="eastMargins">
+		<ui:attributes top="0" right="0" bottom="0" left="0" />
+	</ui:with>
+	<ui:with type="com.sencha.gxt.core.client.util.Margins" field="southMargins">
+		<ui:attributes top="1" right="0" bottom="0" left="0" />
+	</ui:with>
+
+	<ui:with type="com.sencha.gxt.widget.core.client.container.MarginData"
+		field="outerData">
+		<ui:attributes margins="{outerMargins}" />
+	</ui:with>
+	<ui:with
+		type="com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData"
+		field="northData">
+		<ui:attributes size="40" margins="{northMargins}" />
+	</ui:with>
+	<ui:with
+		type="com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData"
+		field="westData">
+		<ui:attributes size="250" margins="{westMargins}"
+			collapsible="true" split="true" collapseMini="true" collapseHidden="true" />
+	</ui:with>
+	<ui:with type="com.sencha.gxt.widget.core.client.container.MarginData"
+		field="centerData">
+		<ui:attributes margins="{centerMargins}" />
+	</ui:with>
+	<ui:with
+		type="com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData"
+		field="eastData">
+		<ui:attributes size="150" margins="{eastMargins}" />
+	</ui:with>
+	<ui:with
+		type="com.sencha.gxt.widget.core.client.container.BorderLayoutContainer.BorderLayoutData"
+		field="southData">
+		<ui:attributes size="30" margins="{southMargins}" />
+	</ui:with>
+
+	<container:Viewport>
+
+		<!-- <g:DockPanel width="100%" height="100%" ui:field="dockPanel" -->
+		<!-- spacing="5" borderWidth="0"> -->
+
+		<!-- <container:SimpleContainer> -->
+		<container:child layoutData="{outerData}">
+			<container:BorderLayoutContainer
+				ui:field="con" borders="false">
+				<container:north layoutData="{northData}">
+					<gxt:ContentPanel headerVisible="false">
+
+						<!-- <g:Dock direction="NORTH"> -->
+						<g:HorizontalPanel>
+						    <g:HorizontalPanel verticalAlignment="ALIGN_BOTTOM">
+						    	<g:Image url="" width="" height="40px" ui:field="imgLogo" />
+						    	<g:Label styleName="logoText">eProfil</g:Label>
+						    </g:HorizontalPanel>
+						    <g:HorizontalPanel spacing="10">
+						    	<g:Label ui:field="lblCurrentMonth" />
+						    	<g:Label width="" horizontalAlignment="ALIGN_LEFT"
+														ui:field="txtWelcome" />
+													<g:Label text="." width="30px" styleName="hiddenText" />
+													<g:Hyperlink targetHistoryToken="newHistoryToken"
+														width="" ui:field="cmdLogout" />
+						    </g:HorizontalPanel>
+						</g:HorizontalPanel>
+
+						<!-- </g:Dock> -->
+
+					</gxt:ContentPanel>
+				</container:north>
+
+				<container:west layoutData="{westData}">
+
+					<gxt:ContentPanel>
+
+						<container:FlowLayoutContainer
+							ui:field="conWest">
+
+							<!-- <g:Dock direction="WEST"> -->
+
+							<g:VerticalPanel ui:field="leftPanel"
+								horizontalAlignment="ALIGN_LEFT" spacing="2">
+								<g:Tree animationEnabled="true" styleName="sideBar"
+									height="" width="230px" ui:field="treeMenuAdmin">
+
+									<!-- <g:Label text="-" width="" horizontalAlignment="ALIGN_RIGHT" -->
+									<!-- styleName="left_header" /> -->
+
+									<g:Hyperlink text="Accueil" targetHistoryToken="!homepage"
+										ui:field="cmdHome" />
+									<g:TreeItem text="Administration des profils" state="true">
+										<g:TreeItem text="Elèves">
+											<g:Hyperlink targetHistoryToken="students"
+												text="Liste des élèves" ui:field="cmdStudentList" />
+											<g:Hyperlink targetHistoryToken="studentadd"
+												text="Rajouter un élève" ui:field="cmdStudentAdd" />
+										</g:TreeItem>
+										<g:TreeItem text="Professeurs">
+											<g:Hyperlink targetHistoryToken="!profs"
+												text="Liste des professeurs" ui:field="cmdProfList" />
+											<g:Hyperlink targetHistoryToken="!profsadd"
+												text="Rajouter un professeur" ui:field="cmdProfAdd" />
+										</g:TreeItem>
+										<g:TreeItem text="Responsables">
+											<g:Hyperlink targetHistoryToken="parentmgt"
+												text="Liste des responsables" ui:field="cmdParentMgt" />
+										</g:TreeItem>
+										<g:TreeItem text="Gestion des attributions">
+											<g:Hyperlink text="Programmes / Classes"
+												targetHistoryToken="profilemgt" ui:field="cmdProfileManagement" />
+											<g:Hyperlink text="Attribution Programme / Elève"
+												targetHistoryToken="bulletincreation" ui:field="cmdAttribution" />
+											<g:Hyperlink text="Attribution personnalisée"
+												targetHistoryToken="bulletinmanagement" ui:field="cmdAttributionPerson" />
+										</g:TreeItem>
+									</g:TreeItem>
+
+									<g:TreeItem text="Absences" ui:field="tiAbsences">
+										<g:Hyperlink text="Feuille d&apos;appel"
+											targetHistoryToken="attendancelist" ui:field="cmdAttendanceList" />
+										<g:Hyperlink text="Gestion des absences"
+											targetHistoryToken="absencesmgt" ui:field="cmdAbsenceMgt" />
+									</g:TreeItem>
+									<g:TreeItem text="Cahier de texte">
+										<g:Hyperlink targetHistoryToken="studylogmgt"
+											text="Cahier de texte" ui:field="cmdStudyLogMgt" />
+										<g:Hyperlink targetHistoryToken="studylogstudent"
+											text="Liste par élève" ui:field="cmdStudyLogStudent" />
+									</g:TreeItem>
+									<g:TreeItem text="Evaluation Intermediaire">
+										<g:Hyperlink targetHistoryToken="evaluationlist"
+											text="Liste des rapports d&apos;évaluation" ui:field="cmdEvaluationList" />
+										<g:Hyperlink targetHistoryToken="evaluationinput"
+											text="Saisir les évaluations" ui:field="cmdEvaluationInputProf" />
+										<g:Hyperlink targetHistoryToken="evaluationinputstudent"
+											text="Evaluations par élève" ui:field="cmdEvaluationInputEleve" />
+									</g:TreeItem>
+
+									<g:TreeItem text="Notes">
+										<g:Hyperlink text="Saisir les notes"
+											targetHistoryToken="markinput" ui:field="cmdMarkInput" />
+										<g:Hyperlink text="Consulter les notes"
+											targetHistoryToken="bulletindetail" ui:field="cmdMarkView" />
+										<g:Hyperlink text="Imprimer les bulletins"
+											targetHistoryToken="bulletin" ui:field="cmdBulletin" />
+									</g:TreeItem>
+									<g:TreeItem text="Horaires" ui:field="tiTimetable">
+										<g:Hyperlink targetHistoryToken="masteragenda"
+											text="Horaires cadres" ui:field="cmdMasterAgendaPage" />
+										<g:TreeItem text="Horaires personnalisés">
+											<g:Hyperlink targetHistoryToken="studentagenda"
+												text="Elèves" ui:field="cmdStudentAgendaPage" />
+											<g:Hyperlink targetHistoryToken="profagenda"
+												text="Professeurs" ui:field="cmdProfessorAgendaPage" />
+											<g:Hyperlink targetHistoryToken="masteragenda"
+												text="Classes" ui:field="cmdClassAgendaPage" />
+										</g:TreeItem>
+									</g:TreeItem>
+									<g:TreeItem text="Paramètres">
+										<g:TreeItem text="Absences" ui:field="tiParamAbsences">
+											<g:Hyperlink text="Motifs d’absences"
+												targetHistoryToken="motifabsence" ui:field="cmdMotifAbsence" />
+										</g:TreeItem>
+										<g:TreeItem text="Ressources" state="true">
+											<g:TreeItem text="Branches">
+												<g:Hyperlink targetHistoryToken="branchelist"
+													text="Liste des branches" ui:field="cmdBrancheList" />
+												<g:Hyperlink targetHistoryToken="brancheadd"
+													text="Rajouter une branche" ui:field="cmdBrancheAdd" />
+											</g:TreeItem>
+											<g:TreeItem text="Matières">
+												<g:Hyperlink targetHistoryToken="subjectlist"
+													text="Liste des matières" ui:field="cmdSubjectList" />
+												<g:Hyperlink targetHistoryToken="subjectadd"
+													text="Rajouter une matière" ui:field="cmdSubjectAdd" />
+											</g:TreeItem>
+											<g:TreeItem text="Horaires">
+												<g:Hyperlink text="Organisation des périodes"
+													targetHistoryToken="periodmgt" ui:field="cmdPeriodMgt" />
+											</g:TreeItem>
+											<g:TreeItem text="Classes">
+												<g:Hyperlink text="Liste des classes"
+													targetHistoryToken="classlist" ui:field="cmdClassList" />
+												<g:Hyperlink targetHistoryToken="classeadd"
+													text="Rajouter une classe" ui:field="cmdClassAdd" />
+											</g:TreeItem>
+											<g:TreeItem text="Programmes">
+												<g:Hyperlink targetHistoryToken="!cours"
+													text="Liste des programmes" ui:field="cmdProgrammeList" />
+												<g:Hyperlink text="Rajouter un programme"
+													targetHistoryToken="coursadd" ui:field="cmdProgrammeAdd" />
+											</g:TreeItem>
+											<g:TreeItem text="Locaux">
+												<g:Hyperlink text="Salles de classe"
+													targetHistoryToken="classroom" ui:field="cmdClassroomPage" />
+											</g:TreeItem>
+											<g:TreeItem text="Ecoles">
+												<g:Hyperlink text="Liste des écoles"
+													targetHistoryToken="!ecolepage" ui:field="cmdSchoolList" />
+												<g:Hyperlink targetHistoryToken="!addecole"
+													text="Rajouter une école" ui:field="cmdSchoolAdd" />
+											</g:TreeItem>
+										</g:TreeItem>
+										<g:TreeItem text="Gestion de l&apos;accès">
+											<g:Hyperlink text="Gestion des codes d&apos;accès"
+												targetHistoryToken="usermanagement" ui:field="cmdUserManagement" />
+											<g:Hyperlink targetHistoryToken="settings"
+												text="Gérer les dates limites" ui:field="cmdSettings" />
+										</g:TreeItem>
+									</g:TreeItem>
+									<g:TreeItem text="Mon compte" state="true">
+										<g:Hyperlink targetHistoryToken="password" text="Mes informations"
+											ui:field="cmdPassword" />
+										<g:Hyperlink targetHistoryToken="!contact" text="Aide / Contact"
+											ui:field="cmdHelp" />
+									</g:TreeItem>
+								</g:Tree>
+								<g:Tree ui:field="treeMenuProf" styleName="sideBar"
+									width="250px">
+									<!-- <g:Label styleName="left_header" text="." width="" /> -->
+									<g:TreeItem text="Espace professeur" state="true">
+										<g:TreeItem text="Absences" state="true" ui:field="tiAbsencesProf">
+											<g:Hyperlink text="Feuille d&apos;appel"
+												targetHistoryToken="attendancelist" ui:field="cmdAttendanceListProf" />
+											<g:Hyperlink targetHistoryToken="absenceslist"
+												text="Consulter les absences" ui:field="cmdAbsencesViewProf" />
+										</g:TreeItem>
+										<g:TreeItem text="Evaluation Intermediaire" state="true">
+											<g:Hyperlink text="Saisir les évaluations"
+												targetHistoryToken="evaluationinput" ui:field="cmdEvaluationInputProfProf" />
+											<g:Hyperlink text="Evaluations par élève"
+												targetHistoryToken="evaluationinputstudent" ui:field="cmdEvaluationInputEleveProf" />
+										</g:TreeItem>
+										<g:TreeItem text="Cahier de texte" state="true">
+											<g:Hyperlink targetHistoryToken="studylogmgt"
+												text="Cahier de texte" ui:field="cmdStudyLogMgtProf" />
+										</g:TreeItem>
+										<g:TreeItem text="Notes" state="true">
+											<g:Hyperlink text="Saisir les notes"
+												targetHistoryToken="markinput" ui:field="cmdMarkInputProf" />
+											<g:Hyperlink text="Consulter les bulletins"
+												targetHistoryToken="bulletindetail" ui:field="cmdMarkViewProf" />
+										</g:TreeItem>
+
+										<g:Hyperlink text="Mes informations"
+											targetHistoryToken="password" ui:field="cmdPasswordProf" />
+										<g:Hyperlink targetHistoryToken="!contact" text="Aide / Contact"
+											ui:field="cmdHelpProf" />
+									</g:TreeItem>
+								</g:Tree>
+								<g:Tree styleName="sideBar" ui:field="treeMenuEleve"
+									width="250px">
+									<!-- <g:Label styleName="left_header" text="." width="" /> -->
+									<g:TreeItem state="true" text="Espace élève">
+										<g:Hyperlink targetHistoryToken="absenceslist"
+											text="Consulter les absences" ui:field="cmdAbsencesViewParent" />
+										<g:Hyperlink targetHistoryToken="bulletindetail"
+											text="Consulter les notes" ui:field="cmdMarkViewStudent" />
+										<g:Hyperlink targetHistoryToken="studylogstudent"
+											text="Cahier de texte" ui:field="cmdStudyLogStudentStudent" />
+										<g:Hyperlink targetHistoryToken="password" text="Mes informations"
+											ui:field="cmdPasswordStudent" />
+										<g:Hyperlink targetHistoryToken="!contact" text="Aide / Contact"
+											ui:field="cmdHelpStudent" />
+<<<<<<< HEAD
+									</g:TreeItem>
+								</g:Tree>
+								<g:Tree styleName="sideBar" ui:field="treeMenuParent"
+									width="250px">
+									<!-- <g:Label styleName="left_header" text="." width="" /> -->
+									<g:TreeItem state="true" text="Espace parents">
+										<g:Hyperlink targetHistoryToken="bulletindetail"
+											text="Consulter les notes" ui:field="cmdMarkViewParent" />
+										<!-- <g:Hyperlink targetHistoryToken="absenceslist" -->
+										<!-- text="Consulter les absences" ui:field="cmdAbsencesViewParent" 
+											/> -->
+										<g:Hyperlink targetHistoryToken="studylogstudent"
+											text="Cahier de texte" ui:field="cmdStudyLogStudentParent" />
+										<g:Hyperlink targetHistoryToken="password" text="Mes informations"
+											ui:field="cmdPasswordParent" />
+										<g:Hyperlink targetHistoryToken="!contact" text="Aide / Contact"
+											ui:field="cmdHelpParent" />
+									</g:TreeItem>
+								</g:Tree>
+
+							</g:VerticalPanel>
+
+							<!-- </g:Dock> -->
+						</container:FlowLayoutContainer>
+					</gxt:ContentPanel>
+<<<<<<< HEAD
+
+
+
+				</container:west>
+
+				<container:center layoutData="{centerData}">
+					<gxt:ContentPanel headingText="BorderLayout UiBinder Example"
+						headerVisible="false" resize="true">
+						<container:FlowLayoutContainer ui:field="mainContentPanel">
+							
+							<!-- <g:Dock direction="CENTER"> -->
+							
+<!-- 								<g:FlowPanel ui:field="mainContentPanel" width="100%" -->
+<!-- 									height="" styleName="paneMain" /> -->
+
+
+						</container:FlowLayoutContainer>
+					</gxt:ContentPanel>
+				</container:center>
+
+				<container:south layoutData="{southData}">
+					<gxt:ContentPanel headerVisible="false">
+
+
+						<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_RIGHT">
+							<g:HorizontalPanel verticalAlignment="ALIGN_TOP"
+								width="100%" horizontalAlignment="ALIGN_LEFT" spacing="5">
+
+								<!-- <g:Button text="Afficher / Cacher le menu" ui:field="cmdMenuToggle" -->
+								<!-- width="" styleName="btnHideMenu" height="" /> -->
+
+								<g:VerticalPanel width="100%"
+									horizontalAlignment="ALIGN_RIGHT">
+									<g:Grid>
+										<g:row>
+											<g:customCell>
+												<g:Label text="Copyright © Ecole Lémania - "
+													horizontalAlignment="ALIGN_LEFT" width="" ui:field="txtCopyright" />
+											</g:customCell>
+											<g:customCell>
+												<g:Hyperlink text="Envoyez-nous vos avis"
+													targetHistoryToken="!contact" />
+											</g:customCell>
+											<!-- <g:customCell> -->
+											<!-- <g:Image url="images/Google_App_Engine_Logo_2013.png" -->
+											<!-- height="15px" altText="Powered by Google App Engine" /> -->
+											<!-- </g:customCell> -->
+										</g:row>
+									</g:Grid>
+								</g:VerticalPanel>
+							</g:HorizontalPanel>
+							<g:VerticalPanel ui:field="pnlProgressBar"
+								visible="false" horizontalAlignment="ALIGN_CENTER"
+								verticalAlignment="ALIGN_MIDDLE">
+								<g:VerticalPanel ui:field="pnlProgressBarIn"
+									horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE"
+									width="300px" height="100px" styleName="progressBarPanel">
+									<g:HTML wordWrap="true" ui:field="htmlProgressBar"
+										styleName="progressBar" width="100%">
+										<div id="floatingBarsG">
+											<div class="blockG" id="rotateG_01"></div>
+											<div class="blockG" id="rotateG_02"></div>
+											<div class="blockG" id="rotateG_03"></div>
+											<div class="blockG" id="rotateG_04"></div>
+											<div class="blockG" id="rotateG_05"></div>
+											<div class="blockG" id="rotateG_06"></div>
+											<div class="blockG" id="rotateG_07"></div>
+											<div class="blockG" id="rotateG_08"></div>
+										</div>
+									</g:HTML>
+								</g:VerticalPanel>
+							</g:VerticalPanel>
+						</g:VerticalPanel>
+
+
+						<!-- </g:Dock> -->
+
+					</gxt:ContentPanel>
+				</container:south>
+
+
+			</container:BorderLayoutContainer>
+		</container:child>
+		<!-- </container:SimpleContainer> -->
+
+
+		<!-- </g:DockPanel> -->
+
+	</container:Viewport>
+
+</ui:UiBinder>

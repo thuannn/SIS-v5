@@ -1,0 +1,131 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default'>
+
+	<g:HTMLPanel width="100%">
+		<g:VerticalPanel width="100%" spacing="0" ui:field="pnlMain"
+			horizontalAlignment="ALIGN_CENTER">
+			<g:AbsolutePanel width="100%" height="10px"
+				ui:field="pnlWhiteBackground" styleName="whitePanel" visible="false" />
+			<g:Label text="IMPRIMER LES BULLETINS" horizontalAlignment="ALIGN_CENTER"
+				styleName="pageTitle" />
+			<g:HorizontalPanel spacing="5" styleName="subSection"
+				verticalAlignment="ALIGN_MIDDLE">
+				<g:HorizontalPanel width="400px" spacing="2"
+					horizontalAlignment="ALIGN_RIGHT" ui:field="pnlAdmin"
+					verticalAlignment="ALIGN_MIDDLE">
+					<g:Label text="Classe :" />
+					<g:ListBox ui:field="lstClasses" width="300px" />
+				</g:HorizontalPanel>
+				<g:HorizontalPanel spacing="2" width="400px"
+					horizontalAlignment="ALIGN_RIGHT" verticalAlignment="ALIGN_MIDDLE">
+					<g:Label text="Bulletin(s) :" />
+					<g:ListBox width="300px" ui:field="lstBulletins" />
+				</g:HorizontalPanel>
+				<g:Label text="Modèle :" />
+				<g:ListBox ui:field="lstModels" />
+				<g:Button ui:field="cmdPrint" text="Version imprimée"
+					styleName="buttonToolbar">Imprimer</g:Button>
+			</g:HorizontalPanel>
+			<g:Label text="." styleName="hiddenText" />
+			<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_CENTER">
+				<g:VerticalPanel ui:field="pnlMainBulletin" width="80%"
+					horizontalAlignment="ALIGN_CENTER">
+					<g:VerticalPanel width="" horizontalAlignment="ALIGN_LEFT"
+						spacing="5" ui:field="pnlBulletin" styleName="page"
+						verticalAlignment="ALIGN_TOP">
+						<g:HorizontalPanel width="100%" ui:field="pnlLogo"
+							verticalAlignment="ALIGN_BOTTOM">
+							<g:Image url="images/logo_lemania.png" width="" height=""
+								ui:field="imgLogo" />
+							<g:Label ui:field="lblBulletinTitle" styleName="fieldTitle"></g:Label>
+						</g:HorizontalPanel>
+						<g:Grid width="100%" ui:field="pnlDescription">
+							<g:row>
+								<g:customCell>
+									<g:VerticalPanel spacing="5">
+										<g:Label text="-" ui:field="lblStudentName" styleName="fieldTitle" />
+										<g:Label text="-" ui:field="lblClassName" styleName="fieldTitle" />
+										<g:Label styleName="fieldTitle" text="-" ui:field="lblYear" />
+										<g:Label styleName="fieldTitle" text="-" ui:field="lblDate" />
+									</g:VerticalPanel>
+								</g:customCell>
+								<g:customCell>
+									<g:HTML wordWrap="true" styleName="bulletinNote" width=""
+										ui:field="lblConditionMatu" visible="false">
+										Critère de réussite :
+										<ul>
+											<li>Meilleure note : 6</li>
+											<li>Moyenne : 4</li>
+										</ul>
+										La note moyenne indiquée est calculée en fonction des critères
+										de réussite du diplôme postulé.
+									</g:HTML>
+								</g:customCell>
+								<g:customCell>
+									<g:HTML styleName="bulletinNote" width="" wordWrap="true"
+										ui:field="lblConditionES" visible="false">
+										Critère de réussite :
+										<ul>
+											<li>Meilleure note : 10</li>
+											<li>Moyenne : 6</li>
+										</ul>
+										La note moyenne indiquée est calculée en fonction des critères
+										de réussite du diplôme postulé.
+									</g:HTML>
+								</g:customCell>
+								<g:customCell>
+									<g:HTML styleName="bulletinNote" width="" wordWrap="true"
+										ui:field="lblConditionBac" visible="false">
+										Critère de réussite :
+										<ul>
+											<li>Meilleure note : 20</li>
+											<li>Moyenne : 10</li>
+										</ul>
+										La note moyenne indiquée est calculée en fonction des critères
+										de réussite du diplôme postulé.
+									</g:HTML>
+								</g:customCell>
+							</g:row>
+						</g:Grid>
+						<g:VerticalPanel width="100%" styleName="bulletinMainSection"
+							ui:field="pnlBulletinNotes">
+							<g:FlexTable width="100%" cellPadding="3" ui:field="tblNotes" />
+							<g:HorizontalPanel width="100%" height="80px">
+								<g:VerticalPanel width="100%" spacing="2">
+									<g:Label text="Direction :" width="180px" styleName="fieldTitle" />
+								</g:VerticalPanel>
+								<g:VerticalPanel width="100%" spacing="2">
+									<g:Label text="Remarque :" width="" styleName="fieldTitle" />
+									<g:TextArea width="" characterWidth="90"
+										ui:field="txtDirectionRemarque" styleName="sis-TextArea"
+										height="" visibleLines="6" />
+								</g:VerticalPanel>
+							</g:HorizontalPanel>
+							<g:Label ui:field="lblSpace" stylePrimaryName="hiddenText" />
+						</g:VerticalPanel>
+						<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_CENTER" ui:field="pnlRemarque"
+							spacing="2">
+							<g:Label
+								text="Chemin de Préville 3 - CP 550, 1003 Lausanne, Suisse - Tel.: +41 21 320 15 01 - Fax.: +41 312 67 00 "
+								styleName="bulletinFooter" ui:field="txtAddress1" />
+							<g:Label
+								text="Email: info@lemania.ch - Site internet : www.lemania.ch "
+								styleName="bulletinFooter" ui:field="txtAddress2" />
+						</g:VerticalPanel>
+					</g:VerticalPanel>
+				</g:VerticalPanel>
+				<g:VerticalPanel horizontalAlignment="ALIGN_RIGHT"
+					width="80%" spacing="5">
+					<g:HorizontalPanel width="400px">
+						<g:Button text="Enregistrer les remarques" ui:field="cmdSaveRemarques" />
+					</g:HorizontalPanel>
+				</g:VerticalPanel>
+			</g:VerticalPanel>
+			<g:Label styleName="hiddenText" text="." />
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>

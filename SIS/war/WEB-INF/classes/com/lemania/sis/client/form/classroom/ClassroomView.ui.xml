@@ -1,0 +1,59 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+             xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.cellview.client">
+    <g:HTMLPanel>
+    	<g:Label text="SALLE DE CLASSE" styleName="pageTitle" horizontalAlignment="ALIGN_CENTER"/>
+		<g:VerticalPanel width="100%" spacing="5" horizontalAlignment="ALIGN_CENTER">
+			<g:VerticalPanel width="543px" styleName="subSection" horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+				<g:Label text="Rajouter une salle de classe" styleName="sectionTitle"/>
+				<g:Grid cellPadding="2" cellSpacing="2" width="100%">
+				<g:row>
+					<g:customCell>
+						<g:Label text="Nom de la salle :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox width="" ui:field="txtClassroomName" styleName="sis_textbox"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Capacité :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:IntegerBox ui:field="txtCapacity"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Note :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:TextBox styleName="sis_textbox" ui:field="txtNote"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Actif :"/>
+					</g:customCell>
+					<g:customCell>
+						<g:CheckBox ui:field="chkActif" checked="true"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label/>
+					</g:customCell>
+					<g:customCell>
+						<g:HorizontalPanel width="100%" horizontalAlignment="ALIGN_RIGHT">
+								<g:Button ui:field="cmdAdd" text="Enregistrer">Ajouter</g:Button>
+							</g:HorizontalPanel>
+					</g:customCell>
+				</g:row>
+			</g:Grid>
+			</g:VerticalPanel>
+			<g:Label text="." styleName="hiddenText"/>
+			<g:Label text="Liste des salles de classe" styleName="sectionTitle"/>
+			<p1:CellTable ui:field="cellTable" width="100%"/>
+		</g:VerticalPanel>
+	</g:HTMLPanel>
+</ui:UiBinder>
