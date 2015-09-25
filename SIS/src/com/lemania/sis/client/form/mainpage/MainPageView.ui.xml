@@ -282,7 +282,6 @@
 											ui:field="cmdPasswordStudent" />
 										<g:Hyperlink targetHistoryToken="!contact" text="Aide / Contact"
 											ui:field="cmdHelpStudent" />
-<<<<<<< HEAD
 									</g:TreeItem>
 								</g:Tree>
 								<g:Tree styleName="sideBar" ui:field="treeMenuParent"
@@ -308,9 +307,6 @@
 							<!-- </g:Dock> -->
 						</container:FlowLayoutContainer>
 					</gxt:ContentPanel>
-<<<<<<< HEAD
-
-
 
 				</container:west>
 

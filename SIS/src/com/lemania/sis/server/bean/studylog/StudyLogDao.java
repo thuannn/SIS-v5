@@ -77,9 +77,10 @@ public class StudyLogDao extends MyDAOBase {
 	 * */
 	public StudyLog updateLog( String logTitle, String logContent, String logDate, String editLogId, String logFileName ) {
 		//
-		StudyLog studyLog = ofy().load().key( Key.create( StudyLog.class, Long.parseLong(editLogId)) ).now();
-		studyLog.setLogTitle(logTitle);
-		studyLog.setLogContent(logContent);
+		StudyLog studyLog = ofy().load().key( Key.create( StudyLog.class, Long.parseLong( editLogId )) ).now();
+		studyLog.setLogTitle( logTitle );
+		studyLog.setLogContent( logContent );
+		studyLog.setLogDate( logDate );
 		if ( ! logFileName.equals("") )					// since we're updating a log, only overwrite if user re-upload a file
 			studyLog.setFileName( logFileName );
 		//

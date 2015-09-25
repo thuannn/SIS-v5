@@ -270,8 +270,8 @@ public class StudyLogManagementPresenter
 			final String logContent, final String editLogId, final String logFileName, String logEntryDate,
 			List<String> assignmentIDs) {
 		//
-		if (logTitle.equals("") || logContent.equals("")) {
-			Window.alert(NotificationValues.invalid_input + " - Titre & Contenu");
+		if (logTitle.equals("") || logContent.equals("") || logEntryDate.equals("") ) {
+			Window.alert(NotificationValues.invalid_input + " - Titre, Contenu & Date");
 			return;
 		}
 		//
