@@ -336,6 +336,7 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 						txtTitle.setText(studyLog.getLogTitle());
 						txtContent.setText(studyLog.getLogContent());
 						lblEditLogId.setText(studyLog.getId().toString());
+						dateEntry.setValue( getDate( studyLog.getLogDate() ) );
 						isFileUploaded = false;
 						pnlLogAddAssignments.setVisible(false);
 						pnlAdd.setVisible(true);
@@ -387,6 +388,15 @@ class StudyLogManagementView extends ViewWithUiHandlers<StudyLogManagementUiHand
 		// Closoe the popup just in case
 		if (pp != null)
 			pp.hide();
+	}
+	
+	
+	/*
+	 * YYYYMMDD
+	 * */
+	public Date getDate( String strDate ) {
+		//
+		return DateTimeFormat.getFormat("yyyyMMdd").parse(strDate);
 	}
 	
 	
