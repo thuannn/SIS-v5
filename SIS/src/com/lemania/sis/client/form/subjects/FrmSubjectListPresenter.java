@@ -227,6 +227,7 @@ public class FrmSubjectListPresenter
 
 	
 	/*
+	 * GXT Grid editing
 	 * */
 	@Override
 	public void updateSubjectFromStore( Change<SubjectProxy, ?> change, SubjectProxy sp) {

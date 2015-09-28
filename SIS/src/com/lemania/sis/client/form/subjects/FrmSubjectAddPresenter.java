@@ -77,7 +77,7 @@ public class FrmSubjectAddPresenter
 	
 	/**/
 	@Override
-	public void addNewSubject(String subjectName, String defaultCoef, Boolean isActive) {
+	public void addNewSubject( String subjectName, String subjectName2, String defaultCoef, Boolean isActive ) {
 		//
 		if (this.currentUser.isReadOnly()){
 			Window.alert(NotificationValues.readOnly);
@@ -105,6 +105,7 @@ public class FrmSubjectAddPresenter
 		
 		SubjectProxy ep = rc.create(SubjectProxy.class);
 		ep.setSubjectName( subjectName );
+		ep.setSubjectName2( subjectName2 );
 		ep.setDefaultCoef( Double.parseDouble( defaultCoef ) );
 		ep.setIsActive( isActive );
 		rc.save(ep).fire( new Receiver<Void>() {

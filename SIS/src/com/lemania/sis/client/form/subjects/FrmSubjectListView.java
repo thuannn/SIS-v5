@@ -72,6 +72,7 @@ public class FrmSubjectListView extends
 	
 	//
 	ListStore<SubjectProxy> store;
+	
 
 	/*
 	 * */
@@ -119,6 +120,7 @@ public class FrmSubjectListView extends
 		gridView.getView().setForceFit(true);
 		gridView.setLoadMask(true);
 		gridView.setLoader(loader);
+		
 		//
 		// Set the size of this grid to fit the containing container
 		gridView.addViewReadyHandler( new ViewReadyHandler() {
@@ -134,6 +136,7 @@ public class FrmSubjectListView extends
 		});
 		
 		//
+		// Grid editing
 		GridEditing<SubjectProxy> editing = new GridInlineEditing<SubjectProxy>( gridView );
 		editing.addEditor( colName, new TextField() );
 		editing.addEditor( colName2, new TextField() );
@@ -164,6 +167,7 @@ public class FrmSubjectListView extends
 		pnlContainer.add(gridView);
 		pnlContainer.add(toolBar);
 	}
+	
 
 	/*
 	 * 20150728 - Add new column for the second subject name
