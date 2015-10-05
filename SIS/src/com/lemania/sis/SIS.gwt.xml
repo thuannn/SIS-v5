@@ -33,8 +33,14 @@
 	<extend-property name="locale" values="fr"/>
 	
 	<!-- 	BROWSER LIST -->
-<!-- 	<set-property name="user.agent" value="ie10,gecko1_8,safari"/> -->
-	<set-property name="gxt.user.agent" value="ie10,gecko1_9,safari5,chrome"/>
+	<set-property name="gxt.user.agent" value="ie9, ie10, gecko1_9, safari5, chrome" />
+ 
+	<!-- merge gecko1_9, safar5, and chrome into one permutation -->
+	<collapse-property name="gxt.user.agent" values="gecko1_9, safari5, chrome" />
+	<!-- merge ie9 and ie10 into one permutation with a wildcard-->
+	<collapse-property name="gxt.user.agent" values="ie*" />
+	<!-- merge all operating system permutations -->
+	<collapse-property name="user.agent.os" values="*" />
 	
 	
 	<!-- Inherit the default GWT style sheet.  You can change       -->

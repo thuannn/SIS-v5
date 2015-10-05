@@ -15,7 +15,7 @@
 				horizontalAlignment="ALIGN_CENTER" />
 
 			<g:VerticalPanel spacing="10">
-			<c:FramedPanel ui:field="form1" headingText="Modifier le mot de passe"
+			<c:FramedPanel ui:field="form1" headingText="Nouvelle matière"
 				width="500" bodyStyle="background: none; padding: 10px;">
 				<g:Grid cellPadding="5" cellSpacing="5" width="80%">
 					<g:row>
