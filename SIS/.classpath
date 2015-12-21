@@ -37,7 +37,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-servlet-3.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtp-all-1.4.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-4.0.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/httpcore-4.0.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.inject.jar"/>
@@ -46,13 +45,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/joda-time-2.7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jsr107cache-1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/maven-artifact-3.2.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/objectify-5.1.3.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/requestfactory-apt.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/requestfactory-client.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/requestfactory-server.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/twilio-java-sdk-3.4.6.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA-sources.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/appengine-gcs-client-0.4.4.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-fileupload-1.3.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/appengine-api-labs.jar"/>
@@ -61,5 +54,11 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance.jar"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/storage-v1r33lv1.18.0-rc"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt-theme-neptune.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwtp-all-1.5.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/objectify-5.1.9.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/requestfactory-apt.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/requestfactory-client.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/requestfactory-server.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

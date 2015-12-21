@@ -42,7 +42,6 @@ import com.lemania.sis.client.view.SettingsView;
 import com.lemania.sis.client.presenter.EcoleAddPresenter;
 import com.lemania.sis.client.presenter.ContactPresenter;
 import com.lemania.sis.client.presenter.SettingsPresenter;
-import com.lemania.sis.client.place.SISPlaceManager;
 import com.lemania.sis.client.presenter.CoursAddPresenter;
 import com.lemania.sis.client.presenter.CoursPresenter;
 import com.lemania.sis.client.presenter.FrmClasseListPresenter;
@@ -100,12 +99,20 @@ public class ClientModule extends AbstractPresenterModule {
 		install(new StudyLogManagementModule());
 		install(new StudyLogStudentModule());
 		
-		// Singletons
-		install(new DefaultModule(SISPlaceManager.class));
 		
-		// Set DefaultPlace to homepage
-		bindConstant().annotatedWith(DefaultPlace.class).to(
-				NameTokens.homepage);
+// 20151221 - Upgrade to GWTP 1.5.1
+//		// Singletons
+//		install(new DefaultModule(SISPlaceManager.class));
+//		// Set DefaultPlace to homepage
+//		bindConstant().annotatedWith(DefaultPlace.class).to(
+//				NameTokens.homepage);
+		
+		install(new DefaultModule.Builder()
+    		.defaultPlace(NameTokens.homepage)
+    		.errorPlace(NameTokens.homepage)
+    		.unauthorizedPlace(NameTokens.homepage)
+    		.build());
+		
 		
 		bindPresenter(MainPagePresenter.class, MainPagePresenter.MyView.class,
 				MainPageView.class, MainPagePresenter.MyProxy.class);
