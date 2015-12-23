@@ -466,7 +466,7 @@ public class BulletinSubjectDao extends MyDAOBase {
 						ps.setT2( Double.toString(((double)Math.round((totalT2+examT2)/(totalCoefT2+coefExamT2)*10))/10) );
 					if (totalT2>=0 && examT2<0)
 						ps.setT2( Double.toString(((double)Math.round(totalT2/totalCoefT2*10))/10 ));
-					if (totalT2<0 && examT1>=0)
+					if (totalT2<0 && examT2>=0)
 						ps.setT2( Double.toString(((double)Math.round(examT2/coefExamT2*10))/10 ));
 					if (totalT2<0 && examT2<0)
 						ps.setT2("");
