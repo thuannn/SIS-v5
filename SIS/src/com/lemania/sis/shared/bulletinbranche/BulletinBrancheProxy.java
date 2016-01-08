@@ -93,6 +93,67 @@ public interface BulletinBrancheProxy extends EntityProxy {
 	
 	public String getT4();
 	public void setT4(String t4);
+	
+	//
+	public String getC1_1();
+	public void setC1_1(String c1_1);
+
+	public String getC1_2();
+	public void setC1_2(String c1_2);
+
+	public String getC1_3();	
+	public void setC1_3(String c1_3);
+
+	public String getC1_4();
+	public void setC1_4(String c1_4);
+
+	public String getC1_5();
+	public void setC1_5(String c1_5);
+
+	public String getC2_1();
+	public void setC2_1(String c2_1);
+
+	public String getC2_2();
+	public void setC2_2(String c2_2);
+
+	public String getC2_3();
+	public void setC2_3(String c2_3);
+
+	public String getC2_4();
+	public void setC2_4(String c2_4);
+
+	public String getC2_5();
+	public void setC2_5(String c2_5);
+
+	public String getC3_1();	
+	public void setC3_1(String c3_1);
+
+	public String getC3_2();
+	public void setC3_2(String c3_2);
+
+	public String getC3_3();
+	public void setC3_3(String c3_3);
+
+	public String getC3_4();
+	public void setC3_4(String c3_4);
+
+	public String getC3_5();
+	public void setC3_5(String c3_5);
+
+	public String getC4_1();
+	public void setC4_1(String c4_1);
+
+	public String getC4_2();
+	public void setC4_2(String c4_2);
+
+	public String getC4_3();
+	public void setC4_3(String c4_3);
+
+	public String getC4_4();
+	public void setC4_4(String c4_4);
+
+	public String getC4_5();
+	public void setC4_5(String c4_5);
 
 	//
 	public String getAn();

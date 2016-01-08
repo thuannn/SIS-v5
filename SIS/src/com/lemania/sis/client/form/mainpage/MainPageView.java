@@ -120,6 +120,7 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@UiField Hyperlink cmdStudyLogMgt;
 	@UiField Hyperlink cmdStudyLogMgtProf;
 	@UiField Hyperlink cmdStudyLogStudent;
+	@UiField Hyperlink cmdStudyLogStudentProf;
 	@UiField Hyperlink cmdStudyLogStudentStudent;
 	@UiField Hyperlink cmdStudyLogStudentParent;
 	
@@ -779,6 +780,11 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	}
 	@UiHandler("cmdStudyLogStudentParent")
 	void onCmdStudyLogStudentParentClick(ClickEvent event) {
+		//
+		switchButton( (Hyperlink)event.getSource() );
+	}
+	@UiHandler("cmdStudyLogStudentProf")
+	void onCmdStudyLogStudentProfClick(ClickEvent event) {
 		//
 		switchButton( (Hyperlink)event.getSource() );
 	}

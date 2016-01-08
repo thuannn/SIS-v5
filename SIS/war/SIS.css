@@ -210,7 +210,9 @@
 
 /*******************/
 
-
+.space20 {
+	width: 20px;
+}
 
 
 body {
@@ -312,6 +314,33 @@ th {
     	padding: 0.5cm 0.5cm 0cm 0.5cm;
     	zoom: 95%;
     }
+}
+
+
+/*  MARK INPUT */
+
+.markInputText {
+	background-color: #CEF6F5;
+	border: 1px solid gray; 
+	width: 30px;
+}
+
+.markCoefText {
+	background-color: #f9f2b0;
+	border: 1px solid gray; 
+	width: 20px;
+}
+
+.averageGrade {
+	height:16px;
+	color: mediumblue;
+	font-size: 16px;
+	font-family: sans-serif;
+	font-weight: bold;
+	vertical-align: middle;
+	text-align: center;
+	background-color: azure;
+	border: 1px solid gray;
 }
 
 
@@ -802,15 +831,7 @@ Agenda
 	background-color: palegoldenrod;
 }
 
-.averageGrade {
-	height:20px;
-	color: mediumblue;
-	font-size: 14px;
-	font-family: sans-serif;
-	vertical-align: middle;
-	text-align: center;
-	background-color: azure;
-}
+
 
 .progressBar {
 	

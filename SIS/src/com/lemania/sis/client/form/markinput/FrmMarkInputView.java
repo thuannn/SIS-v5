@@ -26,6 +26,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.user.client.ui.DoubleBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.user.client.ui.IntegerBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -104,6 +105,27 @@ public class FrmMarkInputView extends ViewWithUiHandlers<FrmMarkInputUiHandler> 
 	@UiField Label txtT4;
 	@UiField VerticalPanel pnlT4;
 	
+	@UiField IntegerBox txt_c_1_1;
+	@UiField IntegerBox txt_c_1_2;
+	@UiField IntegerBox txt_c_1_3;
+	@UiField IntegerBox txt_c_1_4;
+	@UiField IntegerBox txt_c_1_5;
+	@UiField IntegerBox txt_c_2_1;
+	@UiField IntegerBox txt_c_2_2;
+	@UiField IntegerBox txt_c_2_3;
+	@UiField IntegerBox txt_c_2_4;
+	@UiField IntegerBox txt_c_2_5;
+	@UiField IntegerBox txt_c_3_1;
+	@UiField IntegerBox txt_c_3_2;
+	@UiField IntegerBox txt_c_3_3;
+	@UiField IntegerBox txt_c_3_4;
+	@UiField IntegerBox txt_c_3_5;
+	@UiField IntegerBox txt_c_4_1;
+	@UiField IntegerBox txt_c_4_2;
+	@UiField IntegerBox txt_c_4_3;
+	@UiField IntegerBox txt_c_4_4;
+	@UiField IntegerBox txt_c_4_5;
+	
 	
 	@Override
 	public void setProfListData(List<ProfessorProxy> profs) {
@@ -164,6 +186,30 @@ public class FrmMarkInputView extends ViewWithUiHandlers<FrmMarkInputUiHandler> 
 		txt_t_4_3.setText("");
 		txt_t_4_4.setText("");
 		txt_t_4_5.setText("");	
+		//
+		txt_c_1_1.setText("");
+		txt_c_1_2.setText("");
+		txt_c_1_3.setText("");
+		txt_c_1_4.setText("");
+		txt_c_1_5.setText("");
+		//
+		txt_c_2_1.setText("");
+		txt_c_2_2.setText("");
+		txt_c_2_3.setText("");
+		txt_c_2_4.setText("");
+		txt_c_2_5.setText("");
+		//
+		txt_c_3_1.setText("");
+		txt_c_3_2.setText("");
+		txt_c_3_3.setText("");
+		txt_c_3_4.setText("");
+		txt_c_3_5.setText("");
+		//
+		txt_c_4_1.setText("");
+		txt_c_4_2.setText("");
+		txt_c_4_3.setText("");
+		txt_c_4_4.setText("");
+		txt_c_4_5.setText("");	
 		//
 		txtRemarque1.setText("");
 		txtRemarque2.setText("");
@@ -500,7 +546,33 @@ public class FrmMarkInputView extends ViewWithUiHandlers<FrmMarkInputUiHandler> 
 		txt_t_4_3.setText( selectedBulletinBranche.getT4_3() );
 		txt_t_4_4.setText( selectedBulletinBranche.getT4_4() );
 		txt_t_4_5.setText( selectedBulletinBranche.getT4_5() );
+		
+		// ---
+		txt_c_1_1.setText( selectedBulletinBranche.getC1_1() );
+		txt_c_1_2.setText( selectedBulletinBranche.getC1_2() );
+		txt_c_1_3.setText( selectedBulletinBranche.getC1_3() );
+		txt_c_1_4.setText( selectedBulletinBranche.getC1_4() );
+		txt_c_1_5.setText( selectedBulletinBranche.getC1_5() );
 		//
+		txt_c_2_1.setText( selectedBulletinBranche.getC2_1() );
+		txt_c_2_2.setText( selectedBulletinBranche.getC2_2() );
+		txt_c_2_3.setText( selectedBulletinBranche.getC2_3() );
+		txt_c_2_4.setText( selectedBulletinBranche.getC2_4() );
+		txt_c_2_5.setText( selectedBulletinBranche.getC2_5() );
+		//
+		txt_c_3_1.setText( selectedBulletinBranche.getC3_1() );
+		txt_c_3_2.setText( selectedBulletinBranche.getC3_2() );
+		txt_c_3_3.setText( selectedBulletinBranche.getC3_3() );
+		txt_c_3_4.setText( selectedBulletinBranche.getC3_4() );
+		txt_c_3_5.setText( selectedBulletinBranche.getC3_5() );
+		//
+		txt_c_4_1.setText( selectedBulletinBranche.getC4_1() );
+		txt_c_4_2.setText( selectedBulletinBranche.getC4_2() );
+		txt_c_4_3.setText( selectedBulletinBranche.getC4_3() );
+		txt_c_4_4.setText( selectedBulletinBranche.getC4_4() );
+		txt_c_4_5.setText( selectedBulletinBranche.getC4_5() );
+		
+		// ---
 		txtT1.setText( selectedBulletinBranche.getT1() );
 		txtT2.setText( selectedBulletinBranche.getT2() );
 		txtT3.setText( selectedBulletinBranche.getT3() );
@@ -532,7 +604,12 @@ public class FrmMarkInputView extends ViewWithUiHandlers<FrmMarkInputUiHandler> 
 					txt_t_2_1.getText(), txt_t_2_2.getText(), txt_t_2_3.getText(), txt_t_2_4.getText(), txt_t_2_5.getText(), 
 					txt_t_3_1.getText(), txt_t_3_2.getText(), txt_t_3_3.getText(), txt_t_3_4.getText(), txt_t_3_5.getText(), 
 					txt_t_4_1.getText(), txt_t_4_2.getText(), txt_t_4_3.getText(), txt_t_4_4.getText(), txt_t_4_5.getText(), 
-					txtRemarque1.getText(), txtRemarque2.getText(), txtRemarque3.getText(), txtRemarque4.getText() );
+					txtRemarque1.getText(), txtRemarque2.getText(), txtRemarque3.getText(), txtRemarque4.getText(), 
+					txt_c_1_1.getText(), txt_c_1_2.getText(), txt_c_1_3.getText(), txt_c_1_4.getText(), txt_c_1_5.getText(), 
+					txt_c_2_1.getText(), txt_c_2_2.getText(), txt_c_2_3.getText(), txt_c_2_4.getText(), txt_c_2_5.getText(), 
+					txt_c_3_1.getText(), txt_c_3_2.getText(), txt_c_3_3.getText(), txt_c_3_4.getText(), txt_c_3_5.getText(), 
+					txt_c_4_1.getText(), txt_c_4_2.getText(), txt_c_4_3.getText(), txt_c_4_4.getText(), txt_c_4_5.getText()
+					);
 	}
 
 	/*

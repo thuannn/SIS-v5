@@ -42,6 +42,7 @@ import com.lemania.sis.shared.service.EventSourceRequestTransport;
 import com.lemania.sis.shared.service.ProfessorRequestFactory;
 import com.lemania.sis.shared.service.ProfessorRequestFactory.ProfessorRequestContext;
 import com.lemania.sis.shared.service.SettingOptionRequestFactory.SettingOptionRequestContext;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
 public class FrmMarkInputPresenter extends
 		Presenter<FrmMarkInputPresenter.MyView, FrmMarkInputPresenter.MyProxy> 
@@ -273,13 +274,16 @@ public class FrmMarkInputPresenter extends
 			String t_2_1, String t_2_2, String t_2_3, String t_2_4, String t_2_5,
 			String t_3_1, String t_3_2, String t_3_3, String t_3_4,	String t_3_5, 
 			String t_4_1, String t_4_2, String t_4_3, String t_4_4,	String t_4_5, 
-			final String remarque1, final String remarque2, final String remarque3, final String remarque4 ) {
+			final String remarque1, final String remarque2, final String remarque3, final String remarque4,
+			String c_1_1, String c_1_2,	String c_1_3, String c_1_4, String c_1_5, 
+			String c_2_1, String c_2_2, String c_2_3, String c_2_4, String c_2_5,
+			String c_3_1, String c_3_2, String c_3_3, String c_3_4,	String c_3_5, 
+			String c_4_1, String c_4_2, String c_4_3, String c_4_4,	String c_4_5 ) {
 		//
 		if (this.currentUser.isReadOnly()){
 			Window.alert(NotificationValues.readOnly);
 			return;
-		}
-		
+		}	
 		//
 		if (bulletinSubject == null){
 			Window.alert( NotificationValues.invalid_input + " - Merci de choisir l'élève à saisir les notes.");
@@ -288,6 +292,28 @@ public class FrmMarkInputPresenter extends
 		//
 		if (bulletinBranche == null){
 			Window.alert( NotificationValues.invalid_input + " - Merci de choisir une branche à choisir les notes.");
+			return;
+		}
+		//
+		if ( !checkNoteCoef(t_1_1, c_1_1)
+				|| !checkNoteCoef(t_1_2, c_1_2)
+				|| !checkNoteCoef(t_1_3, c_1_3)
+				|| !checkNoteCoef(t_1_4, c_1_4)
+				|| !checkNoteCoef(t_2_1, c_2_1)
+				|| !checkNoteCoef(t_2_2, c_2_2)
+				|| !checkNoteCoef(t_2_3, c_2_3)
+				|| !checkNoteCoef(t_2_4, c_2_4)
+				|| !checkNoteCoef(t_3_1, c_3_1)
+				|| !checkNoteCoef(t_3_2, c_3_2)
+				|| !checkNoteCoef(t_3_3, c_3_3)
+				|| !checkNoteCoef(t_3_4, c_3_4)
+				|| !checkNoteCoef(t_4_1, c_4_1)
+				|| !checkNoteCoef(t_4_2, c_4_2)
+				|| !checkNoteCoef(t_4_3, c_4_3)
+				|| !checkNoteCoef(t_4_4, c_4_4)
+				) {
+			AlertMessageBox messageBox = new AlertMessageBox("", NotificationValues.invalid_input + " Merci de saisir les notes avec les coefficients.");
+			messageBox.show();
 			return;
 		}
 		// 
@@ -301,28 +327,52 @@ public class FrmMarkInputPresenter extends
 		bulletinBranche.setT1_3(t_1_3);
 		bulletinBranche.setT1_4(t_1_4);
 		bulletinBranche.setT1_5(t_1_5);
-		bulletinBranche.setT1( calculateAverage(t_1_1, t_1_2, t_1_3, t_1_4, t_1_5));
+		bulletinBranche.setC1_1(c_1_1);
+		bulletinBranche.setC1_2(c_1_2);
+		bulletinBranche.setC1_3(c_1_3);
+		bulletinBranche.setC1_4(c_1_4);
+		bulletinBranche.setC1_5(c_1_5);
+		bulletinBranche.setT1( calculateAverage(t_1_1, t_1_2, t_1_3, t_1_4, t_1_5, 
+													c_1_1, c_1_2, c_1_3, c_1_4, c_1_5));
 		//
 		bulletinBranche.setT2_1(t_2_1);
 		bulletinBranche.setT2_2(t_2_2);
 		bulletinBranche.setT2_3(t_2_3);
 		bulletinBranche.setT2_4(t_2_4);
 		bulletinBranche.setT2_5(t_2_5);
-		bulletinBranche.setT2( calculateAverage(t_2_1, t_2_2, t_2_3, t_2_4, t_2_5));
+		bulletinBranche.setC2_1(c_2_1);
+		bulletinBranche.setC2_2(c_2_2);
+		bulletinBranche.setC2_3(c_2_3);
+		bulletinBranche.setC2_4(c_2_4);
+		bulletinBranche.setC2_5(c_2_5);
+		bulletinBranche.setT2( calculateAverage(t_2_1, t_2_2, t_2_3, t_2_4, t_2_5,
+													c_2_1, c_2_2, c_2_3, c_2_4, c_2_5));
 		//
 		bulletinBranche.setT3_1(t_3_1);
 		bulletinBranche.setT3_2(t_3_2);
 		bulletinBranche.setT3_3(t_3_3);
 		bulletinBranche.setT3_4(t_3_4);
 		bulletinBranche.setT3_5(t_3_5);
-		bulletinBranche.setT3( calculateAverage(t_3_1, t_3_2, t_3_3, t_3_4, t_3_5));
+		bulletinBranche.setC3_1(c_3_1);
+		bulletinBranche.setC3_2(c_3_2);
+		bulletinBranche.setC3_3(c_3_3);
+		bulletinBranche.setC3_4(c_3_4);
+		bulletinBranche.setC3_5(c_3_5);
+		bulletinBranche.setT3( calculateAverage(t_3_1, t_3_2, t_3_3, t_3_4, t_3_5,
+													c_3_1, c_3_2, c_3_3, c_3_4, c_3_5));
 		//
 		bulletinBranche.setT4_1(t_4_1);
 		bulletinBranche.setT4_2(t_4_2);
 		bulletinBranche.setT4_3(t_4_3);
 		bulletinBranche.setT4_4(t_4_4);
 		bulletinBranche.setT4_5(t_4_5);
-		bulletinBranche.setT4( calculateAverage(t_4_1, t_4_2, t_4_3, t_4_4, t_4_5));
+		bulletinBranche.setC4_1(c_4_1);
+		bulletinBranche.setC4_2(c_4_2);
+		bulletinBranche.setC4_3(c_4_3);
+		bulletinBranche.setC4_4(c_4_4);
+		bulletinBranche.setC4_5(c_4_5);
+		bulletinBranche.setT4( calculateAverage(t_4_1, t_4_2, t_4_3, t_4_4, t_4_5,
+													c_4_1, c_4_2, c_4_3, c_4_4, c_4_5));
 		//
 		rcBranche.saveAndReturn(bulletinBranche).fire(new Receiver<BulletinBrancheProxy>(){
 			@Override
@@ -336,18 +386,33 @@ public class FrmMarkInputPresenter extends
 		});
 	}
 
+	
+	
 	/*
 	 * */
-	private String calculateAverage(String t1, String t2, String t3, String t4, String t5) {
+	private boolean checkNoteCoef(String t_1_1, String c_1_1) {
+		//
+		if ( (!t_1_1.equals("") && !c_1_1.equals("")) 
+				|| (t_1_1.equals("") && c_1_1.equals("")) )
+			return true;
+		else
+			return false;
+	}
+
+
+	/*
+	 * */
+	private String calculateAverage(String t1, String t2, String t3, String t4, String t5, 
+			String c1, String c2, String c3, String c4, String c5) {
 		//
 		Double average = 0.0;
 		Double total = 0.0;
 		Integer count = 0;
-		if (!t1.isEmpty()) { total = total + Double.parseDouble(t1); count++; }
-		if (!t2.isEmpty()) { total = total + Double.parseDouble(t2); count++; }
-		if (!t3.isEmpty()) { total = total + Double.parseDouble(t3); count++; }
-		if (!t4.isEmpty()) { total = total + Double.parseDouble(t4); count++; }
-		if (!t5.isEmpty()) { total = total + Double.parseDouble(t5); count++; }
+		if (!t1.isEmpty()) { total = total + Double.parseDouble(t1) * Double.parseDouble(c1); count = count + Integer.parseInt(c1); }
+		if (!t2.isEmpty()) { total = total + Double.parseDouble(t2) * Double.parseDouble(c2); count = count + Integer.parseInt(c2); }
+		if (!t3.isEmpty()) { total = total + Double.parseDouble(t3) * Double.parseDouble(c3); count = count + Integer.parseInt(c3); }
+		if (!t4.isEmpty()) { total = total + Double.parseDouble(t4) * Double.parseDouble(c4); count = count + Integer.parseInt(c4); }
+		if (!t5.isEmpty()) { total = total + Double.parseDouble(t5) * Double.parseDouble(c5); count = count + Integer.parseInt(c5); }
 		if (count>0) {
 			average = ((double)Math.round(total / count * 10)) / 10;
 			return Double.toString(average);

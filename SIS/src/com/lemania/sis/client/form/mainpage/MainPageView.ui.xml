@@ -254,6 +254,8 @@
 										<g:TreeItem text="Cahier de texte" state="true">
 											<g:Hyperlink targetHistoryToken="studylogmgt"
 												text="Cahier de texte" ui:field="cmdStudyLogMgtProf" />
+											<g:Hyperlink targetHistoryToken="studylogstudent"
+												text="Liste par élève" ui:field="cmdStudyLogStudentProf" />
 										</g:TreeItem>
 										<g:TreeItem text="Notes" state="true">
 											<g:Hyperlink text="Saisir les notes"

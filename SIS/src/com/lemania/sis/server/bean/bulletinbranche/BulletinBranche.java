@@ -41,7 +41,31 @@ public class BulletinBranche extends DatastoreObject implements Comparable<Bulle
 	private String t4_3 = "";
 	private String t4_4 = "";
 	private String t4_5 = "";
+	//
+	private String c1_1 = "";
+	private String c1_2 = "";
+	private String c1_3 = "";
+	private String c1_4 = "";
+	private String c1_5 = "";
 	
+	private String c2_1 = "";
+	private String c2_2 = "";
+	private String c2_3 = "";
+	private String c2_4 = "";
+	private String c2_5 = "";
+	
+	private String c3_1 = "";
+	private String c3_2 = "";
+	private String c3_3 = "";
+	private String c3_4 = "";
+	private String c3_5 = "";
+	
+	private String c4_1 = "";
+	private String c4_2 = "";
+	private String c4_3 = "";
+	private String c4_4 = "";
+	private String c4_5 = "";
+	//
 	private String T1 = "";
 	private String T2 = "";
 	private String T3 = "";
@@ -295,5 +319,165 @@ public class BulletinBranche extends DatastoreObject implements Comparable<Bulle
 
 	public void setT4(String t4) {
 		T4 = t4;
+	}
+
+	public String getC1_1() {
+		return c1_1;
+	}
+
+	public void setC1_1(String c1_1) {
+		this.c1_1 = c1_1;
+	}
+
+	public String getC1_2() {
+		return c1_2;
+	}
+
+	public void setC1_2(String c1_2) {
+		this.c1_2 = c1_2;
+	}
+
+	public String getC1_3() {
+		return c1_3;
+	}
+
+	public void setC1_3(String c1_3) {
+		this.c1_3 = c1_3;
+	}
+
+	public String getC1_4() {
+		return c1_4;
+	}
+
+	public void setC1_4(String c1_4) {
+		this.c1_4 = c1_4;
+	}
+
+	public String getC1_5() {
+		return c1_5;
+	}
+
+	public void setC1_5(String c1_5) {
+		this.c1_5 = c1_5;
+	}
+
+	public String getC2_1() {
+		return c2_1;
+	}
+
+	public void setC2_1(String c2_1) {
+		this.c2_1 = c2_1;
+	}
+
+	public String getC2_2() {
+		return c2_2;
+	}
+
+	public void setC2_2(String c2_2) {
+		this.c2_2 = c2_2;
+	}
+
+	public String getC2_3() {
+		return c2_3;
+	}
+
+	public void setC2_3(String c2_3) {
+		this.c2_3 = c2_3;
+	}
+
+	public String getC2_4() {
+		return c2_4;
+	}
+
+	public void setC2_4(String c2_4) {
+		this.c2_4 = c2_4;
+	}
+
+	public String getC2_5() {
+		return c2_5;
+	}
+
+	public void setC2_5(String c2_5) {
+		this.c2_5 = c2_5;
+	}
+
+	public String getC3_1() {
+		return c3_1;
+	}
+
+	public void setC3_1(String c3_1) {
+		this.c3_1 = c3_1;
+	}
+
+	public String getC3_2() {
+		return c3_2;
+	}
+
+	public void setC3_2(String c3_2) {
+		this.c3_2 = c3_2;
+	}
+
+	public String getC3_3() {
+		return c3_3;
+	}
+
+	public void setC3_3(String c3_3) {
+		this.c3_3 = c3_3;
+	}
+
+	public String getC3_4() {
+		return c3_4;
+	}
+
+	public void setC3_4(String c3_4) {
+		this.c3_4 = c3_4;
+	}
+
+	public String getC3_5() {
+		return c3_5;
+	}
+
+	public void setC3_5(String c3_5) {
+		this.c3_5 = c3_5;
+	}
+
+	public String getC4_1() {
+		return c4_1;
+	}
+
+	public void setC4_1(String c4_1) {
+		this.c4_1 = c4_1;
+	}
+
+	public String getC4_2() {
+		return c4_2;
+	}
+
+	public void setC4_2(String c4_2) {
+		this.c4_2 = c4_2;
+	}
+
+	public String getC4_3() {
+		return c4_3;
+	}
+
+	public void setC4_3(String c4_3) {
+		this.c4_3 = c4_3;
+	}
+
+	public String getC4_4() {
+		return c4_4;
+	}
+
+	public void setC4_4(String c4_4) {
+		this.c4_4 = c4_4;
+	}
+
+	public String getC4_5() {
+		return c4_5;
+	}
+
+	public void setC4_5(String c4_5) {
+		this.c4_5 = c4_5;
 	}
 }

@@ -19,5 +19,10 @@ public interface FrmMarkInputUiHandler extends UiHandlers {
 			String t_2_1, String t_2_2, String t_2_3, String t_2_4, String t_2_5, 
 			String t_3_1, String t_3_2, String t_3_3, String t_3_4, String t_3_5,
 			String t_4_1, String t_4_2, String t_4_3, String t_4_4, String t_4_5,
-			String remarque1, String remarque2, String remarque3, String remarque4 );
+			String remarque1, String remarque2, String remarque3, String remarque4,
+			String c_1_1, String c_1_2, String c_1_3, String c_1_4, String c_1_5, 
+			String c_2_1, String c_2_2, String c_2_3, String c_2_4, String c_2_5, 
+			String c_3_1, String c_3_2, String c_3_3, String c_3_4, String c_3_5,
+			String c_4_1, String c_4_2, String c_4_3, String c_4_4, String c_4_5
+			);
 }

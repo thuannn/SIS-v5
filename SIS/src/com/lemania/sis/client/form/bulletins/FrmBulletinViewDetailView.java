@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
@@ -106,6 +107,20 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 	
 	/*
 	 * */
+	String showGradeCoefFormat(String grade, String coef) {
+		//
+		if (grade.equals(""))
+			return "";
+		else {
+			if (coef.equals(""))
+				return grade;
+			else
+				return grade + " (" + coef + ")";
+		}
+	}
+	
+	/*
+	 * */
 	@UiHandler("lstBulletins")
 	void onLstBulletinsChange(ChangeEvent event) {
 		//		
@@ -161,18 +176,18 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 					tblBulletin.setText(rowCount, 0, branche.getBulletinBrancheName());
 					tblBulletin.setText(rowCount, 1, branche.getBrancheCoef().toString());
 					//
-					tblBulletin.setText(rowCount, 2, branche.getT1_1());
-					tblBulletin.setText(rowCount, 3, branche.getT1_2());
-					tblBulletin.setText(rowCount, 4, branche.getT1_3());
-					tblBulletin.setText(rowCount, 5, branche.getT1_4());
-					tblBulletin.setText(rowCount, 6, branche.getT1_5());
+					tblBulletin.setText(rowCount, 2, showGradeCoefFormat(branche.getT1_1(), branche.getC1_1()) );
+					tblBulletin.setText(rowCount, 3, showGradeCoefFormat(branche.getT1_2(), branche.getC1_2()) );
+					tblBulletin.setText(rowCount, 4, showGradeCoefFormat(branche.getT1_3(), branche.getC1_3()) );
+					tblBulletin.setText(rowCount, 5, showGradeCoefFormat(branche.getT1_4(), branche.getC1_4()) );
+					tblBulletin.setText(rowCount, 6, showGradeCoefFormat(branche.getT1_5(), branche.getC1_5()) );
 					tblBulletin.setText(rowCount, 7, branche.getT1());
 					//
-					tblBulletin.setText(rowCount, 8, branche.getT2_1());
-					tblBulletin.setText(rowCount, 9, branche.getT2_2());
-					tblBulletin.setText(rowCount, 10, branche.getT2_3());
-					tblBulletin.setText(rowCount, 11, branche.getT2_4());
-					tblBulletin.setText(rowCount, 12, branche.getT2_5());
+					tblBulletin.setText(rowCount, 8, showGradeCoefFormat(branche.getT2_1(), branche.getC2_1()) );
+					tblBulletin.setText(rowCount, 9, showGradeCoefFormat(branche.getT2_2(), branche.getC2_2()) );
+					tblBulletin.setText(rowCount, 10, showGradeCoefFormat(branche.getT2_3(), branche.getC2_3()) );
+					tblBulletin.setText(rowCount, 11, showGradeCoefFormat(branche.getT2_4(), branche.getC2_4()) );
+					tblBulletin.setText(rowCount, 12, showGradeCoefFormat(branche.getT2_5(), branche.getC2_5()) );
 					tblBulletin.setText(rowCount, 13, branche.getT2());
 				}
 			}
@@ -279,25 +294,25 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 					tblBulletin.setText(rowCount, 0, branche.getBulletinBrancheName());
 					tblBulletin.setText(rowCount, 1, branche.getBrancheCoef().toString());
 					//
-					tblBulletin.setText(rowCount, 2, branche.getT1_1());
-					tblBulletin.setText(rowCount, 3, branche.getT1_2());
-					tblBulletin.setText(rowCount, 4, branche.getT1_3());
-					tblBulletin.setText(rowCount, 5, branche.getT1_4());
-					tblBulletin.setText(rowCount, 6, branche.getT1_5());
+					tblBulletin.setText(rowCount, 2, showGradeCoefFormat(branche.getT1_1(), branche.getC1_1()) );
+					tblBulletin.setText(rowCount, 3, showGradeCoefFormat(branche.getT1_2(), branche.getC1_2()) );
+					tblBulletin.setText(rowCount, 4, showGradeCoefFormat(branche.getT1_3(), branche.getC1_3()) );
+					tblBulletin.setText(rowCount, 5, showGradeCoefFormat(branche.getT1_4(), branche.getC1_4()) );
+					tblBulletin.setText(rowCount, 6, showGradeCoefFormat(branche.getT1_5(), branche.getC1_5()) );
 					tblBulletin.setText(rowCount, 7, branche.getT1());
 					//
-					tblBulletin.setText(rowCount, 8, branche.getT2_1());
-					tblBulletin.setText(rowCount, 9, branche.getT2_2());
-					tblBulletin.setText(rowCount, 10, branche.getT2_3());
-					tblBulletin.setText(rowCount, 11, branche.getT2_4());
-					tblBulletin.setText(rowCount, 12, branche.getT2_5());
+					tblBulletin.setText(rowCount, 8, showGradeCoefFormat(branche.getT2_1(), branche.getC2_1()) );
+					tblBulletin.setText(rowCount, 9, showGradeCoefFormat(branche.getT2_2(), branche.getC2_2()) );
+					tblBulletin.setText(rowCount, 10, showGradeCoefFormat(branche.getT2_3(), branche.getC2_3()) );
+					tblBulletin.setText(rowCount, 11, showGradeCoefFormat(branche.getT2_4(), branche.getC2_4()) );
+					tblBulletin.setText(rowCount, 12, showGradeCoefFormat(branche.getT2_5(), branche.getC2_5()) );
 					tblBulletin.setText(rowCount, 13, branche.getT2());
 					//
-					tblBulletin.setText(rowCount, 14, branche.getT3_1());
-					tblBulletin.setText(rowCount, 15, branche.getT3_2());
-					tblBulletin.setText(rowCount, 16, branche.getT3_3());
-					tblBulletin.setText(rowCount, 17, branche.getT3_4());
-					tblBulletin.setText(rowCount, 18, branche.getT3_5());
+					tblBulletin.setText(rowCount, 14, showGradeCoefFormat(branche.getT3_1(), branche.getC3_1()) );
+					tblBulletin.setText(rowCount, 15, showGradeCoefFormat(branche.getT3_2(), branche.getC3_2()) );
+					tblBulletin.setText(rowCount, 16, showGradeCoefFormat(branche.getT3_3(), branche.getC3_3()) );
+					tblBulletin.setText(rowCount, 17, showGradeCoefFormat(branche.getT3_4(), branche.getC3_4()) );
+					tblBulletin.setText(rowCount, 18, showGradeCoefFormat(branche.getT3_5(), branche.getC3_5()) );
 					tblBulletin.setText(rowCount, 19, branche.getT3());
 				}
 			}
@@ -375,32 +390,32 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 					tblBulletin.setText(rowCount, 0, branche.getBulletinBrancheName());
 					tblBulletin.setText(rowCount, 1, branche.getBrancheCoef().toString());
 					//
-					tblBulletin.setText(rowCount, 2, branche.getT1_1());
-					tblBulletin.setText(rowCount, 3, branche.getT1_2());
-					tblBulletin.setText(rowCount, 4, branche.getT1_3());
-					tblBulletin.setText(rowCount, 5, branche.getT1_4());
-					tblBulletin.setText(rowCount, 6, branche.getT1_5());
+					tblBulletin.setText(rowCount, 2, showGradeCoefFormat(branche.getT1_1(), branche.getC1_1()) );
+					tblBulletin.setText(rowCount, 3, showGradeCoefFormat(branche.getT1_2(), branche.getC1_2()) );
+					tblBulletin.setText(rowCount, 4, showGradeCoefFormat(branche.getT1_3(), branche.getC1_3()) );
+					tblBulletin.setText(rowCount, 5, showGradeCoefFormat(branche.getT1_4(), branche.getC1_4()) );
+					tblBulletin.setText(rowCount, 6, showGradeCoefFormat(branche.getT1_5(), branche.getC1_5()) );
 					tblBulletin.setText(rowCount, 7, branche.getT1());
 					//
-					tblBulletin.setText(rowCount, 8, branche.getT2_1());
-					tblBulletin.setText(rowCount, 9, branche.getT2_2());
-					tblBulletin.setText(rowCount, 10, branche.getT2_3());
-					tblBulletin.setText(rowCount, 11, branche.getT2_4());
-					tblBulletin.setText(rowCount, 12, branche.getT2_5());
+					tblBulletin.setText(rowCount, 8, showGradeCoefFormat(branche.getT2_1(), branche.getC2_1()) );
+					tblBulletin.setText(rowCount, 9, showGradeCoefFormat(branche.getT2_2(), branche.getC2_2()) );
+					tblBulletin.setText(rowCount, 10, showGradeCoefFormat(branche.getT2_3(), branche.getC2_3()) );
+					tblBulletin.setText(rowCount, 11, showGradeCoefFormat(branche.getT2_4(), branche.getC2_4()) );
+					tblBulletin.setText(rowCount, 12, showGradeCoefFormat(branche.getT2_5(), branche.getC2_5()) );
 					tblBulletin.setText(rowCount, 13, branche.getT2());
 					//
-					tblBulletin.setText(rowCount, 14, branche.getT3_1());
-					tblBulletin.setText(rowCount, 15, branche.getT3_2());
-					tblBulletin.setText(rowCount, 16, branche.getT3_3());
-					tblBulletin.setText(rowCount, 17, branche.getT3_4());
-					tblBulletin.setText(rowCount, 18, branche.getT3_5());
+					tblBulletin.setText(rowCount, 14, showGradeCoefFormat(branche.getT3_1(), branche.getC3_1()) );
+					tblBulletin.setText(rowCount, 15, showGradeCoefFormat(branche.getT3_2(), branche.getC3_2()) );
+					tblBulletin.setText(rowCount, 16, showGradeCoefFormat(branche.getT3_3(), branche.getC3_3()) );
+					tblBulletin.setText(rowCount, 17, showGradeCoefFormat(branche.getT3_4(), branche.getC3_4()) );
+					tblBulletin.setText(rowCount, 18, showGradeCoefFormat(branche.getT3_5(), branche.getC3_5()) );
 					tblBulletin.setText(rowCount, 19, branche.getT3());
 					//
-					tblBulletin.setText(rowCount, 20, branche.getT4_1());
-					tblBulletin.setText(rowCount, 21, branche.getT4_2());
-					tblBulletin.setText(rowCount, 22, branche.getT4_3());
-					tblBulletin.setText(rowCount, 23, branche.getT4_4());
-					tblBulletin.setText(rowCount, 24, branche.getT4_5());
+					tblBulletin.setText(rowCount, 20, showGradeCoefFormat(branche.getT4_1(), branche.getC4_1()) );
+					tblBulletin.setText(rowCount, 21, showGradeCoefFormat(branche.getT4_2(), branche.getC4_2()) );
+					tblBulletin.setText(rowCount, 22, showGradeCoefFormat(branche.getT4_3(), branche.getC4_3()) );
+					tblBulletin.setText(rowCount, 23, showGradeCoefFormat(branche.getT4_4(), branche.getC4_4()) );
+					tblBulletin.setText(rowCount, 24, showGradeCoefFormat(branche.getT4_5(), branche.getC4_5()) );
 					tblBulletin.setText(rowCount, 25, branche.getT4());
 				}
 			}
