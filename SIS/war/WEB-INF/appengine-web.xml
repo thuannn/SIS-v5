@@ -2,7 +2,7 @@
 
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
-	<application>sis-dev</application>
+	<application>lemania-eprofil</application>
 
 	<version>5-20160108-1</version>
 
