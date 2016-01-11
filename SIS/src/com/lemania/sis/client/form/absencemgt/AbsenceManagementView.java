@@ -987,7 +987,7 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 					selectedParent.geteMail(), 
 					txtSendMessage.getText() );
 		}
-		
+		//
 		if ( sendMethod == messageType.SMS ) {
 			if ( !selectedParent.isAcceptSMS() ) {
 				Window.alert( "Le responsable n'a pas choisi cette option de notification.");
@@ -1024,9 +1024,9 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 		lstParents.addItem("Choisir");
 		for ( ParentProxy pp : providerParents.getList() ) {
 			if ( pp.isAcceptEmail() && (type == messageType.Email) )
-				lstParents.addItem( pp.getFirstName() + " " + pp.getLastName() + " - " + pp.geteMail() + " - " + pp.getPhoneMobile() );
+				lstParents.addItem( pp.getFirstName() + " " + pp.getLastName() + " - " + pp.geteMail() + " - " + pp.getPhoneMobile(), pp.getId().toString() );
 			if ( pp.isAcceptSMS() && (type == messageType.SMS) )
-				lstParents.addItem( pp.getFirstName() + " " + pp.getLastName() + " - " + pp.geteMail() + " - " + pp.getPhoneMobile() );
+				lstParents.addItem( pp.getFirstName() + " " + pp.getLastName() + " - " + pp.geteMail() + " - " + pp.getPhoneMobile(), pp.getId().toString() );
 		}
 	}
 	
@@ -1036,9 +1036,13 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 	@UiHandler("lstParents")
 	void onLstParentsChange(ChangeEvent event) {
 		//
-		selectedParentIndex = lstParents.getSelectedIndex() - 1;
-		if ( selectedParentIndex > -1)
-			selectedParent = providerParents.getList().get(selectedParentIndex);
+		String selectedParentID = lstParents.getSelectedValue();
+		for ( ParentProxy pp : providerParents.getList() ) {
+			if (pp.getId().toString().equals( selectedParentID )) {
+				selectedParent = pp;
+				break;
+			}
+		}
 	}
 
 	
