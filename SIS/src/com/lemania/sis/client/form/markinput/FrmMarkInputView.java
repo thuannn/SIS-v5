@@ -548,29 +548,29 @@ public class FrmMarkInputView extends ViewWithUiHandlers<FrmMarkInputUiHandler> 
 		txt_t_4_5.setText( selectedBulletinBranche.getT4_5() );
 		
 		// ---
-		txt_c_1_1.setText( selectedBulletinBranche.getC1_1() );
-		txt_c_1_2.setText( selectedBulletinBranche.getC1_2() );
-		txt_c_1_3.setText( selectedBulletinBranche.getC1_3() );
-		txt_c_1_4.setText( selectedBulletinBranche.getC1_4() );
-		txt_c_1_5.setText( selectedBulletinBranche.getC1_5() );
+		txt_c_1_1.setText( selectedBulletinBranche.getC1_1().equals("") ? "1" : selectedBulletinBranche.getC1_1() );
+		txt_c_1_2.setText( selectedBulletinBranche.getC1_2().equals("") ? "1" : selectedBulletinBranche.getC1_2() );
+		txt_c_1_3.setText( selectedBulletinBranche.getC1_3().equals("") ? "1" : selectedBulletinBranche.getC1_3() );
+		txt_c_1_4.setText( selectedBulletinBranche.getC1_4().equals("") ? "1" : selectedBulletinBranche.getC1_4() );
+		txt_c_1_5.setText( selectedBulletinBranche.getC1_5().equals("") ? "1" : selectedBulletinBranche.getC1_5() );
 		//
-		txt_c_2_1.setText( selectedBulletinBranche.getC2_1() );
-		txt_c_2_2.setText( selectedBulletinBranche.getC2_2() );
-		txt_c_2_3.setText( selectedBulletinBranche.getC2_3() );
-		txt_c_2_4.setText( selectedBulletinBranche.getC2_4() );
-		txt_c_2_5.setText( selectedBulletinBranche.getC2_5() );
+		txt_c_2_1.setText( selectedBulletinBranche.getC2_1().equals("") ? "1" : selectedBulletinBranche.getC2_1() );
+		txt_c_2_2.setText( selectedBulletinBranche.getC2_2().equals("") ? "1" : selectedBulletinBranche.getC2_2() );
+		txt_c_2_3.setText( selectedBulletinBranche.getC2_3().equals("") ? "1" : selectedBulletinBranche.getC2_3() );
+		txt_c_2_4.setText( selectedBulletinBranche.getC2_4().equals("") ? "1" : selectedBulletinBranche.getC2_4() );
+		txt_c_2_5.setText( selectedBulletinBranche.getC2_5().equals("") ? "1" : selectedBulletinBranche.getC2_5() );
 		//
-		txt_c_3_1.setText( selectedBulletinBranche.getC3_1() );
-		txt_c_3_2.setText( selectedBulletinBranche.getC3_2() );
-		txt_c_3_3.setText( selectedBulletinBranche.getC3_3() );
-		txt_c_3_4.setText( selectedBulletinBranche.getC3_4() );
-		txt_c_3_5.setText( selectedBulletinBranche.getC3_5() );
+		txt_c_3_1.setText( selectedBulletinBranche.getC3_1().equals("") ? "1" : selectedBulletinBranche.getC3_1() );
+		txt_c_3_2.setText( selectedBulletinBranche.getC3_2().equals("") ? "1" : selectedBulletinBranche.getC3_2() );
+		txt_c_3_3.setText( selectedBulletinBranche.getC3_3().equals("") ? "1" : selectedBulletinBranche.getC3_3() );
+		txt_c_3_4.setText( selectedBulletinBranche.getC3_4().equals("") ? "1" : selectedBulletinBranche.getC3_4() );
+		txt_c_3_5.setText( selectedBulletinBranche.getC3_5().equals("") ? "1" : selectedBulletinBranche.getC3_5() );
 		//
-		txt_c_4_1.setText( selectedBulletinBranche.getC4_1() );
-		txt_c_4_2.setText( selectedBulletinBranche.getC4_2() );
-		txt_c_4_3.setText( selectedBulletinBranche.getC4_3() );
-		txt_c_4_4.setText( selectedBulletinBranche.getC4_4() );
-		txt_c_4_5.setText( selectedBulletinBranche.getC4_5() );
+		txt_c_4_1.setText( selectedBulletinBranche.getC4_1().equals("") ? "1" : selectedBulletinBranche.getC4_1() );
+		txt_c_4_2.setText( selectedBulletinBranche.getC4_2().equals("") ? "1" : selectedBulletinBranche.getC4_2() );
+		txt_c_4_3.setText( selectedBulletinBranche.getC4_3().equals("") ? "1" : selectedBulletinBranche.getC4_3() );
+		txt_c_4_4.setText( selectedBulletinBranche.getC4_4().equals("") ? "1" : selectedBulletinBranche.getC4_4() );
+		txt_c_4_5.setText( selectedBulletinBranche.getC4_5().equals("") ? "1" : selectedBulletinBranche.getC4_5() );
 		
 		// ---
 		txtT1.setText( selectedBulletinBranche.getT1() );

@@ -1,18 +1,19 @@
-<!-- Indices written at Fri, 8 Jan 2016 14:16:06 CET -->
+<!-- Indices written at Tue, 26 Jan 2016 16:31:46 CET -->
 
 <datastore-indexes>
 
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="StudyLog" ancestor="false" source="auto">
-        <property name="keyClasse" direction="asc"/>
-        <property name="logDate" direction="asc"/>
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
+        <property name="professor1" direction="asc"/>
+        <property name="subject" direction="asc"/>
+        <property name="subjectName" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="StudyLog" ancestor="false" source="auto">
-        <property name="keyClasse" direction="asc"/>
-        <property name="keySubject" direction="asc"/>
-        <property name="logDate" direction="asc"/>
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
+        <property name="professor2" direction="asc"/>
+        <property name="subject" direction="asc"/>
+        <property name="subjectName" direction="asc"/>
     </datastore-index>
 
 </datastore-indexes>

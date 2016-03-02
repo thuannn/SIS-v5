@@ -74,7 +74,7 @@
 							<g:HorizontalPanel width="100%">
 								<g:Label text="Trimestre 1 :" width="" />
 								<g:DoubleBox ui:field="txt_t_1_1" styleName="markInputText" />
-								<g:IntegerBox ui:field="txt_c_1_1" styleName="markCoefText" />
+								<g:IntegerBox ui:field="txt_c_1_1" styleName="markCoefText"/>
 								<g:Label text="" styleName="space20" />
 
 								<g:DoubleBox ui:field="txt_t_1_2" styleName="markInputText" />

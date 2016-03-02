@@ -295,27 +295,28 @@ public class FrmMarkInputPresenter extends
 			return;
 		}
 		//
-		if ( !checkNoteCoef(t_1_1, c_1_1)
-				|| !checkNoteCoef(t_1_2, c_1_2)
-				|| !checkNoteCoef(t_1_3, c_1_3)
-				|| !checkNoteCoef(t_1_4, c_1_4)
-				|| !checkNoteCoef(t_2_1, c_2_1)
-				|| !checkNoteCoef(t_2_2, c_2_2)
-				|| !checkNoteCoef(t_2_3, c_2_3)
-				|| !checkNoteCoef(t_2_4, c_2_4)
-				|| !checkNoteCoef(t_3_1, c_3_1)
-				|| !checkNoteCoef(t_3_2, c_3_2)
-				|| !checkNoteCoef(t_3_3, c_3_3)
-				|| !checkNoteCoef(t_3_4, c_3_4)
-				|| !checkNoteCoef(t_4_1, c_4_1)
-				|| !checkNoteCoef(t_4_2, c_4_2)
-				|| !checkNoteCoef(t_4_3, c_4_3)
-				|| !checkNoteCoef(t_4_4, c_4_4)
-				) {
-			AlertMessageBox messageBox = new AlertMessageBox("", NotificationValues.invalid_input + " Merci de saisir les notes avec les coefficients.");
-			messageBox.show();
-			return;
-		}
+		// 2016.01.26 - Coef default 1, no need to check coef
+//		if ( !checkNoteCoef(t_1_1, c_1_1)
+//				|| !checkNoteCoef(t_1_2, c_1_2)
+//				|| !checkNoteCoef(t_1_3, c_1_3)
+//				|| !checkNoteCoef(t_1_4, c_1_4)
+//				|| !checkNoteCoef(t_2_1, c_2_1)
+//				|| !checkNoteCoef(t_2_2, c_2_2)
+//				|| !checkNoteCoef(t_2_3, c_2_3)
+//				|| !checkNoteCoef(t_2_4, c_2_4)
+//				|| !checkNoteCoef(t_3_1, c_3_1)
+//				|| !checkNoteCoef(t_3_2, c_3_2)
+//				|| !checkNoteCoef(t_3_3, c_3_3)
+//				|| !checkNoteCoef(t_3_4, c_3_4)
+//				|| !checkNoteCoef(t_4_1, c_4_1)
+//				|| !checkNoteCoef(t_4_2, c_4_2)
+//				|| !checkNoteCoef(t_4_3, c_4_3)
+//				|| !checkNoteCoef(t_4_4, c_4_4)
+//				) {
+//			AlertMessageBox messageBox = new AlertMessageBox("", NotificationValues.invalid_input + " Merci de saisir les notes avec les coefficients.");
+//			messageBox.show();
+//			return;
+//		}
 		// 
 		BulletinBrancheRequestFactory rfBranche = GWT.create(BulletinBrancheRequestFactory.class);
 		rfBranche.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
@@ -389,15 +390,16 @@ public class FrmMarkInputPresenter extends
 	
 	
 	/*
+	 * 2016.01.26 : default coef 1, no need to check coef
 	 * */
-	private boolean checkNoteCoef(String t_1_1, String c_1_1) {
-		//
-		if ( (!t_1_1.equals("") && !c_1_1.equals("")) 
-				|| (t_1_1.equals("") && c_1_1.equals("")) )
-			return true;
-		else
-			return false;
-	}
+//	private boolean checkNoteCoef(String t_1_1, String c_1_1) {
+//		//
+//		if ( (!t_1_1.equals("") && !c_1_1.equals("")) 
+//				|| (t_1_1.equals("") && c_1_1.equals("")) )
+//			return true;
+//		else
+//			return false;
+//	}
 
 
 	/*
