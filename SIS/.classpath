@@ -36,7 +36,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-3.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-servlet-3.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-4.0.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/httpcore-4.0.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.inject.jar"/>

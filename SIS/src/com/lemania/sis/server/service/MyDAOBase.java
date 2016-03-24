@@ -17,6 +17,7 @@ import com.lemania.sis.server.bean.bulletinbranche.BulletinBranche;
 import com.lemania.sis.server.bean.bulletinsubject.BulletinSubject;
 import com.lemania.sis.server.bean.classe.Classe;
 import com.lemania.sis.server.bean.classroom.Classroom;
+import com.lemania.sis.server.bean.coursesubscription.CourseSubscription;
 import com.lemania.sis.server.bean.evaluations.EvaluationHeader;
 import com.lemania.sis.server.bean.evaluations.EvaluationStudentReport;
 import com.lemania.sis.server.bean.evaluations.EvaluationSubject;
@@ -200,6 +201,12 @@ public class MyDAOBase {
 		
 		try {
         	ObjectifyService.register( StudyLog.class );
+        } catch (Exception e) {
+        	// do nothing
+        }	
+		
+		try {
+        	ObjectifyService.register( CourseSubscription.class );
         } catch (Exception e) {
         	// do nothing
         }	

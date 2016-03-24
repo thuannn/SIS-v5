@@ -70,18 +70,18 @@
 
 						<!-- <g:Dock direction="NORTH"> -->
 						<g:HorizontalPanel>
-						    <g:HorizontalPanel verticalAlignment="ALIGN_BOTTOM">
-						    	<g:Image url="" width="" height="40px" ui:field="imgLogo" />
-						    	<g:Label styleName="logoText">eProfil</g:Label>
-						    </g:HorizontalPanel>
-						    <g:HorizontalPanel spacing="10">
-						    	<g:Label ui:field="lblCurrentMonth" />
-						    	<g:Label width="" horizontalAlignment="ALIGN_LEFT"
-														ui:field="txtWelcome" />
-													<g:Label text="." width="30px" styleName="hiddenText" />
-													<g:Hyperlink targetHistoryToken="newHistoryToken"
-														width="" ui:field="cmdLogout" />
-						    </g:HorizontalPanel>
+							<g:HorizontalPanel verticalAlignment="ALIGN_BOTTOM">
+								<g:Image url="" width="" height="40px" ui:field="imgLogo" />
+								<g:Label styleName="logoText">eProfil</g:Label>
+							</g:HorizontalPanel>
+							<g:HorizontalPanel spacing="10">
+								<g:Label ui:field="lblCurrentMonth" />
+								<g:Label width="" horizontalAlignment="ALIGN_LEFT"
+									ui:field="txtWelcome" />
+								<g:Label text="." width="30px" styleName="hiddenText" />
+								<g:Hyperlink targetHistoryToken="newHistoryToken"
+									width="" ui:field="cmdLogout" />
+							</g:HorizontalPanel>
 						</g:HorizontalPanel>
 
 						<!-- </g:Dock> -->
@@ -141,6 +141,14 @@
 										<g:Hyperlink text="Gestion des absences"
 											targetHistoryToken="absencesmgt" ui:field="cmdAbsenceMgt" />
 									</g:TreeItem>
+
+									<g:TreeItem text="Etudes Surveillées" ui:field="tiMonitoredStudies">
+										<g:Hyperlink text="Inscription"
+											targetHistoryToken="individualCourseSubscription" ui:field="cmdMonitoredStudiesSubscription" />
+										<g:Hyperlink text="Suivi" targetHistoryToken="#"
+											ui:field="cmdMonitoredStudiesLog" />
+									</g:TreeItem>
+
 									<g:TreeItem text="Cahier de texte">
 										<g:Hyperlink targetHistoryToken="studylogmgt"
 											text="Cahier de texte" ui:field="cmdStudyLogMgt" />
@@ -245,6 +253,12 @@
 											<g:Hyperlink targetHistoryToken="absenceslist"
 												text="Consulter les absences" ui:field="cmdAbsencesViewProf" />
 										</g:TreeItem>
+										<g:TreeItem text="Etudes Surveillées" ui:field="tiMonitoredStudiesProf" state="true">
+											<g:Hyperlink text="Inscription"
+												targetHistoryToken="individualCourseSubscription" ui:field="cmdMonitoredStudiesSubscriptionProf" />
+											<g:Hyperlink text="Suivi" targetHistoryToken="#"
+												ui:field="cmdMonitoredStudiesLogProf" />
+										</g:TreeItem>
 										<g:TreeItem text="Evaluation Intermediaire" state="true">
 											<g:Hyperlink text="Saisir les évaluations"
 												targetHistoryToken="evaluationinput" ui:field="cmdEvaluationInputProfProf" />
@@ -315,12 +329,13 @@
 				<container:center layoutData="{centerData}">
 					<gxt:ContentPanel headingText="BorderLayout UiBinder Example"
 						headerVisible="false" resize="true">
-						<container:FlowLayoutContainer ui:field="mainContentPanel">
-							
+						<container:FlowLayoutContainer
+							ui:field="mainContentPanel">
+
 							<!-- <g:Dock direction="CENTER"> -->
-							
-<!-- 								<g:FlowPanel ui:field="mainContentPanel" width="100%" -->
-<!-- 									height="" styleName="paneMain" /> -->
+
+							<!-- <g:FlowPanel ui:field="mainContentPanel" width="100%" -->
+							<!-- height="" styleName="paneMain" /> -->
 
 
 						</container:FlowLayoutContainer>

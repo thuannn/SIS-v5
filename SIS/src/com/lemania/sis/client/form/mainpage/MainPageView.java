@@ -123,7 +123,12 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@UiField Hyperlink cmdStudyLogStudentProf;
 	@UiField Hyperlink cmdStudyLogStudentStudent;
 	@UiField Hyperlink cmdStudyLogStudentParent;
-	
+	//
+	@UiField Hyperlink cmdMonitoredStudiesSubscription;
+	@UiField Hyperlink cmdMonitoredStudiesLog;
+	@UiField Hyperlink cmdMonitoredStudiesSubscriptionProf;
+	@UiField Hyperlink cmdMonitoredStudiesLogProf;
+	//
 	@UiField BorderLayoutContainer con;
 	@UiField FlowLayoutContainer conWest;
 //	@UiField SimpleContainer conCenter;
@@ -785,6 +790,26 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	}
 	@UiHandler("cmdStudyLogStudentProf")
 	void onCmdStudyLogStudentProfClick(ClickEvent event) {
+		//
+		switchButton( (Hyperlink)event.getSource() );
+	}
+	@UiHandler("cmdMonitoredStudiesSubscription")
+	void onCmdMonitoredStudiesSubscriptionClick(ClickEvent event) {
+		//
+		switchButton( (Hyperlink)event.getSource() );
+	}
+	@UiHandler("cmdMonitoredStudiesLog")
+	void onCmdMonitoredStudiesLogClick(ClickEvent event) {
+		//
+		switchButton( (Hyperlink)event.getSource() );
+	}
+	@UiHandler("cmdMonitoredStudiesSubscriptionProf")
+	void onCmdMonitoredStudiesSubscriptionProfClick(ClickEvent event) {
+		//
+		switchButton( (Hyperlink)event.getSource() );
+	}
+	@UiHandler("cmdMonitoredStudiesLogProf")
+	void onCmdMonitoredStudiesLogClickProf(ClickEvent event) {
 		//
 		switchButton( (Hyperlink)event.getSource() );
 	}

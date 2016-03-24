@@ -23,6 +23,7 @@ import com.lemania.sis.client.form.evaluations.FrmEvaluationReportListPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationReportListView;
 import com.lemania.sis.client.form.homepage.HomePresenter;
 import com.lemania.sis.client.form.homepage.HomeView;
+import com.lemania.sis.client.form.individualCourse.individualcoursesubscription.IndividualCourseSubscriptionModule;
 import com.lemania.sis.client.form.mainpage.MainPagePresenter;
 import com.lemania.sis.client.form.mainpage.MainPageView;
 import com.lemania.sis.client.form.markinput.FrmMarkInputPresenter;
@@ -98,6 +99,7 @@ public class ClientModule extends AbstractPresenterModule {
 		install(new AbsenceListModule());
 		install(new StudyLogManagementModule());
 		install(new StudyLogStudentModule());
+		install(new IndividualCourseSubscriptionModule());
 		
 		
 // 20151221 - Upgrade to GWTP 1.5.1
