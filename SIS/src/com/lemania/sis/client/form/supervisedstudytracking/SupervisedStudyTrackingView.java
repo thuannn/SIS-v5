@@ -272,6 +272,20 @@ class SupervisedStudyTrackingView extends
 		//
 		loadAppliedStudentsByDate();
 	}
+	
+	
+	/*
+	 * */
+	@Override
+	public void resetForm() {
+		//
+		appliedStudentsDataProvider.getList().clear();
+		appliedStudentsDataProvider.flush();
+		//
+		studentSubscriptionsDataProvider.getList().clear();
+		studentSubscriptionsDataProvider.flush();
+	}
+	
 
 	/*------------------------------*/
 
@@ -319,5 +333,7 @@ class SupervisedStudyTrackingView extends
 		studentSubscriptionsDataProvider.setList(list);
 		studentSubscriptionsDataProvider.flush();
 	}
+
+	
 
 }

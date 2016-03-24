@@ -223,6 +223,21 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	}
 	
 	
+	/*
+	 * */
+	@Override
+	public void resetForm() {
+		//
+		dataProvider.getList().clear();
+		dataProvider.flush();
+		//
+		appliedStudentsDataProvider.getList().clear();
+		appliedStudentsDataProvider.flush();
+	}
+	
+	
+	/*--------------------------------*/
+	
 	
 	/*
 	 * */
@@ -232,6 +247,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		dataProvider.getList().clear();
 		dataProvider.setList(studentList);
 		dataProvider.flush();
+		tblStudents.setPageSize( studentList.size() );
 	}
 	
 	
@@ -261,6 +277,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		appliedStudentsDataProvider.getList().clear();
 		appliedStudentsDataProvider.setList( list );
 		appliedStudentsDataProvider.flush();
+		tblAppliedStudents.setPageSize( list.size() );
 	}
 	
 	
@@ -278,4 +295,6 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		if ( autoSelect && (profs.size()>0) )
 			lstProfs.setSelectedIndex(1);
 	}
+
+	
 }

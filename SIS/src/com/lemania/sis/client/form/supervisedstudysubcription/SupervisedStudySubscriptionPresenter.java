@@ -56,6 +56,8 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
 		public void setAppliedStudentsTableData( List<CourseSubscriptionProxy> list );
 		//
 		void setProfListData( List<ProfessorProxy> profs, boolean autoSelect );
+		//
+		void resetForm();
     }
 	
 	//
@@ -96,6 +98,8 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
         loadStudentList();
         //
         loadProfessorList();
+        //
+        getView().resetForm();
     }
     
     
@@ -105,7 +109,7 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
 	private void loadStudentList() {
 		//
 		StudentRequestContext rc = getStudentRequestContext();
-		rc.listAll().fire(new Receiver<List<StudentProxy>>(){
+		rc.listAllActive().fire(new Receiver<List<StudentProxy>>(){
 			@Override
 			public void onFailure(ServerFailure error){
 				Window.alert(error.getMessage());

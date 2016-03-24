@@ -50,6 +50,8 @@ public class SupervisedStudyTrackingPresenter extends Presenter<SupervisedStudyT
 		//
 		public void setAppliedStudentsTableData( List<CourseSubscriptionProxy> list );
 		public void setStudentSubscriptionsTableData( List<CourseSubscriptionProxy> list );
+		//
+		public void resetForm();
     }
     
 	//
@@ -88,6 +90,8 @@ public class SupervisedStudyTrackingPresenter extends Presenter<SupervisedStudyT
         super.onReset();
         //
         loadProfessorList();
+        //
+        getView().resetForm();
     }
     
     /*-------------------------------*/
