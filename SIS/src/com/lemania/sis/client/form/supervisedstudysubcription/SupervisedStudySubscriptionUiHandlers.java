@@ -1,9 +1,9 @@
-package com.lemania.sis.client.form.individualCourse.individualcoursesubscription;
+package com.lemania.sis.client.form.supervisedstudysubcription;
 
 import com.gwtplatform.mvp.client.UiHandlers;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 
-interface IndividualCourseSubscriptionUiHandlers extends UiHandlers {
+interface SupervisedStudySubscriptionUiHandlers extends UiHandlers {
 	//
 	void loadAppliedStudentsByDate( String date );
 	//

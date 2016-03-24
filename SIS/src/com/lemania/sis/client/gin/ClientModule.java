@@ -23,7 +23,6 @@ import com.lemania.sis.client.form.evaluations.FrmEvaluationReportListPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationReportListView;
 import com.lemania.sis.client.form.homepage.HomePresenter;
 import com.lemania.sis.client.form.homepage.HomeView;
-import com.lemania.sis.client.form.individualCourse.individualcoursesubscription.IndividualCourseSubscriptionModule;
 import com.lemania.sis.client.form.mainpage.MainPagePresenter;
 import com.lemania.sis.client.form.mainpage.MainPageView;
 import com.lemania.sis.client.form.markinput.FrmMarkInputPresenter;
@@ -59,6 +58,8 @@ import com.lemania.sis.client.form.subjects.FrmSubjectAddPresenter;
 import com.lemania.sis.client.form.subjects.FrmSubjectAddView;
 import com.lemania.sis.client.form.subjects.FrmSubjectListPresenter;
 import com.lemania.sis.client.form.subjects.FrmSubjectListView;
+import com.lemania.sis.client.form.supervisedstudysubcription.SupervisedStudySubscriptionModule;
+import com.lemania.sis.client.form.supervisedstudytracking.SupervisedStudyTrackingModule;
 import com.lemania.sis.client.form.usermgt.UserManagementPresenter;
 import com.lemania.sis.client.form.usermgt.UserManagementView;
 import com.lemania.sis.client.form.userprofile.FrmPasswordPresenter;
@@ -99,7 +100,8 @@ public class ClientModule extends AbstractPresenterModule {
 		install(new AbsenceListModule());
 		install(new StudyLogManagementModule());
 		install(new StudyLogStudentModule());
-		install(new IndividualCourseSubscriptionModule());
+		install(new SupervisedStudySubscriptionModule());
+		install(new SupervisedStudyTrackingModule());
 		
 		
 // 20151221 - Upgrade to GWTP 1.5.1

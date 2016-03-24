@@ -228,6 +228,12 @@
 		<property name="profActive" direction="asc"/>
 		<property name="profName" direction="asc"/>
 	</datastore-index>
+	
+	<!-- Course subscription -->
+	 <datastore-index kind="CourseSubscription" ancestor="false" source="auto">
+        <property name="student" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
 
 
 </datastore-indexes>

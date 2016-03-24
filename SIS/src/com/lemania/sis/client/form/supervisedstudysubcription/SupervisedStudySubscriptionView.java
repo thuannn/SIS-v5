@@ -1,4 +1,4 @@
-package com.lemania.sis.client.form.individualCourse.individualcoursesubscription;
+package com.lemania.sis.client.form.supervisedstudysubcription;
 
 import java.util.Date;
 import java.util.List;
@@ -32,15 +32,15 @@ import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.lemania.sis.shared.student.StudentProxy;
 
-class IndividualCourseSubscriptionView extends ViewWithUiHandlers<IndividualCourseSubscriptionUiHandlers> implements IndividualCourseSubscriptionPresenter.MyView {
+class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudySubscriptionUiHandlers> implements SupervisedStudySubscriptionPresenter.MyView {
     
 	//
-	interface Binder extends UiBinder<Widget, IndividualCourseSubscriptionView> {
+	interface Binder extends UiBinder<Widget, SupervisedStudySubscriptionView> {
     }
 
 	//
     @Inject
-    IndividualCourseSubscriptionView(Binder uiBinder) {
+    SupervisedStudySubscriptionView(Binder uiBinder) {
     	//
         initWidget(uiBinder.createAndBindUi(this));
     }
@@ -49,7 +49,7 @@ class IndividualCourseSubscriptionView extends ViewWithUiHandlers<IndividualCour
     @Override
     public void setInSlot(Object slot, IsWidget content) {
     	//
-        if (slot == IndividualCourseSubscriptionPresenter.SLOT_IndividualCourseSubscription) {
+        if (slot == SupervisedStudySubscriptionPresenter.SLOT_IndividualCourseSubscription) {
         } else {
             super.setInSlot(slot, content);
         }
@@ -107,15 +107,6 @@ class IndividualCourseSubscriptionView extends ViewWithUiHandlers<IndividualCour
 	 * Initialize Student table 
 	 * */
 	public void initializeStudentTable() {
-		//
-	    Column<StudentProxy, String> colLastName = new Column<StudentProxy, String>(new TextCell()) {
-	      @Override
-	      public String getValue(StudentProxy object) {
-	        return object.getFirstName();
-	      } 
-	    };
-	    tblStudents.addColumn(colLastName, "Prénom");
-		
 		// Add a text column to show the name.
 	    Column<StudentProxy, String> colFirstName = new Column<StudentProxy, String>(new TextCell()) {
 	      @Override
@@ -124,6 +115,15 @@ class IndividualCourseSubscriptionView extends ViewWithUiHandlers<IndividualCour
 	      }
 	    };
 	    tblStudents.addColumn(colFirstName, "Nom");
+		
+	    //
+	    Column<StudentProxy, String> colLastName = new Column<StudentProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(StudentProxy object) {
+	        return object.getFirstName();
+	      } 
+	    };
+	    tblStudents.addColumn(colLastName, "Prénom");
 	    
 	    // Add a selection model to handle user selection.
 	    final SingleSelectionModel<StudentProxy> selectionModel = new SingleSelectionModel<StudentProxy>();
@@ -267,11 +267,15 @@ class IndividualCourseSubscriptionView extends ViewWithUiHandlers<IndividualCour
 	/*
 	 * */
 	@Override
-	public void setProfListData(List<ProfessorProxy> profs) {
+	public void setProfListData(List<ProfessorProxy> profs, boolean autoSelect ) {
 		//
 		lstProfs.clear();
 		lstProfs.addItem("-","");
 		for (ProfessorProxy prof : profs)
 			lstProfs.addItem(prof.getProfName(), prof.getId().toString());
+		//
+		// autoSelect is true if this user is a professor
+		if ( autoSelect && (profs.size()>0) )
+			lstProfs.setSelectedIndex(1);
 	}
 }

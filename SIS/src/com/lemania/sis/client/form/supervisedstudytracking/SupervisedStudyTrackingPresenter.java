@@ -1,4 +1,4 @@
-package com.lemania.sis.client.form.individualCourse.individualcoursesubscription;
+package com.lemania.sis.client.form.supervisedstudytracking;
 
 import java.util.List;
 
@@ -14,14 +14,18 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ContentSlot;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.annotations.ProxyEvent;
+import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.lemania.sis.client.CurrentUser;
+import com.lemania.sis.client.LoggedInGatekeeper;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent.LoginAuthenticatedHandler;
 import com.lemania.sis.client.form.mainpage.MainPagePresenter;
+import com.lemania.sis.client.form.supervisedstudysubscriptionevents.OnSupervisedStudySubscriptionUpdateEvent;
+import com.lemania.sis.client.form.supervisedstudysubscriptionevents.OnSupervisedStudySubscriptionUpdateEvent.OnSupervisedStudySubscriptionUpdateHandler;
 import com.lemania.sis.client.place.NameTokens;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
@@ -30,40 +34,38 @@ import com.lemania.sis.shared.coursesubscription.CourseSubscriptionRequestFactor
 import com.lemania.sis.shared.service.EventSourceRequestTransport;
 import com.lemania.sis.shared.service.ProfessorRequestFactory;
 import com.lemania.sis.shared.service.ProfessorRequestFactory.ProfessorRequestContext;
-import com.lemania.sis.shared.student.StudentProxy;
-import com.lemania.sis.shared.student.StudentRequestFactory;
-import com.lemania.sis.shared.student.StudentRequestFactory.StudentRequestContext;
-public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualCourseSubscriptionPresenter.MyView, IndividualCourseSubscriptionPresenter.MyProxy> 
-	implements IndividualCourseSubscriptionUiHandlers, LoginAuthenticatedHandler {
+public class SupervisedStudyTrackingPresenter extends Presenter<SupervisedStudyTrackingPresenter.MyView, SupervisedStudyTrackingPresenter.MyProxy> 
+		implements SupervisedStudyTrackingUiHandlers, LoginAuthenticatedHandler, OnSupervisedStudySubscriptionUpdateHandler {
     
+	
 	//
 	private CurrentUser currentUser;
 	
 	//
-	interface MyView extends View , HasUiHandlers<IndividualCourseSubscriptionUiHandlers> {
+	interface MyView extends View , HasUiHandlers<SupervisedStudyTrackingUiHandlers> {
 		//
 		void initializeUI();
 		//
-		public void setTableData( List<StudentProxy> studentList );
+		void setProfListData(List<ProfessorProxy> profs, boolean autoSelect);
 		//
 		public void setAppliedStudentsTableData( List<CourseSubscriptionProxy> list );
-		//
-		void setProfListData(List<ProfessorProxy> profs);
+		public void setStudentSubscriptionsTableData( List<CourseSubscriptionProxy> list );
     }
-	
+    
 	//
-    @ContentSlot
-    public static final Type<RevealContentHandler<?>> SLOT_IndividualCourseSubscription = new Type<RevealContentHandler<?>>();
+	@ContentSlot
+    public static final Type<RevealContentHandler<?>> SLOT_SupervisedStudyTracking = new Type<RevealContentHandler<?>>();
 
-    //
-    @NameToken(NameTokens.individualCourseSubscription)
+	//
+    @NameToken(NameTokens.supervisedstudytracking)
     @ProxyCodeSplit
-    interface MyProxy extends ProxyPlace<IndividualCourseSubscriptionPresenter> {
+    @UseGatekeeper(LoggedInGatekeeper.class)
+    interface MyProxy extends ProxyPlace<SupervisedStudyTrackingPresenter> {
     }
 
     //
     @Inject
-    IndividualCourseSubscriptionPresenter(
+    SupervisedStudyTrackingPresenter(
             EventBus eventBus,
             MyView view, 
             MyProxy proxy) {
@@ -77,7 +79,7 @@ public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualC
     	//
         super.onBind();
         //
-		getView().initializeUI();
+      	getView().initializeUI();
     }
     
     //
@@ -85,33 +87,12 @@ public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualC
     	//
         super.onReset();
         //
-        loadStudentList();
-        //
         loadProfessorList();
     }
     
+    /*-------------------------------*/
     
-    /* 
-     * Load student list when form is opened 
-     * */
-	private void loadStudentList() {
-		//
-		StudentRequestContext rc = getStudentRequestContext();
-		rc.listAll().fire(new Receiver<List<StudentProxy>>(){
-			@Override
-			public void onFailure(ServerFailure error){
-				Window.alert(error.getMessage());
-			}
-			@Override
-			public void onSuccess(List<StudentProxy> response) {
-				getView().setTableData(response);
-			}
-		});
-	}
-	
-	
-	
-	/*
+    /*
 	 * Load professor list, if the current user is a professor, show only him/her.
 	 * If current user is admin, show all the professors. */
 	public void loadProfessorList(){
@@ -127,7 +108,7 @@ public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualC
 				}
 				@Override
 				public void onSuccess(List<ProfessorProxy> response) {
-					getView().setProfListData(response);
+					getView().setProfListData(response, true);
 				}
 			});
 		}
@@ -139,23 +120,12 @@ public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualC
 				}
 				@Override
 				public void onSuccess(List<ProfessorProxy> response) {
-					getView().setProfListData(response);
+					getView().setProfListData(response, false);
 				}
 			});
 		}
 	}
 	
-	
-	/* 
-	 * Get the request context for StudenProxy.
-	 * Used in every function which call to Request Factory 
-	 * */
-	public StudentRequestContext getStudentRequestContext() {
-		StudentRequestFactory rf = GWT.create(StudentRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		return rf.studentRequest();
-	}
-
 	
 	/*
 	 * */
@@ -172,6 +142,7 @@ public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualC
 			}
 			@Override
 			public void onSuccess(List<CourseSubscriptionProxy> response) {
+				//
 				getView().setAppliedStudentsTableData(response);
 			}
 		});
@@ -179,6 +150,55 @@ public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualC
 	
 	
 	/*
+	 * */
+	@Override
+	public void loadStudentSubscriptions(CourseSubscriptionProxy subscription) {
+		//
+		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
+		rc.listAllByStudent( subscription ).fire(new Receiver<List<CourseSubscriptionProxy>>(){
+			@Override
+			public void onFailure(ServerFailure error){
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(List<CourseSubscriptionProxy> response) {
+				//
+				getView().setStudentSubscriptionsTableData(response);
+			}
+		});
+	}
+	
+	
+	/*
+	 * */
+	@Override
+	public void saveSubscriptionNote(final CourseSubscriptionProxy subscription,
+			String note) {
+		//
+		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
+		CourseSubscriptionProxy cs = rc.edit( subscription );
+		cs.setNote(note);
+		rc.saveAndReturn(cs).fire(new Receiver<CourseSubscriptionProxy>(){
+			@Override
+			public void onFailure(ServerFailure error){
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(CourseSubscriptionProxy response) {
+				//
+				getEventBus().fireEvent( new OnSupervisedStudySubscriptionUpdateEvent( subscription ) );
+			}
+		});
+	}
+    
+    
+    /*-------------------------------*/
+    
+    /*
 	 * Get the current user info when user is logged in */
 	@ProxyEvent
 	@Override
@@ -187,47 +207,14 @@ public class IndividualCourseSubscriptionPresenter extends Presenter<IndividualC
 		this.currentUser = event.getCurrentUser();
 	}
 
-	
 	/*
 	 * */
+	@ProxyEvent
 	@Override
-	public void addCourseSubscription(String studentID, String profID, final String date) {
+	public void onOnSupervisedStudySubscriptionUpdate(
+			OnSupervisedStudySubscriptionUpdateEvent event) {
 		//
-		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
-		rc.saveAndReturn( studentID, profID, date ).fire(new Receiver<CourseSubscriptionProxy>(){
-			@Override
-			public void onFailure(ServerFailure error){
-				Window.alert(error.getMessage());
-			}
-			@Override
-			public void onSuccess( CourseSubscriptionProxy response) {
-				//
-				loadAppliedStudentsByDate( date );
-			}
-		});
+		loadStudentSubscriptions( event.getSubscription() );
 	}
 
-	
-	/*
-	 * */
-	@Override
-	public void removeCourseSubscription(CourseSubscriptionProxy subscription, final String date) {
-		//
-		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
-		rc.removeCourseSubscription(subscription).fire(new Receiver<Void>(){
-			@Override
-			public void onFailure(ServerFailure error){
-				Window.alert(error.getMessage());
-			}
-			@Override
-			public void onSuccess(Void response ) {
-				//
-				loadAppliedStudentsByDate( date );
-			}
-		});
-	}
 }

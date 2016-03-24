@@ -5,10 +5,10 @@
 	<g:HTMLPanel>
 
 		<g:VerticalPanel width="100%" spacing="0">
-			<g:Label text="Etudes Surveillées - Inscriptions" styleName="pageTitle"
+			<g:Label text="Etudes Surveillées - Suivi" styleName="pageTitle"
 				horizontalAlignment="ALIGN_CENTER" />
 			<g:VerticalPanel width="100%" spacing="10"
-				horizontalAlignment="ALIGN_CENTER">
+				horizontalAlignment="ALIGN_LEFT">
 
 				<g:Grid cellSpacing="10">
 					<g:row>
@@ -18,9 +18,6 @@
 						<g:customCell>
 							<g:ListBox ui:field="lstProfs" width="300px" />
 						</g:customCell>
-						<g:customCell>
-							<g:Label text="." styleName="hiddenText" />
-						</g:customCell>
 					</g:row>
 					<g:row>
 						<g:customCell>
@@ -28,6 +25,11 @@
 						</g:customCell>
 						<g:customCell>
 							<p2:DateBox ui:field="dateFrom" width="300px" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="." styleName="hiddenText" />
 						</g:customCell>
 						<g:customCell>
 							<g:Button styleName="gridButton" ui:field="cmdFilter"
@@ -38,18 +40,18 @@
 
 
 				<g:HorizontalPanel width="100%">
-
-					<g:Cell width="30%">
+				    
+				    <g:Cell width="30%">
 						<g:VerticalPanel width="100%" spacing="5">
-							<g:Label text="Liste complète des élèves" />
-							<p1:DataGrid width="100%" height="450px" ui:field="tblStudents" />
+							<g:Label text="Liste des élèves inscrits" />
+							<p1:DataGrid width="100%" height="450px" ui:field="tblAppliedStudents" />
 						</g:VerticalPanel>
 					</g:Cell>
 
 					<g:Cell width="70%">
 						<g:VerticalPanel width="100%" spacing="5">
-							<g:Label text="Liste des élèves inscrits" />
-							<p1:DataGrid width="100%" height="450px" ui:field="tblAppliedStudents" />
+							<g:Label text="Suivi d'un élève" />
+							<p1:DataGrid width="100%" height="450px" ui:field="tblStudentSubscriptions" />
 						</g:VerticalPanel>
 					</g:Cell>
 

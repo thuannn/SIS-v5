@@ -2,6 +2,8 @@ package com.lemania.sis.client.place;
 
 public class NameTokens {
 
+	public static final String supervisedstudytracking = "supervisedstudytracking";
+
 	public static final String individualCourseSubscription = "individualCourseSubscription";
 
 	public static final String studylogstudent = "studylogstudent";
@@ -254,6 +256,10 @@ public class NameTokens {
 
 	public static String getIndividualCourseSubscription() {
 		return individualCourseSubscription;
+	}
+
+	public static String getSupervisedstudytracking() {
+		return supervisedstudytracking;
 	}
 
 }

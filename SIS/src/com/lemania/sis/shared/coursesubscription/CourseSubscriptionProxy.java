@@ -14,5 +14,8 @@ public interface CourseSubscriptionProxy extends EntityProxy {
 	//
 	public String getDate();
 	public void setDate(String date);
+	//
+	public String getNote();
+	public void setNote(String note);
 
 }

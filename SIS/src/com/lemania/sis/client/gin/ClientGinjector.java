@@ -21,7 +21,6 @@ import com.lemania.sis.client.form.evaluations.FrmEvaluationInputPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationInputStudentPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationReportListPresenter;
 import com.lemania.sis.client.form.homepage.HomePresenter;
-import com.lemania.sis.client.form.individualCourse.individualcoursesubscription.IndividualCourseSubscriptionPresenter;
 import com.lemania.sis.client.form.mainpage.MainPagePresenter;
 import com.lemania.sis.client.form.markinput.FrmMarkInputPresenter;
 import com.lemania.sis.client.form.masteragenda.MasterAgendaPresenter;
@@ -39,6 +38,8 @@ import com.lemania.sis.client.form.studylogmgt.StudyLogManagementPresenter;
 import com.lemania.sis.client.form.studylogstudent.StudyLogStudentPresenter;
 import com.lemania.sis.client.form.subjects.FrmSubjectAddPresenter;
 import com.lemania.sis.client.form.subjects.FrmSubjectListPresenter;
+import com.lemania.sis.client.form.supervisedstudysubcription.SupervisedStudySubscriptionPresenter;
+import com.lemania.sis.client.form.supervisedstudytracking.SupervisedStudyTrackingPresenter;
 import com.lemania.sis.client.form.usermgt.UserManagementPresenter;
 import com.lemania.sis.client.form.userprofile.FrmPasswordPresenter;
 import com.lemania.sis.client.presenter.EcolePresenter;
@@ -150,5 +151,7 @@ public interface ClientGinjector extends Ginjector {
 	
 	AsyncProvider<StudyLogStudentPresenter> getStudyLogStudentPresenter();
 	
-	AsyncProvider<IndividualCourseSubscriptionPresenter> getIndividualCourseSubscriptionPresenter();
+	AsyncProvider<SupervisedStudySubscriptionPresenter> getIndividualCourseSubscriptionPresenter();
+	
+	AsyncProvider<SupervisedStudyTrackingPresenter> getSupervisedStudyTrackingPresenter();
 }

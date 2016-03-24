@@ -74,6 +74,10 @@ public class NotificationValues {
 	// Study log
 	public static String assignment_not_selected = "Merci de sélectionner les cours et les classes.";
 	
+	// File upload
 	public static String bucketName = "/gcs/eprofil-uploads/";
+	
+	// Course subscription
+	public static String coursesubscription_studentexist = "Elève existe déjà dans la liste des élèves inscrits.";
 	
 }

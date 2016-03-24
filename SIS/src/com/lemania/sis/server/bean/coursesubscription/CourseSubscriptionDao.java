@@ -22,8 +22,11 @@ public class CourseSubscriptionDao extends MyDAOBase {
 		//
 		Query<CourseSubscription> q = ofy().load().type(CourseSubscription.class);
 		List<CourseSubscription> returnList = q.list();
+		//
 		populateUnsavedData( returnList );
+		//
 		Collections.sort( returnList );
+		//
 		return returnList;
 	}
 	
@@ -34,10 +37,28 @@ public class CourseSubscriptionDao extends MyDAOBase {
 		Query<CourseSubscription> q = ofy().load().type(CourseSubscription.class)
 				.filter("date", date);
 		List<CourseSubscription> returnList = q.list();
+		//
 		populateUnsavedData( returnList );
+		//
 		Collections.sort( returnList );
+		//
 		return returnList;
 	}
+	
+	/*
+	 * */
+	public List<CourseSubscription> listAllByStudent( CourseSubscription subscription ){
+		//
+		Query<CourseSubscription> q = ofy().load().type(CourseSubscription.class)
+				.filter("student", subscription.getStudent() )
+				.order("-date");
+		List<CourseSubscription> returnList = q.list();
+		//
+		populateUnsavedData( returnList );
+		//
+		return returnList;
+	}
+	
 	
 	/*
 	 * 
@@ -49,7 +70,7 @@ public class CourseSubscriptionDao extends MyDAOBase {
 		for ( CourseSubscription subscription : subscriptions ) {
 			student = ofy().load().key( subscription.getStudent() ).now();
 			prof = ofy().load().key( subscription.getProf() ).now();
-			subscription.setStudentName( student.getFirstName() + " " + student.getLastName() );
+			subscription.setStudentName( student.getLastName() + " " + student.getFirstName() );
 			subscription.setProfessorName( prof.getProfName() );
 		}
 	}
@@ -79,6 +100,13 @@ public class CourseSubscriptionDao extends MyDAOBase {
 	/*
 	 * */
 	public CourseSubscription saveAndReturn( String studentID, String profID, String date ) {
+		//
+		// Check if this student is already in the list for this date
+		Query<CourseSubscription> q = ofy().load().type(CourseSubscription.class)
+				.filter("date", date)
+				.filter( "student", Key.create( Student.class, Long.parseLong(studentID) ));
+		if (q.count()>0)
+			return null;
 		//
 		CourseSubscription subscription = new CourseSubscription();
 		subscription.setStudent( Key.create( Student.class, Long.parseLong(studentID)) );
