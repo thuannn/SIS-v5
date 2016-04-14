@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+import com.lemania.sis.server.Cours;
+import com.lemania.sis.server.Subject;
 import com.lemania.sis.server.bean.professor.Professor;
 import com.lemania.sis.server.bean.student.Student;
 import com.lemania.sis.server.service.MyDAOBase;
@@ -66,12 +68,27 @@ public class CourseSubscriptionDao extends MyDAOBase {
 	public void populateUnsavedData( List<CourseSubscription> subscriptions ) {
 		//
 		Student student;
-		Professor prof;
+		Professor prof, prof1;
 		for ( CourseSubscription subscription : subscriptions ) {
+			//
 			student = ofy().load().key( subscription.getStudent() ).now();
 			prof = ofy().load().key( subscription.getProf() ).now();
+			
+			if ( subscription.getProf1() != null ) {
+				prof1 = ofy().load().key( subscription.getProf1() ).now();
+				subscription.setProfessor1Name( prof1.getProfName() );
+			}
+			else 
+				subscription.setProfessor1Name( "" );	
+			
 			subscription.setStudentName( student.getLastName() + " " + student.getFirstName() );
 			subscription.setProfessorName( prof.getProfName() );
+			
+			if ( subscription.getSubject() != null )
+				subscription.setSubjectName( ofy().load().key( subscription.getSubject() ).now().getSubjectName() );
+			else
+				subscription.setSubjectName("");
+			
 		}
 	}
 	
@@ -82,6 +99,7 @@ public class CourseSubscriptionDao extends MyDAOBase {
 		//
 		ofy().save().entities( subscription );
 	}
+	
 	
 	/*
 	 * */
@@ -96,10 +114,25 @@ public class CourseSubscriptionDao extends MyDAOBase {
 	}
 	
 	
+	/*
+	 * */
+	public CourseSubscription saveAndReturn(CourseSubscription subscription, String profId) {
+		//
+		subscription.setProf1( Key.create( Professor.class, Long.parseLong(profId)) );
+		//
+		Key<CourseSubscription> key = ofy().save().entities( subscription ).now().keySet().iterator().next();
+		try {
+			return ofy().load().key(key).now();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	
 	/*
 	 * */
-	public CourseSubscription saveAndReturn( String studentID, String profID, String date ) {
+	public CourseSubscription saveAndReturn( String studentID, String profID, String date,
+			boolean R, boolean ES, String note1, String subjectID ) {
 		//
 		// Check if this student is already in the list for this date
 		Query<CourseSubscription> q = ofy().load().type(CourseSubscription.class)
@@ -111,7 +144,11 @@ public class CourseSubscriptionDao extends MyDAOBase {
 		CourseSubscription subscription = new CourseSubscription();
 		subscription.setStudent( Key.create( Student.class, Long.parseLong(studentID)) );
 		subscription.setProf( Key.create(Professor.class, Long.parseLong(profID)) );
+		subscription.setSubject( Key.create(Subject.class, Long.parseLong(subjectID)) );
 		subscription.setDate( date );
+		subscription.setNote1(note1);
+		subscription.setR(R);
+		subscription.setES(ES);
 		//
 		Key<CourseSubscription> key = ofy().save().entities( subscription ).now().keySet().iterator().next();
 		try {

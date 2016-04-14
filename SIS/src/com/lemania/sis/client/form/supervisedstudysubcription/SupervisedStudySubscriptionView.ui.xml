@@ -56,6 +56,66 @@
 					</g:Cell>
 
 				</g:HorizontalPanel>
+				
+				<g:VerticalPanel ui:field="pnlSubscriptionDetail">
+				    <g:Grid cellSpacing="10">
+			        <g:row>
+					<g:customCell>
+						<g:Label text="Elève :" />
+					</g:customCell>
+					<g:customCell>
+						<g:Label ui:field="lblStudentName" width="300px" />
+					</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="Matière :" />
+						</g:customCell>
+						<g:customCell>
+							<g:ListBox ui:field="lstSubjects" width="300px" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="R (Rattrapage) :" />
+						</g:customCell>
+						<g:customCell>
+							<g:CheckBox text="" ui:field="blnR"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="ES (Etude Surveillée) :" />
+						</g:customCell>
+						<g:customCell>
+							<g:CheckBox text="" ui:field="blnES"/>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="A faire :" />
+						</g:customCell>
+						<g:customCell>
+							<g:TextArea width="" characterWidth="90"
+										ui:field="txtNote1"
+										height="" visibleLines="5" />
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
+							<g:Label text="." styleName="hiddenText" />
+						</g:customCell>
+						<g:customCell>
+						    <g:HorizontalPanel width="100%">
+						        <g:Button styleName="gridButton" ui:field="cmdCancel"
+									text="Annuler">Annuler</g:Button>
+								<g:Button styleName="gridButton" ui:field="cmdSave"
+									text="Enregistrer">Enregistrer</g:Button>
+							</g:HorizontalPanel>
+						</g:customCell>
+					</g:row>
+				</g:Grid>
+				</g:VerticalPanel>
 
 			</g:VerticalPanel>
 		</g:VerticalPanel>

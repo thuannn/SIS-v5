@@ -9,5 +9,5 @@ interface SupervisedStudyTrackingUiHandlers extends UiHandlers {
 	//
 	void loadStudentSubscriptions( CourseSubscriptionProxy subscription );
 	//
-	void saveSubscriptionNote( CourseSubscriptionProxy subscription, String note );
+	void saveSubscriptionNote( CourseSubscriptionProxy subscription, String note, String profId );
 }

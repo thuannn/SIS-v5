@@ -6,7 +6,6 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.RequestFactory;
 import com.google.web.bindery.requestfactory.shared.Service;
-import com.lemania.sis.server.bean.coursesubscription.CourseSubscription;
 import com.lemania.sis.server.bean.coursesubscription.CourseSubscriptionDao;
 import com.lemania.sis.server.service.DaoServiceLocator;
 
@@ -19,8 +18,10 @@ public interface CourseSubscriptionRequestFactory extends RequestFactory {
 		Request<List<CourseSubscriptionProxy>> listAllByDate( String date );
 		Request<List<CourseSubscriptionProxy>> listAllByStudent( CourseSubscriptionProxy subscription );
 		//
-		Request<CourseSubscriptionProxy> saveAndReturn( String studentID, String profID, String date );
+		Request<CourseSubscriptionProxy> saveAndReturn( String studentID, String profID, String date,
+				boolean R, boolean ES, String note, String courseID );
 		Request<CourseSubscriptionProxy> saveAndReturn( CourseSubscriptionProxy subscription );
+		Request<CourseSubscriptionProxy> saveAndReturn( CourseSubscriptionProxy subscription, String profId );
 		//
 		Request<Void> removeCourseSubscription( CourseSubscriptionProxy subscription );
 	}

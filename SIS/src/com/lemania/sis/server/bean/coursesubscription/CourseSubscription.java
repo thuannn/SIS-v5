@@ -5,7 +5,7 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
 import com.lemania.sis.server.DatastoreObject;
-import com.lemania.sis.server.bean.classe.Classe;
+import com.lemania.sis.server.Subject;
 import com.lemania.sis.server.bean.professor.Professor;
 import com.lemania.sis.server.bean.student.Student;
 
@@ -15,15 +15,21 @@ public class CourseSubscription extends DatastoreObject implements Comparable<Co
 	
 	//
 	Key<Student> student;
-	Key<Professor> prof;
-	
+	Key<Professor> prof;		// Professor who add subscription
+	Key<Professor> prof1;		// Follow up professsor
+	Key<Subject> subject;
 	//
 	String date = "";
 	String note = "";
-	
+	String note1 = "";
+	//
+	boolean R = false;
+	boolean ES = false;
 	//
 	@IgnoreSave String professorName = "";
+	@IgnoreSave String professor1Name = "";
 	@IgnoreSave String studentName = "";
+	@IgnoreSave String subjectName = "";
 	
 
 	public String getProfessorName() {
@@ -32,6 +38,14 @@ public class CourseSubscription extends DatastoreObject implements Comparable<Co
 
 	public void setProfessorName(String professorName) {
 		this.professorName = professorName;
+	}
+	
+	public String getProfessor1Name() {
+		return professor1Name;
+	}
+
+	public void setProfessor1Name(String professorName) {
+		this.professor1Name = professorName;
 	}
 
 	public String getStudentName() {
@@ -73,11 +87,59 @@ public class CourseSubscription extends DatastoreObject implements Comparable<Co
 	public void setProf(Key<Professor> prof) {
 		this.prof = prof;
 	}
+	
+	public Key<Professor> getProf1() {
+		return prof1;
+	}
+
+	public void setProf1(Key<Professor> prof) {
+		this.prof1 = prof;
+	}
 
 	@Override
 	public int compareTo(CourseSubscription o) {
 		// TODO Auto-generated method stub
 		return this.getStudentName().compareTo(o.getStudentName());
+	}
+
+	public String getNote1() {
+		return note1;
+	}
+
+	public void setNote1(String note1) {
+		this.note1 = note1;
+	}
+
+	public Key<Subject> getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Key<Subject> subject) {
+		this.subject = subject;
+	}
+
+	public boolean isR() {
+		return R;
+	}
+
+	public void setR(boolean r) {
+		R = r;
+	}
+
+	public boolean isES() {
+		return ES;
+	}
+
+	public void setES(boolean eS) {
+		ES = eS;
+	}
+
+	public String getSubjectName() {
+		return subjectName;
+	}
+
+	public void setSubjectName(String subjectName) {
+		this.subjectName = subjectName;
 	}
 	
 }

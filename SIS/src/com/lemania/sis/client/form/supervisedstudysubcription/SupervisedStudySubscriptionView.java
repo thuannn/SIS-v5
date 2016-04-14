@@ -9,6 +9,10 @@ import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -17,9 +21,18 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.view.client.ListDataProvider;
@@ -28,9 +41,18 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.lemania.sis.client.UI.FieldValidation;
 import com.lemania.sis.client.UI.GridButtonCell;
+import com.lemania.sis.client.values.NotificationValues;
+import com.lemania.sis.shared.CoursProxy;
 import com.lemania.sis.shared.ProfessorProxy;
+import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.lemania.sis.shared.student.StudentProxy;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.box.MessageBox;
+import com.sencha.gxt.widget.core.client.box.MultiLinePromptMessageBox;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
+import com.sencha.gxt.widget.core.client.info.Info;
 
 class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudySubscriptionUiHandlers> implements SupervisedStudySubscriptionPresenter.MyView {
     
@@ -67,7 +89,19 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
     @UiField(provided=true) DataGrid<CourseSubscriptionProxy> tblAppliedStudents = new DataGrid<CourseSubscriptionProxy>();
     //
     @UiField ListBox lstProfs;
-    
+    //
+    private DialogBox pp;
+    @UiField VerticalPanel pnlSubscriptionDetail;
+    @UiField ListBox lstSubjects;
+    @UiField CheckBox blnR;
+    @UiField CheckBox blnES;
+    @UiField TextArea txtNote1;
+    @UiField Button cmdSave;
+    @UiField Button cmdCancel;
+    @UiField Label lblStudentName;
+    //
+    private StudentProxy selectedStudent = null;
+    private boolean newSubscriptionEdit;
     
     /*
 	 * */
@@ -79,6 +113,8 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		initializeStudentTable();
 		//
 		initializeAppliedStudentTable();
+		//
+		initializePopup();
 	}
 	
 	
@@ -146,10 +182,15 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    	@Override
 	    	public void update(int index, StudentProxy ps, String value) {
 	    		//
-	    		getUiHandlers().addCourseSubscription( 
-	    				ps.getId().toString(), 
-	    				lstProfs.getSelectedValue(), 
-	    				DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ) );
+//	    		getUiHandlers().addCourseSubscription( 
+//	    				ps.getId().toString(), 
+//	    				lstProfs.getSelectedValue(), 
+//	    				DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ) );
+	    		//
+	    		selectedStudent = ps;
+	    		newSubscriptionEdit = true;
+	    		//
+	    		showSubscriptionDetailBox();
 	    	}
 	    });
 	    tblStudents.setColumnWidth(colAdd, 100, Unit.PX);
@@ -157,6 +198,92 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    
 	    //
 	    dataProvider.addDataDisplay(tblStudents);
+	}
+	
+	
+	
+	/*
+	 * */
+	private void initializePopup() {
+		//
+		pp = new DialogBox(true) {
+			@Override
+			  protected void onPreviewNativeEvent(final NativePreviewEvent event) {
+			    super.onPreviewNativeEvent(event);
+			    switch (event.getTypeInt()) {
+			        case Event.ONKEYDOWN:
+			            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+			            	//
+			                hide();
+			            }
+			            break;
+			    }
+			}
+		};
+		//
+		pp.addCloseHandler(new CloseHandler<PopupPanel>() {
+			public void onClose(CloseEvent<PopupPanel> event) {
+				//
+				resetPnlSubscriptionDetail();
+			}
+		});
+		//
+		cmdCancel.addClickHandler( new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				//
+				resetPnlSubscriptionDetail();
+				pp.hide();
+			}
+			
+		});
+		//
+		cmdSave.addClickHandler( new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				//
+				if ( !blnR.getValue() &&  !blnES.getValue() ) {
+					Window.alert( NotificationValues.invalid_input + "Merci de choisir l'option R ou ES" );
+					return;
+				}
+				//
+				if ( lstSubjects.getSelectedValue().equals("") ) {
+					Window.alert( NotificationValues.invalid_input + "Matière" );
+					return;
+				}
+				//
+				getUiHandlers().addCourseSubscription( 
+	    				selectedStudent.getId().toString(), 
+	    				lstProfs.getSelectedValue(), 
+	    				DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ),
+	    				blnR.getValue(), 
+	    				blnES.getValue(), 
+	    				txtNote1.getText(),
+	    				lstSubjects.getSelectedValue() );
+			}
+			
+		});
+		//
+		pp.add( pnlSubscriptionDetail );
+		pp.setAutoHideEnabled(false);
+		pp.setGlassEnabled( true );
+		pp.setText("Subscription");
+	}
+	
+	
+	
+	/*
+	 * */
+	private void showSubscriptionDetailBox() {
+		//
+		if (newSubscriptionEdit)
+			lblStudentName.setText( selectedStudent.getLastName() + " " + selectedStudent.getFirstName() );
+		//
+		pnlSubscriptionDetail.setVisible(true);
+		//
+		pp.center();
 	}
 	
 	
@@ -172,6 +299,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	      } 
 	    };
 	    tblAppliedStudents.addColumn(colStudentName, "Elève");
+	    tblAppliedStudents.setColumnWidth(colStudentName, 15, Unit.PCT);
 	    
 	    // Add a text column to show the name.
 	    Column<CourseSubscriptionProxy, String> colProf = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
@@ -180,7 +308,8 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	        return object.getProfessorName();
 	      }
 	    };
-	    tblAppliedStudents.addColumn(colProf, "Inscrit par professeur");
+	    tblAppliedStudents.addColumn(colProf, "Inscrit par");
+	    tblAppliedStudents.setColumnWidth(colProf, 15, Unit.PCT);
 	    
 	    // Add a text column to show the name.
 	    Column<CourseSubscriptionProxy, String> colDate = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
@@ -190,6 +319,67 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	      }
 	    };
 	    tblAppliedStudents.addColumn(colDate, "Date");
+	    tblAppliedStudents.setColumnWidth(colDate, 10, Unit.PCT);
+	    
+	    // Add a text column to show the name.
+	    Column<CourseSubscriptionProxy, String> colSubject = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(CourseSubscriptionProxy object) {
+	        return object.getSubjectName();
+	      }
+	    };
+	    tblAppliedStudents.addColumn(colSubject, "Matière");
+	    tblAppliedStudents.setColumnWidth(colSubject, 10, Unit.PCT);
+	    
+	    
+	    // Add a text column to show the name.
+	    Column<CourseSubscriptionProxy, String> colR = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(CourseSubscriptionProxy object) {
+	        return object.isR() ? "R" : "";
+	      }
+	    };
+	    tblAppliedStudents.addColumn(colR, "R");
+	    tblAppliedStudents.setColumnWidth(colR, 50, Unit.PX);
+	    
+	    // Add a text column to show the name.
+	    Column<CourseSubscriptionProxy, String> colES = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(CourseSubscriptionProxy object) {
+	        return object.isES() ? "ES" : "";
+	      }
+	    };
+	    tblAppliedStudents.addColumn(colES, "ES");
+	    tblAppliedStudents.setColumnWidth(colES, 50, Unit.PX);
+	    
+	    // Add a text column to show the name.
+	    Column<CourseSubscriptionProxy, String> colNote = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(CourseSubscriptionProxy object) {
+	        return object.getNote1();
+	      }
+	    };
+	    tblAppliedStudents.addColumn(colNote, "A faire");
+	    
+	    // Note input
+ 		Column<CourseSubscriptionProxy, String> colNoteInput = new Column<CourseSubscriptionProxy, String>(
+ 				new GridButtonCell()) {
+ 			@Override
+ 			public String getValue(CourseSubscriptionProxy bp) {
+ 				return "Editer";
+ 			}
+ 		};
+ 		colNoteInput
+			.setFieldUpdater(new FieldUpdater<CourseSubscriptionProxy, String>() {
+				@Override
+				public void update(int index, CourseSubscriptionProxy ps,
+						String value) {
+					//
+					createMultiPrompt(ps);
+				}
+			});
+ 		tblAppliedStudents.setColumnWidth(colNoteInput, 75, Unit.PX);
+ 		tblAppliedStudents.addColumn(colNoteInput, "");
 	    
 	    // Add a selection model to handle user selection.
 	    final SingleSelectionModel<CourseSubscriptionProxy> selectionModel = new SingleSelectionModel<CourseSubscriptionProxy>();
@@ -205,7 +395,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    Column<CourseSubscriptionProxy, String> colDelete = new Column<CourseSubscriptionProxy, String> (new GridButtonCell()){
 	    	@Override
 	    	public String getValue(CourseSubscriptionProxy bp){
-	    		return "Désinscrire";
+	    		return "Supprimer";
 	    	}
 	    };
 	    colDelete.setFieldUpdater(new FieldUpdater<CourseSubscriptionProxy, String>(){
@@ -233,6 +423,44 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		//
 		appliedStudentsDataProvider.getList().clear();
 		appliedStudentsDataProvider.flush();
+		//
+		resetPnlSubscriptionDetail();
+	}
+	
+	
+	/*
+	 * */
+	private void resetPnlSubscriptionDetail() {
+		//
+		lstSubjects.setSelectedIndex(0);
+		blnR.setValue(false);
+		blnES.setValue(false);
+		txtNote1.setText("");
+		//
+		pnlSubscriptionDetail.setVisible(false);
+	}
+
+	/*
+	 * */
+	private void createMultiPrompt(final CourseSubscriptionProxy subscription) {
+		//
+		final MultiLinePromptMessageBox messageBox = new MultiLinePromptMessageBox(
+				"Saisir un commentaire pour " + subscription.getStudentName() + " - " + FieldValidation.swissDateFormat(subscription.getDate()), "Commentaire :");
+		messageBox.getField().setValue( subscription.getNote() );
+		//
+		messageBox.addDialogHideHandler(new DialogHideHandler() {
+			@Override
+			public void onDialogHide(DialogHideEvent event) {
+				if (event.getHideButton() == PredefinedButton.OK) {
+					//
+					getUiHandlers().saveSubscriptionNote1( subscription, messageBox.getValue(), 
+							DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ) );
+				} else {
+					Info.display("Information", "Saisir un commentaire annulé");
+				}
+			}
+		});
+		messageBox.show();
 	}
 	
 	
@@ -278,6 +506,21 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		appliedStudentsDataProvider.setList( list );
 		appliedStudentsDataProvider.flush();
 		tblAppliedStudents.setPageSize( list.size() );
+		//
+		pp.hide();
+	}
+	
+	
+	/**/
+	@Override
+	public void setSubjectList(List<SubjectProxy> programmes) {
+		// First clear existing data
+		lstSubjects.clear();
+		
+		// 
+		lstSubjects.addItem("-", "");
+		for ( SubjectProxy subject : programmes )
+			lstSubjects.addItem( subject.getSubjectName(), subject.getId().toString() );
 	}
 	
 	

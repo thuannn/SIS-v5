@@ -41,14 +41,14 @@
 
 				<g:HorizontalPanel width="100%">
 				    
-				    <g:Cell width="30%">
+				    <g:Cell width="50%">
 						<g:VerticalPanel width="100%" spacing="5">
 							<g:Label text="Liste des élèves inscrits" />
 							<p1:DataGrid width="100%" height="450px" ui:field="tblAppliedStudents" />
 						</g:VerticalPanel>
 					</g:Cell>
 
-					<g:Cell width="70%">
+					<g:Cell width="50%">
 						<g:VerticalPanel width="100%" spacing="5">
 							<g:Label text="Suivi d'un élève" />
 							<p1:DataGrid width="100%" height="450px" ui:field="tblStudentSubscriptions" />

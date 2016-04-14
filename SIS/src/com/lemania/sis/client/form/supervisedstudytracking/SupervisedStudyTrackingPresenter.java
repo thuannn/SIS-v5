@@ -27,6 +27,7 @@ import com.lemania.sis.client.form.mainpage.MainPagePresenter;
 import com.lemania.sis.client.form.supervisedstudysubscriptionevents.OnSupervisedStudySubscriptionUpdateEvent;
 import com.lemania.sis.client.form.supervisedstudysubscriptionevents.OnSupervisedStudySubscriptionUpdateEvent.OnSupervisedStudySubscriptionUpdateHandler;
 import com.lemania.sis.client.place.NameTokens;
+import com.lemania.sis.client.values.NotificationValues;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionRequestFactory;
@@ -34,6 +35,7 @@ import com.lemania.sis.shared.coursesubscription.CourseSubscriptionRequestFactor
 import com.lemania.sis.shared.service.EventSourceRequestTransport;
 import com.lemania.sis.shared.service.ProfessorRequestFactory;
 import com.lemania.sis.shared.service.ProfessorRequestFactory.ProfessorRequestContext;
+import com.sencha.gxt.widget.core.client.box.MessageBox;
 public class SupervisedStudyTrackingPresenter extends Presenter<SupervisedStudyTrackingPresenter.MyView, SupervisedStudyTrackingPresenter.MyProxy> 
 		implements SupervisedStudyTrackingUiHandlers, LoginAuthenticatedHandler, OnSupervisedStudySubscriptionUpdateHandler {
     
@@ -179,14 +181,19 @@ public class SupervisedStudyTrackingPresenter extends Presenter<SupervisedStudyT
 	 * */
 	@Override
 	public void saveSubscriptionNote(final CourseSubscriptionProxy subscription,
-			String note) {
+			String note, String profId) {
+		//
+		if (profId.equals("")) {
+			(new MessageBox( "Notification", NotificationValues.invalid_input + "Professeur" )).show();
+			return;
+		}
 		//
 		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
 		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
 		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
 		CourseSubscriptionProxy cs = rc.edit( subscription );
 		cs.setNote(note);
-		rc.saveAndReturn(cs).fire(new Receiver<CourseSubscriptionProxy>(){
+		rc.saveAndReturn(cs, profId).fire(new Receiver<CourseSubscriptionProxy>(){
 			@Override
 			public void onFailure(ServerFailure error){
 				Window.alert(error.getMessage());

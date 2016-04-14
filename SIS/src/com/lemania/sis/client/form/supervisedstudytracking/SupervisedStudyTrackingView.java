@@ -20,7 +20,6 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.view.client.ListDataProvider;
@@ -29,11 +28,9 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.lemania.sis.client.UI.FieldValidation;
 import com.lemania.sis.client.UI.GridButtonCell;
+import com.lemania.sis.client.values.NotificationValues;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
-import com.lemania.sis.shared.student.StudentProxy;
-import com.sencha.gxt.core.client.util.Format;
-import com.sencha.gxt.core.client.util.Params;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.box.MultiLinePromptMessageBox;
@@ -131,6 +128,7 @@ class SupervisedStudyTrackingView extends
 			}
 		};
 		tblAppliedStudents.addColumn(colStudentName, "Elève");
+		tblAppliedStudents.setColumnWidth(colStudentName, 20, Unit.PCT);
 
 		// Add a text column to show the name.
 		Column<CourseSubscriptionProxy, String> colProf = new Column<CourseSubscriptionProxy, String>(
@@ -141,6 +139,7 @@ class SupervisedStudyTrackingView extends
 			}
 		};
 		tblAppliedStudents.addColumn(colProf, "Inscrit par professeur");
+		tblAppliedStudents.setColumnWidth(colProf, 20, Unit.PCT);
 
 		// Add a text column to show the name.
 		Column<CourseSubscriptionProxy, String> colDate = new Column<CourseSubscriptionProxy, String>(
@@ -151,6 +150,19 @@ class SupervisedStudyTrackingView extends
 			}
 		};
 		tblAppliedStudents.addColumn(colDate, "Date");
+		tblAppliedStudents.setColumnWidth(colDate, 100, Unit.PX);
+		
+		
+		// Add a text column to show the name.
+		Column<CourseSubscriptionProxy, String> colNote = new Column<CourseSubscriptionProxy, String>(
+				new TextCell()) {
+			@Override
+			public String getValue(CourseSubscriptionProxy object) {
+				return object.getNote1();
+			}
+		};
+		tblAppliedStudents.addColumn(colNote, "A faire");
+		
 
 		// Add a selection model to handle user selection.
 		final SingleSelectionModel<CourseSubscriptionProxy> selectionModel = new SingleSelectionModel<CourseSubscriptionProxy>();
@@ -192,7 +204,7 @@ class SupervisedStudyTrackingView extends
 				return FieldValidation.swissDateFormat(object.getDate());
 			}
 		};
-		tblStudentSubscriptions.setColumnWidth(colDate, 10, Unit.PCT);
+		tblStudentSubscriptions.setColumnWidth(colDate, 100, Unit.PX);
 		tblStudentSubscriptions.addColumn(colDate, "Date");
 
 		// Notes
@@ -204,6 +216,18 @@ class SupervisedStudyTrackingView extends
 			}
 		};
 		tblStudentSubscriptions.addColumn(colNotes, "Notes");
+		
+		
+		// Prof1
+		Column<CourseSubscriptionProxy, String> colProf1 = new Column<CourseSubscriptionProxy, String>(
+				new TextCell()) {
+			@Override
+			public String getValue(CourseSubscriptionProxy object) {
+				return object.getProfessor1Name();
+			}
+		};
+		tblStudentSubscriptions.addColumn(colProf1, "Professeur");
+		
 
 		// Add a selection model to handle user selection.
 		final SingleSelectionModel<CourseSubscriptionProxy> selectionModel = new SingleSelectionModel<CourseSubscriptionProxy>();
@@ -233,7 +257,7 @@ class SupervisedStudyTrackingView extends
 						createMultiPrompt(ps);
 					}
 				});
-		tblStudentSubscriptions.setColumnWidth(colNoteInput, 100, Unit.PX);
+		tblStudentSubscriptions.setColumnWidth(colNoteInput, 75, Unit.PX);
 		tblStudentSubscriptions.addColumn(colNoteInput, "");
 
 		//
@@ -245,6 +269,11 @@ class SupervisedStudyTrackingView extends
 	 * */
 	private void createMultiPrompt(final CourseSubscriptionProxy subscription) {
 		//
+		if (lstProfs.getSelectedValue().equals("")) {
+			(new MessageBox( "Notification", NotificationValues.invalid_input + "Professeur" )).show();
+			return;
+		}
+		//
 		final MultiLinePromptMessageBox messageBox = new MultiLinePromptMessageBox(
 				"Saisir un commentaire pour " + subscription.getStudentName() + " - " + FieldValidation.swissDateFormat(subscription.getDate()), "Commentaire :");
 		messageBox.getField().setValue( subscription.getNote() );
@@ -254,7 +283,7 @@ class SupervisedStudyTrackingView extends
 			public void onDialogHide(DialogHideEvent event) {
 				if (event.getHideButton() == PredefinedButton.OK) {
 					//
-					getUiHandlers().saveSubscriptionNote( subscription, messageBox.getValue() );
+					getUiHandlers().saveSubscriptionNote( subscription, messageBox.getValue(), lstProfs.getSelectedValue() );
 				} else {
 					Info.display("Information", "Saisir un commentaire annulé");
 				}
@@ -312,6 +341,7 @@ class SupervisedStudyTrackingView extends
 		appliedStudentsDataProvider.getList().clear();
 		appliedStudentsDataProvider.setList(list);
 		appliedStudentsDataProvider.flush();
+		tblAppliedStudents.setPageSize( list.size() );
 	}
 
 	/*
@@ -332,6 +362,7 @@ class SupervisedStudyTrackingView extends
 		studentSubscriptionsDataProvider.getList().clear();
 		studentSubscriptionsDataProvider.setList(list);
 		studentSubscriptionsDataProvider.flush();
+		tblStudentSubscriptions.setPageSize( list.size() );
 	}
 
 	
