@@ -138,19 +138,38 @@ class SupervisedStudyTrackingView extends
 				return object.getProfessorName();
 			}
 		};
-		tblAppliedStudents.addColumn(colProf, "Inscrit par professeur");
+		tblAppliedStudents.addColumn(colProf, "Inscrit par");
 		tblAppliedStudents.setColumnWidth(colProf, 20, Unit.PCT);
+		
+		// Add a text column to show the name.
+	    Column<CourseSubscriptionProxy, String> colSubject = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(CourseSubscriptionProxy object) {
+	        return object.getSubjectName();
+	      }
+	    };
+	    tblAppliedStudents.addColumn(colSubject, "Matière");
+	    tblAppliedStudents.setColumnWidth(colSubject, 10, Unit.PCT);
 
 		// Add a text column to show the name.
-		Column<CourseSubscriptionProxy, String> colDate = new Column<CourseSubscriptionProxy, String>(
-				new TextCell()) {
-			@Override
-			public String getValue(CourseSubscriptionProxy object) {
-				return FieldValidation.swissDateFormat(object.getDate());
-			}
-		};
-		tblAppliedStudents.addColumn(colDate, "Date");
-		tblAppliedStudents.setColumnWidth(colDate, 100, Unit.PX);
+	    Column<CourseSubscriptionProxy, String> colR = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(CourseSubscriptionProxy object) {
+	        return object.isR() ? "R" : "";
+	      }
+	    };
+	    tblAppliedStudents.addColumn(colR, "R");
+	    tblAppliedStudents.setColumnWidth(colR, 50, Unit.PX);
+	    
+	    // Add a text column to show the name.
+	    Column<CourseSubscriptionProxy, String> colES = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+	      @Override
+	      public String getValue(CourseSubscriptionProxy object) {
+	        return object.isES() ? "ES" : "";
+	      }
+	    };
+	    tblAppliedStudents.addColumn(colES, "ES");
+	    tblAppliedStudents.setColumnWidth(colES, 50, Unit.PX);
 		
 		
 		// Add a text column to show the name.
@@ -226,7 +245,7 @@ class SupervisedStudyTrackingView extends
 				return object.getProfessor1Name();
 			}
 		};
-		tblStudentSubscriptions.addColumn(colProf1, "Professeur");
+		tblStudentSubscriptions.addColumn(colProf1, "Noté par");
 		
 
 		// Add a selection model to handle user selection.

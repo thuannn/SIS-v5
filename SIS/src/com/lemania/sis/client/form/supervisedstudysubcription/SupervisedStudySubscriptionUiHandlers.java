@@ -12,4 +12,7 @@ interface SupervisedStudySubscriptionUiHandlers extends UiHandlers {
 	void removeCourseSubscription( CourseSubscriptionProxy subscription, String date );
 	//
 	void saveSubscriptionNote1( CourseSubscriptionProxy subscription, String note, String date );
+	//
+	void saveSubscriptionDetails( CourseSubscriptionProxy subscription, String note, String date, 
+			String subjectId, boolean isR, boolean isES );
 }

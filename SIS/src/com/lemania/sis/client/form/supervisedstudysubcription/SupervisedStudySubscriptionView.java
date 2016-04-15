@@ -101,6 +101,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
     @UiField Label lblStudentName;
     //
     private StudentProxy selectedStudent = null;
+    private CourseSubscriptionProxy selectedSubscription = null;
     private boolean newSubscriptionEdit;
     
     /*
@@ -182,11 +183,6 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    	@Override
 	    	public void update(int index, StudentProxy ps, String value) {
 	    		//
-//	    		getUiHandlers().addCourseSubscription( 
-//	    				ps.getId().toString(), 
-//	    				lstProfs.getSelectedValue(), 
-//	    				DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ) );
-	    		//
 	    		selectedStudent = ps;
 	    		newSubscriptionEdit = true;
 	    		//
@@ -254,14 +250,27 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 					return;
 				}
 				//
-				getUiHandlers().addCourseSubscription( 
-	    				selectedStudent.getId().toString(), 
-	    				lstProfs.getSelectedValue(), 
-	    				DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ),
-	    				blnR.getValue(), 
-	    				blnES.getValue(), 
-	    				txtNote1.getText(),
-	    				lstSubjects.getSelectedValue() );
+				// If creating a new subscription
+				if ( newSubscriptionEdit ) {
+					getUiHandlers().addCourseSubscription( 
+		    				selectedStudent.getId().toString(), 
+		    				lstProfs.getSelectedValue(), 
+		    				DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ),
+		    				blnR.getValue(), 
+		    				blnES.getValue(), 
+		    				txtNote1.getText(),
+		    				lstSubjects.getSelectedValue() );
+				}
+				//
+				if ( !newSubscriptionEdit ) {
+					getUiHandlers().saveSubscriptionDetails(
+							selectedSubscription,
+							txtNote1.getText(),
+							DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ),
+							lstSubjects.getSelectedValue(),
+							blnR.getValue(), 
+		    				blnES.getValue() );
+				}
 			}
 			
 		});
@@ -275,16 +284,34 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	
 	
 	/*
+	 * 
 	 * */
 	private void showSubscriptionDetailBox() {
 		//
-		if (newSubscriptionEdit)
+		if (lstProfs.getSelectedValue().equals("")) {
+			Window.alert( NotificationValues.invalid_input + "Professeur");
+			return;
+		}
+		//
+		// If creating a new subscription, show blank form with student name
+		if (newSubscriptionEdit) {
+			resetPnlSubscriptionDetail();
 			lblStudentName.setText( selectedStudent.getLastName() + " " + selectedStudent.getFirstName() );
+		}
+		// If not creating a new subscription, show the currently selected subscription
+		if (!newSubscriptionEdit && (selectedSubscription != null)) {
+			lblStudentName.setText( selectedSubscription.getStudentName() );
+			FieldValidation.selectItemByText(lstSubjects, selectedSubscription.getSubjectName());
+			blnR.setValue( selectedSubscription.isR() );
+			blnES.setValue( selectedSubscription.isES() );
+			txtNote1.setText( selectedSubscription.getNote1() );
+		}
 		//
 		pnlSubscriptionDetail.setVisible(true);
 		//
 		pp.center();
 	}
+	
 	
 	
 	/* 
@@ -372,10 +399,12 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
  		colNoteInput
 			.setFieldUpdater(new FieldUpdater<CourseSubscriptionProxy, String>() {
 				@Override
-				public void update(int index, CourseSubscriptionProxy ps,
-						String value) {
+				public void update(int index, CourseSubscriptionProxy ps, String value) {
 					//
-					createMultiPrompt(ps);
+		    		selectedSubscription = ps;
+		    		newSubscriptionEdit = false;
+		    		//
+		    		showSubscriptionDetailBox();
 				}
 			});
  		tblAppliedStudents.setColumnWidth(colNoteInput, 75, Unit.PX);
@@ -438,29 +467,6 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		txtNote1.setText("");
 		//
 		pnlSubscriptionDetail.setVisible(false);
-	}
-
-	/*
-	 * */
-	private void createMultiPrompt(final CourseSubscriptionProxy subscription) {
-		//
-		final MultiLinePromptMessageBox messageBox = new MultiLinePromptMessageBox(
-				"Saisir un commentaire pour " + subscription.getStudentName() + " - " + FieldValidation.swissDateFormat(subscription.getDate()), "Commentaire :");
-		messageBox.getField().setValue( subscription.getNote() );
-		//
-		messageBox.addDialogHideHandler(new DialogHideHandler() {
-			@Override
-			public void onDialogHide(DialogHideEvent event) {
-				if (event.getHideButton() == PredefinedButton.OK) {
-					//
-					getUiHandlers().saveSubscriptionNote1( subscription, messageBox.getValue(), 
-							DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ) );
-				} else {
-					Info.display("Information", "Saisir un commentaire annulé");
-				}
-			}
-		});
-		messageBox.show();
 	}
 	
 	

@@ -321,4 +321,32 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
 	}
 
 	
+	/*
+	 * 
+	 * */
+	@Override
+	public void saveSubscriptionDetails(CourseSubscriptionProxy subscription,
+			String note, final String date, String subjectId, boolean isR,
+			boolean isES) {
+		//
+		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
+		//
+		CourseSubscriptionProxy cs = rc.edit( subscription );
+		rc.saveAndReturn( cs, note, subjectId, isR, isES ).fire(new Receiver<CourseSubscriptionProxy>(){
+			@Override
+			public void onFailure(ServerFailure error){
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(CourseSubscriptionProxy response) {
+				//
+				getEventBus().fireEvent( new OnSupervisedStudySubscriptionAddedEvent( date ) );
+			}
+		});
+		
+	}
+
+	
 }

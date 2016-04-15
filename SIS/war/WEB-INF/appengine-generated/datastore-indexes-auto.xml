@@ -1,4 +1,11 @@
-<!-- Indices written at Fri, 15 Apr 2016 01:43:41 CEST -->
+<!-- Indices written at Fri, 15 Apr 2016 10:52:26 CEST -->
 
-<datastore-indexes/>
+<datastore-indexes>
 
+    <!-- Used 12 times in query history -->
+    <datastore-index kind="CourseSubscription" ancestor="false" source="auto">
+        <property name="student" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>

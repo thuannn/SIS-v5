@@ -131,6 +131,26 @@ public class CourseSubscriptionDao extends MyDAOBase {
 	
 	/*
 	 * */
+	public CourseSubscription saveAndReturn(CourseSubscription subscription, String note1, String subjectId, 
+			boolean isR, boolean isES ) {
+		//
+		subscription.setSubject( Key.create( Subject.class, Long.parseLong( subjectId )) );
+		subscription.setNote1( note1 );
+		subscription.setR(isR);
+		subscription.setES(isES);
+		//
+		Key<CourseSubscription> key = ofy().save().entities( subscription ).now().keySet().iterator().next();
+		try {
+			return ofy().load().key(key).now();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	
+	
+	/*
+	 * */
 	public CourseSubscription saveAndReturn( String studentID, String profID, String date,
 			boolean R, boolean ES, String note1, String subjectID ) {
 		//
