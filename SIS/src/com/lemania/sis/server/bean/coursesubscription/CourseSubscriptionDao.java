@@ -164,7 +164,12 @@ public class CourseSubscriptionDao extends MyDAOBase {
 		CourseSubscription subscription = new CourseSubscription();
 		subscription.setStudent( Key.create( Student.class, Long.parseLong(studentID)) );
 		subscription.setProf( Key.create(Professor.class, Long.parseLong(profID)) );
-		subscription.setSubject( Key.create(Subject.class, Long.parseLong(subjectID)) );
+		//
+		if (!subjectID.equals(""))
+			subscription.setSubject( Key.create(Subject.class, Long.parseLong(subjectID)) );
+		else
+			subscription.setSubject(null);
+		//
 		subscription.setDate( date );
 		subscription.setNote1(note1);
 		subscription.setR(R);

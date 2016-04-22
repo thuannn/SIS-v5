@@ -48,6 +48,7 @@ import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.lemania.sis.shared.student.StudentProxy;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.box.MultiLinePromptMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
@@ -241,12 +242,17 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 			public void onClick(ClickEvent event) {
 				//
 				if ( !blnR.getValue() &&  !blnES.getValue() ) {
-					Window.alert( NotificationValues.invalid_input + "Merci de choisir l'option R ou ES" );
+					Window.alert( NotificationValues.invalid_input + "Merci de choisir l'option R ou T" );
 					return;
 				}
 				//
-				if ( lstSubjects.getSelectedValue().equals("") ) {
+				if ( blnR.getValue() && lstSubjects.getSelectedValue().equals("") ) {
 					Window.alert( NotificationValues.invalid_input + "Matière" );
+					return;
+				}
+				//
+				if (txtNote1.getText().equals("")) {
+					Window.alert( NotificationValues.invalid_input + "Commentaire");
 					return;
 				}
 				//
@@ -338,15 +344,15 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    tblAppliedStudents.addColumn(colProf, "Inscrit par");
 	    tblAppliedStudents.setColumnWidth(colProf, 15, Unit.PCT);
 	    
-	    // Add a text column to show the name.
-	    Column<CourseSubscriptionProxy, String> colDate = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
-	      @Override
-	      public String getValue(CourseSubscriptionProxy object) {
-	        return FieldValidation.swissDateFormat( object.getDate() );
-	      }
-	    };
-	    tblAppliedStudents.addColumn(colDate, "Date");
-	    tblAppliedStudents.setColumnWidth(colDate, 10, Unit.PCT);
+//	    // Add a text column to show the name.
+//	    Column<CourseSubscriptionProxy, String> colDate = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
+//	      @Override
+//	      public String getValue(CourseSubscriptionProxy object) {
+//	        return FieldValidation.swissDateFormat( object.getDate() );
+//	      }
+//	    };
+//	    tblAppliedStudents.addColumn(colDate, "Date");
+//	    tblAppliedStudents.setColumnWidth(colDate, 10, Unit.PCT);
 	    
 	    // Add a text column to show the name.
 	    Column<CourseSubscriptionProxy, String> colSubject = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
@@ -373,10 +379,10 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    Column<CourseSubscriptionProxy, String> colES = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
 	      @Override
 	      public String getValue(CourseSubscriptionProxy object) {
-	        return object.isES() ? "ES" : "";
+	        return object.isES() ? "T" : "";
 	      }
 	    };
-	    tblAppliedStudents.addColumn(colES, "ES");
+	    tblAppliedStudents.addColumn(colES, "T");
 	    tblAppliedStudents.setColumnWidth(colES, 50, Unit.PX);
 	    
 	    // Add a text column to show the name.
@@ -401,6 +407,11 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 				@Override
 				public void update(int index, CourseSubscriptionProxy ps, String value) {
 					//
+					if ( !ps.getProfessorName().equals(lstProfs.getSelectedItemText()) ) {
+						(new AlertMessageBox("Alerte", "Modification non autorisée" )).show();
+						return;
+					}
+					//
 		    		selectedSubscription = ps;
 		    		newSubscriptionEdit = false;
 		    		//
@@ -424,14 +435,17 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    Column<CourseSubscriptionProxy, String> colDelete = new Column<CourseSubscriptionProxy, String> (new GridButtonCell()){
 	    	@Override
 	    	public String getValue(CourseSubscriptionProxy bp){
-	    		return "Supprimer";
+	    			return "Supprimer"; 
 	    	}
 	    };
 	    colDelete.setFieldUpdater(new FieldUpdater<CourseSubscriptionProxy, String>(){
 	    	@Override
 	    	public void update(int index, CourseSubscriptionProxy ps, String value){
 	    		//
-	    		getUiHandlers().removeCourseSubscription( ps, DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ));
+	    		if (ps.getProfessorName().equals(lstProfs.getSelectedItemText()))
+	    			getUiHandlers().removeCourseSubscription( ps, DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ));
+	    		else
+	    			(new AlertMessageBox("Alerte", "Modification non autorisée")).show();
 	    	}
 	    });
 	    tblAppliedStudents.setColumnWidth( colDelete, 100, Unit.PX);

@@ -17,6 +17,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.ListBox;
@@ -32,6 +33,7 @@ import com.lemania.sis.client.values.NotificationValues;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 import com.sencha.gxt.widget.core.client.box.MessageBox;
 import com.sencha.gxt.widget.core.client.box.MultiLinePromptMessageBox;
 import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
@@ -78,6 +80,8 @@ class SupervisedStudyTrackingView extends
 	//
 	@UiField
 	ListBox lstProfs;
+	//
+	CourseSubscriptionProxy selectedStudent = null;
 
 	/*------------------------------*/
 
@@ -149,7 +153,7 @@ class SupervisedStudyTrackingView extends
 	      }
 	    };
 	    tblAppliedStudents.addColumn(colSubject, "Matière");
-	    tblAppliedStudents.setColumnWidth(colSubject, 10, Unit.PCT);
+	    tblAppliedStudents.setColumnWidth(colSubject, 15, Unit.PCT);
 
 		// Add a text column to show the name.
 	    Column<CourseSubscriptionProxy, String> colR = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
@@ -165,10 +169,10 @@ class SupervisedStudyTrackingView extends
 	    Column<CourseSubscriptionProxy, String> colES = new Column<CourseSubscriptionProxy, String>(new TextCell()) {
 	      @Override
 	      public String getValue(CourseSubscriptionProxy object) {
-	        return object.isES() ? "ES" : "";
+	        return object.isES() ? "T" : "";
 	      }
 	    };
-	    tblAppliedStudents.addColumn(colES, "ES");
+	    tblAppliedStudents.addColumn(colES, "T");
 	    tblAppliedStudents.setColumnWidth(colES, 50, Unit.PX);
 		
 		
@@ -191,8 +195,13 @@ class SupervisedStudyTrackingView extends
 					//
 					public void onSelectionChange(SelectionChangeEvent event) {
 						//
-						getUiHandlers().loadStudentSubscriptions(
-								selectionModel.getSelectedObject());
+						if ( selectionModel.getSelectedObject() != null) {
+							//
+							selectedStudent = selectionModel.getSelectedObject();
+							//
+							getUiHandlers().loadStudentSubscriptions(
+								 	selectionModel.getSelectedObject() );
+						}
 					}
 				});
 
@@ -225,6 +234,16 @@ class SupervisedStudyTrackingView extends
 		};
 		tblStudentSubscriptions.setColumnWidth(colDate, 100, Unit.PX);
 		tblStudentSubscriptions.addColumn(colDate, "Date");
+		
+		// Prof1
+			Column<CourseSubscriptionProxy, String> colProf1 = new Column<CourseSubscriptionProxy, String>(
+					new TextCell()) {
+				@Override
+				public String getValue(CourseSubscriptionProxy object) {
+					return object.getProfessor1Name();
+				}
+			};
+			tblStudentSubscriptions.addColumn(colProf1, "Professeur surveillant");
 
 		// Notes
 		Column<CourseSubscriptionProxy, String> colNotes = new Column<CourseSubscriptionProxy, String>(
@@ -234,18 +253,7 @@ class SupervisedStudyTrackingView extends
 				return object.getNote();
 			}
 		};
-		tblStudentSubscriptions.addColumn(colNotes, "Notes");
-		
-		
-		// Prof1
-		Column<CourseSubscriptionProxy, String> colProf1 = new Column<CourseSubscriptionProxy, String>(
-				new TextCell()) {
-			@Override
-			public String getValue(CourseSubscriptionProxy object) {
-				return object.getProfessor1Name();
-			}
-		};
-		tblStudentSubscriptions.addColumn(colProf1, "Noté par");
+		tblStudentSubscriptions.addColumn(colNotes, "Commentaire");
 		
 
 		// Add a selection model to handle user selection.
@@ -272,6 +280,12 @@ class SupervisedStudyTrackingView extends
 					@Override
 					public void update(int index, CourseSubscriptionProxy ps,
 							String value) {
+						//
+						if (!ps.getProfessor1Name().equals("") 
+								&& !ps.getProfessor1Name().equals(lstProfs.getSelectedItemText())) {
+							(new AlertMessageBox("Alerte", "Modification non autorisée" )).show();
+							return;
+						} 
 						//
 						createMultiPrompt(ps);
 					}
@@ -310,6 +324,7 @@ class SupervisedStudyTrackingView extends
 		});
 		messageBox.show();
 	}
+	
 
 	/*
 	 * Clicking on this buttton will load all students that have absences during
@@ -357,6 +372,8 @@ class SupervisedStudyTrackingView extends
 	@Override
 	public void setAppliedStudentsTableData(List<CourseSubscriptionProxy> list) {
 		//
+		resetForm();
+		//
 		appliedStudentsDataProvider.getList().clear();
 		appliedStudentsDataProvider.setList(list);
 		appliedStudentsDataProvider.flush();
@@ -367,8 +384,11 @@ class SupervisedStudyTrackingView extends
 	 * */
 	private void loadAppliedStudentsByDate() {
 		//
-		String fromDate = DateTimeFormat.getFormat("yyyyMMdd").format(
-				dateFrom.getValue());
+		if ( (selectedStudent != null) && tblAppliedStudents.getSelectionModel().isSelected(selectedStudent) ) {
+			tblAppliedStudents.getSelectionModel().setSelected( selectedStudent, false );
+		}
+		//
+		String fromDate = DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() );
 		getUiHandlers().loadAppliedStudentsByDate(fromDate);
 	}
 

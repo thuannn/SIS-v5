@@ -85,7 +85,7 @@
 					</g:row>
 					<g:row>
 						<g:customCell>
-							<g:Label text="ES (Etude Surveillée) :" />
+							<g:Label text="T (Travail personnel) :" />
 						</g:customCell>
 						<g:customCell>
 							<g:CheckBox text="" ui:field="blnES"/>
