@@ -4,7 +4,7 @@
 
 	<application>lemania-eprofil</application>
 
-	<version>6-20160321-1</version>
+	<version>6-20160426-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -36,3 +36,10 @@
 	</system-properties>
 
 </appengine-web-app>
+
+<!--
+CHANGE LOG 
+
+6-20160426-1 : études surveillées - périodique 	 
+
+-->

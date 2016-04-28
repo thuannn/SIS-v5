@@ -4,6 +4,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.IgnoreSave;
 import com.googlecode.objectify.annotation.Index;
+import com.lemania.sis.client.values.Repetition;
 import com.lemania.sis.server.DatastoreObject;
 import com.lemania.sis.server.Subject;
 import com.lemania.sis.server.bean.professor.Professor;
@@ -25,6 +26,10 @@ public class CourseSubscription extends DatastoreObject implements Comparable<Co
 	//
 	boolean R = false;
 	boolean ES = false;
+	//
+	String repetitionCode = "";
+	Repetition rep;
+	String endDate = "";
 	//
 	@IgnoreSave String professorName = "";
 	@IgnoreSave String professor1Name = "";
@@ -140,6 +145,30 @@ public class CourseSubscription extends DatastoreObject implements Comparable<Co
 
 	public void setSubjectName(String subjectName) {
 		this.subjectName = subjectName;
+	}
+
+	public String getRepetitionCode() {
+		return repetitionCode;
+	}
+
+	public void setRepetitionCode(String repetitionCode) {
+		this.repetitionCode = repetitionCode;
+	}
+
+	public Repetition getRep() {
+		return rep;
+	}
+
+	public void setRep(Repetition rep) {
+		this.rep = rep;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	
 }

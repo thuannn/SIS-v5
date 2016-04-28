@@ -232,8 +232,21 @@ class SupervisedStudyTrackingView extends
 				return FieldValidation.swissDateFormat(object.getDate());
 			}
 		};
-		tblStudentSubscriptions.setColumnWidth(colDate, 100, Unit.PX);
+		tblStudentSubscriptions.setColumnWidth(colDate, 80, Unit.PX);
 		tblStudentSubscriptions.addColumn(colDate, "Date");
+		
+		
+		// matière
+		Column<CourseSubscriptionProxy, String> colSubject = new Column<CourseSubscriptionProxy, String>(
+				new TextCell()) {
+			@Override
+			public String getValue(CourseSubscriptionProxy object) {
+				return object.getSubjectName();
+			}
+		};
+		tblStudentSubscriptions.setColumnWidth(colSubject, 15, Unit.PCT);
+		tblStudentSubscriptions.addColumn(colSubject, "Matière");
+		
 		
 		// Prof1
 			Column<CourseSubscriptionProxy, String> colProf1 = new Column<CourseSubscriptionProxy, String>(

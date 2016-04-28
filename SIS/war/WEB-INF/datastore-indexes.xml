@@ -129,6 +129,14 @@
 		<property name="bulletinSubject" direction="asc"/>
 		<property name="bulletinBrancheName" direction="asc"/>
 	</datastore-index>
+	
+	
+	 <!-- Course subscription -->
+    <datastore-index kind="CourseSubscription" ancestor="false" source="auto">
+        <property name="student" direction="asc"/>
+        <property name="date" direction="desc"/>
+    </datastore-index>
+    
 
 	<!-- Cours -->
 

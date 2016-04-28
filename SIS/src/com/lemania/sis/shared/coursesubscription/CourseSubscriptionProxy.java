@@ -2,6 +2,7 @@ package com.lemania.sis.shared.coursesubscription;
 
 import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
+import com.lemania.sis.client.values.Repetition;
 import com.lemania.sis.server.ObjectifyLocator;
 import com.lemania.sis.server.bean.coursesubscription.CourseSubscription;
 
@@ -29,5 +30,9 @@ public interface CourseSubscriptionProxy extends EntityProxy {
 	//
 	public String getNote1();
 	public void setNote1(String note);
-
+	//
+	public String getRepetitionCode();
+	//
+	public Repetition getRep();
+	public String getEndDate();
 }

@@ -13,8 +13,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -22,11 +20,11 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -41,19 +39,15 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.lemania.sis.client.UI.FieldValidation;
 import com.lemania.sis.client.UI.GridButtonCell;
+import com.lemania.sis.client.UI.MyAlert;
 import com.lemania.sis.client.values.NotificationValues;
-import com.lemania.sis.shared.CoursProxy;
+import com.lemania.sis.client.values.Repetition;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.SubjectProxy;
+import com.lemania.sis.shared.bulletin.BulletinProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.lemania.sis.shared.student.StudentProxy;
-import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
-import com.sencha.gxt.widget.core.client.box.MessageBox;
-import com.sencha.gxt.widget.core.client.box.MultiLinePromptMessageBox;
-import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
-import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
-import com.sencha.gxt.widget.core.client.info.Info;
 
 class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudySubscriptionUiHandlers> implements SupervisedStudySubscriptionPresenter.MyView {
     
@@ -81,10 +75,11 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
     
     //
     @UiField DateBox dateFrom;
+    @UiField DateBox dateRepetitionEnd;
     @UiField Button cmdFilter;
     //
-    ListDataProvider<StudentProxy> dataProvider = new ListDataProvider<StudentProxy>();
-    @UiField(provided=true) DataGrid<StudentProxy> tblStudents = new DataGrid<StudentProxy>();
+    ListDataProvider<BulletinProxy> dataProvider = new ListDataProvider<BulletinProxy>();
+    @UiField(provided=true) DataGrid<BulletinProxy> tblStudents = new DataGrid<BulletinProxy>();
     //
     ListDataProvider<CourseSubscriptionProxy> appliedStudentsDataProvider = new ListDataProvider<CourseSubscriptionProxy>();
     @UiField(provided=true) DataGrid<CourseSubscriptionProxy> tblAppliedStudents = new DataGrid<CourseSubscriptionProxy>();
@@ -92,8 +87,10 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
     @UiField ListBox lstProfs;
     //
     private DialogBox pp;
+    //
     @UiField VerticalPanel pnlSubscriptionDetail;
     @UiField ListBox lstSubjects;
+    @UiField ListBox lstRepetition;
     @UiField CheckBox blnR;
     @UiField CheckBox blnES;
     @UiField TextArea txtNote1;
@@ -101,7 +98,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
     @UiField Button cmdCancel;
     @UiField Label lblStudentName;
     //
-    private StudentProxy selectedStudent = null;
+    private BulletinProxy selectedStudent = null;
     private CourseSubscriptionProxy selectedSubscription = null;
     private boolean newSubscriptionEdit;
     
@@ -117,27 +114,31 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		initializeAppliedStudentTable();
 		//
 		initializePopup();
+		//
+		initializeRepetitionList();
 	}
 	
 	
 	/*
 	 * */
+	private void initializeRepetitionList() {
+		//
+		lstRepetition.clear();
+		for (Repetition r : Repetition.values()) {
+			lstRepetition.addItem( r.toString(), r.name() );
+		}
+	}
+	
+
+	/*
+	 * */
 	private void initializeDateFields() {
 		//
 		dateFrom.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd.MM.yyyy")));
-		dateFrom.addValueChangeHandler( new ValueChangeHandler<Date>(){
-			int pog = 0;
-			@Override
-			public void onValueChange(ValueChangeEvent<Date> event) {
-				//
-				if (pog == 0) {
-					pog++;
-				} else {
-					pog = 0;
-				}
-			}
-		});
 		dateFrom.setValue(new Date());
+		//
+		dateRepetitionEnd.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd.MM.yyyy")));
+		dateRepetitionEnd.setValue( new Date());
 	}
 	
 	
@@ -146,25 +147,16 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	 * */
 	public void initializeStudentTable() {
 		// Add a text column to show the name.
-	    Column<StudentProxy, String> colFirstName = new Column<StudentProxy, String>(new TextCell()) {
+	    Column<BulletinProxy, String> colFirstName = new Column<BulletinProxy, String>(new TextCell()) {
 	      @Override
-	      public String getValue(StudentProxy object) {
-	        return object.getLastName();
+	      public String getValue(BulletinProxy object) {
+	        return object.getStudentName();
 	      }
 	    };
 	    tblStudents.addColumn(colFirstName, "Nom");
-		
-	    //
-	    Column<StudentProxy, String> colLastName = new Column<StudentProxy, String>(new TextCell()) {
-	      @Override
-	      public String getValue(StudentProxy object) {
-	        return object.getFirstName();
-	      } 
-	    };
-	    tblStudents.addColumn(colLastName, "Prénom");
 	    
 	    // Add a selection model to handle user selection.
-	    final SingleSelectionModel<StudentProxy> selectionModel = new SingleSelectionModel<StudentProxy>();
+	    final SingleSelectionModel<BulletinProxy> selectionModel = new SingleSelectionModel<BulletinProxy>();
 	    tblStudents.setSelectionModel(selectionModel);
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	    	//
@@ -174,15 +166,15 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    });
 	    
 	    // Inscrire
-	    Column<StudentProxy, String> colAdd = new Column<StudentProxy, String> (new GridButtonCell()){
+	    Column<BulletinProxy, String> colAdd = new Column<BulletinProxy, String> (new GridButtonCell()){
 	    	@Override
-	    	public String getValue(StudentProxy bp) {
+	    	public String getValue(BulletinProxy bp) {
 	    		return "Inscrire";
 	    	}
 	    };
-	    colAdd.setFieldUpdater(new FieldUpdater<StudentProxy, String>(){
+	    colAdd.setFieldUpdater(new FieldUpdater<BulletinProxy, String>(){
 	    	@Override
-	    	public void update(int index, StudentProxy ps, String value) {
+	    	public void update(int index, BulletinProxy ps, String value) {
 	    		//
 	    		selectedStudent = ps;
 	    		newSubscriptionEdit = true;
@@ -242,30 +234,32 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 			public void onClick(ClickEvent event) {
 				//
 				if ( !blnR.getValue() &&  !blnES.getValue() ) {
-					Window.alert( NotificationValues.invalid_input + "Merci de choisir l'option R ou T" );
+					(new MyAlert( NotificationValues.invalid_input + "Merci de choisir l'option R ou T" )).center();
 					return;
 				}
 				//
 				if ( blnR.getValue() && lstSubjects.getSelectedValue().equals("") ) {
-					Window.alert( NotificationValues.invalid_input + "Matière" );
+					(new MyAlert( NotificationValues.invalid_input + "Matière" )).center();
 					return;
 				}
 				//
 				if (txtNote1.getText().equals("")) {
-					Window.alert( NotificationValues.invalid_input + "Commentaire");
+					(new MyAlert( NotificationValues.invalid_input + "Commentaire" )).center();
 					return;
 				}
 				//
 				// If creating a new subscription
 				if ( newSubscriptionEdit ) {
 					getUiHandlers().addCourseSubscription( 
-		    				selectedStudent.getId().toString(), 
+		    				selectedStudent.getStudentId().toString(),
 		    				lstProfs.getSelectedValue(), 
 		    				DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ),
 		    				blnR.getValue(), 
 		    				blnES.getValue(), 
 		    				txtNote1.getText(),
-		    				lstSubjects.getSelectedValue() );
+		    				lstSubjects.getSelectedValue(),
+		    				Repetition.valueOf( lstRepetition.getSelectedValue() ), 
+		    				DateTimeFormat.getFormat("yyyyMMdd").format( dateRepetitionEnd.getValue() ) );
 				}
 				//
 				if ( !newSubscriptionEdit ) {
@@ -295,22 +289,29 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	private void showSubscriptionDetailBox() {
 		//
 		if (lstProfs.getSelectedValue().equals("")) {
-			Window.alert( NotificationValues.invalid_input + "Professeur");
+			(new MyAlert( NotificationValues.invalid_input + "Professeur" )).center();
 			return;
 		}
 		//
 		// If creating a new subscription, show blank form with student name
 		if (newSubscriptionEdit) {
 			resetPnlSubscriptionDetail();
-			lblStudentName.setText( selectedStudent.getLastName() + " " + selectedStudent.getFirstName() );
+			lblStudentName.setText( selectedStudent.getStudentName() );
 		}
 		// If not creating a new subscription, show the currently selected subscription
+		// Disable the repetition option
 		if (!newSubscriptionEdit && (selectedSubscription != null)) {
+			//s
 			lblStudentName.setText( selectedSubscription.getStudentName() );
 			FieldValidation.selectItemByText(lstSubjects, selectedSubscription.getSubjectName());
 			blnR.setValue( selectedSubscription.isR() );
 			blnES.setValue( selectedSubscription.isES() );
 			txtNote1.setText( selectedSubscription.getNote1() );
+			//
+			FieldValidation.selectItemByText( lstRepetition, selectedSubscription.getRep().toString() );
+			lstRepetition.setEnabled(false);
+			dateRepetitionEnd.setValue( DateTimeFormat.getFormat("yyyyMMdd").parse( selectedSubscription.getEndDate() ) );
+			dateRepetitionEnd.setEnabled(false);
 		}
 		//
 		pnlSubscriptionDetail.setVisible(true);
@@ -431,7 +432,8 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    	}
 	    });
 	    
-	    // -- Delete
+	    //
+	    // Delete
 	    Column<CourseSubscriptionProxy, String> colDelete = new Column<CourseSubscriptionProxy, String> (new GridButtonCell()){
 	    	@Override
 	    	public String getValue(CourseSubscriptionProxy bp){
@@ -442,9 +444,15 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    	@Override
 	    	public void update(int index, CourseSubscriptionProxy ps, String value){
 	    		//
-	    		if (ps.getProfessorName().equals(lstProfs.getSelectedItemText()))
-	    			getUiHandlers().removeCourseSubscription( ps, DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ));
-	    		else
+	    		if (ps.getProfessorName().equals(lstProfs.getSelectedItemText())) {
+	    			//
+	    			if (!ps.getRepetitionCode().equals("")) {
+	    				//
+	    				showDeleteRepetitionBox( ps );
+	    			}
+	    			else
+	    				getUiHandlers().removeCourseSubscription( ps, DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ));
+	    		} else
 	    			(new AlertMessageBox("Alerte", "Modification non autorisée")).show();
 	    	}
 	    });
@@ -453,6 +461,74 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    
 	    //
 	    appliedStudentsDataProvider.addDataDisplay(tblAppliedStudents);
+	}
+	
+	
+	/*
+	 * Show deletion options for repetitive subscriptions
+	 * */
+	public void showDeleteRepetitionBox( final CourseSubscriptionProxy ps ) {
+		//
+		// Set title
+		final DialogBox boxConfirm = new DialogBox();
+		//
+		boxConfirm.setText("Alert");
+		// Enable animation.
+		boxConfirm.setAnimationEnabled(true);
+		// Enable glass background.
+		boxConfirm.setGlassEnabled(true);
+		// Set modal
+		boxConfirm.setModal(true);
+
+		// DialogBox is a SimplePanel, so you have to set its widget property to
+		// whatever you want its contents to be.
+		Button all = new Button("TOUT supprimer");
+		all.setStyleName("gridButton");
+		all.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				getUiHandlers().removeAllRepetitions( ps, DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ) );
+				boxConfirm.hide();
+			}
+		});
+		
+		// DialogBox is a SimplePanel, so you have to set its widget property to
+		// whatever you want its contents to be.
+		Button future = new Button("Supprimer les FUTURES répétitions");
+		future.setStyleName("gridButton");
+		future.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				getUiHandlers().removeFutureRepetitions( ps, DateTimeFormat.getFormat("yyyyMMdd").format( dateFrom.getValue() ) );
+				boxConfirm.hide();
+			}
+		});
+		
+		// DialogBox is a SimplePanel, so you have to set its widget property to
+		// whatever you want its contents to be.
+		Button cancel = new Button("Annuler");
+		cancel.setStyleName("gridButton");
+		cancel.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				boxConfirm.hide();
+			}
+		});
+		
+		// Label for message
+		Label lbl = new Label( "Merci de choisir une option de suppression." );
+		lbl.setStyleName("txtAlert");
+
+		// Vertical Panel
+		VerticalPanel vp = new VerticalPanel();
+		vp.setHorizontalAlignment( HasHorizontalAlignment.ALIGN_CENTER );
+		vp.setSpacing(10);
+		//
+		vp.add(lbl);
+		vp.add(all);
+		vp.add(future);
+		vp.add(cancel);
+		//
+		boxConfirm.setWidget(vp);
+		//
+		boxConfirm.center();
 	}
 	
 	
@@ -480,6 +556,9 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 		blnES.setValue(false);
 		txtNote1.setText("");
 		//
+		lstRepetition.setEnabled(true);
+		dateRepetitionEnd.setEnabled(true);
+		//
 		pnlSubscriptionDetail.setVisible(false);
 	}
 	
@@ -490,7 +569,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	/*
 	 * */
 	@Override
-	public void setTableData(List<StudentProxy> studentList) {
+	public void setTableData(List<BulletinProxy> studentList) {
 		//
 		dataProvider.getList().clear();
 		dataProvider.setList(studentList);

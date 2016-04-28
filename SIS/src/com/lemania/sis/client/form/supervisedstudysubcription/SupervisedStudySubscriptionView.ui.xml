@@ -93,6 +93,18 @@
 					</g:row>
 					<g:row>
 						<g:customCell>
+							<g:Label text="Répétition :" />
+						</g:customCell>
+						<g:customCell>
+						    <g:HorizontalPanel width="100%">
+						        <g:ListBox ui:field="lstRepetition" width="150px" />
+						       <g:Label text="Date de fin :" /> 
+						       <p2:DateBox ui:field="dateRepetitionEnd" width="150px" />
+						    </g:HorizontalPanel>
+						</g:customCell>
+					</g:row>
+					<g:row>
+						<g:customCell>
 							<g:Label text="A faire :" />
 						</g:customCell>
 						<g:customCell>

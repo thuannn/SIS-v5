@@ -1,5 +1,6 @@
 package com.lemania.sis.client.form.supervisedstudysubcription;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
@@ -21,6 +22,7 @@ import com.gwtplatform.mvp.client.proxy.RevealContentHandler;
 import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.lemania.sis.client.CurrentUser;
 import com.lemania.sis.client.LoggedInGatekeeper;
+import com.lemania.sis.client.UI.MyAlert;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent.LoginAuthenticatedHandler;
 import com.lemania.sis.client.form.mainpage.MainPagePresenter;
@@ -28,10 +30,12 @@ import com.lemania.sis.client.form.supervisedstudysubscriptionevents.OnSupervise
 import com.lemania.sis.client.form.supervisedstudysubscriptionevents.OnSupervisedStudySubscriptionAddedEvent.OnSupervisedStudySubscriptionAddedHandler;
 import com.lemania.sis.client.place.NameTokens;
 import com.lemania.sis.client.values.NotificationValues;
-import com.lemania.sis.shared.CoursProxy;
+import com.lemania.sis.client.values.Repetition;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.bulletin.BulletinProxy;
+import com.lemania.sis.shared.bulletin.BulletinRequestFactory;
+import com.lemania.sis.shared.bulletin.BulletinRequestFactory.BulletinRequestContext;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionRequestFactory;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionRequestFactory.CourseSubscriptionRequestContext;
@@ -43,122 +47,142 @@ import com.lemania.sis.shared.service.SubjectRequestFactory.SubjectRequestContex
 import com.lemania.sis.shared.student.StudentProxy;
 import com.lemania.sis.shared.student.StudentRequestFactory;
 import com.lemania.sis.shared.student.StudentRequestFactory.StudentRequestContext;
-import com.sencha.gxt.widget.core.client.box.MessageBox;
 
-public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedStudySubscriptionPresenter.MyView, SupervisedStudySubscriptionPresenter.MyProxy> 
-	implements SupervisedStudySubscriptionUiHandlers, LoginAuthenticatedHandler, 
-				OnSupervisedStudySubscriptionAddedHandler {
-    
+public class SupervisedStudySubscriptionPresenter
+		extends
+		Presenter<SupervisedStudySubscriptionPresenter.MyView, SupervisedStudySubscriptionPresenter.MyProxy>
+		implements SupervisedStudySubscriptionUiHandlers,
+		LoginAuthenticatedHandler, OnSupervisedStudySubscriptionAddedHandler {
+
 	//
 	private CurrentUser currentUser;
-	
+
 	//
-	interface MyView extends View , HasUiHandlers<SupervisedStudySubscriptionUiHandlers> {
+	interface MyView extends View,
+			HasUiHandlers<SupervisedStudySubscriptionUiHandlers> {
 		//
 		void initializeUI();
+
 		//
-		public void setTableData( List<StudentProxy> studentList );
+		public void setTableData(List<BulletinProxy> studentList);
+
 		//
-		public void setAppliedStudentsTableData( List<CourseSubscriptionProxy> list );
+		public void setAppliedStudentsTableData(
+				List<CourseSubscriptionProxy> list);
+
 		//
-		void setProfListData( List<ProfessorProxy> profs, boolean autoSelect );
+		void setProfListData(List<ProfessorProxy> profs, boolean autoSelect);
+
 		//
 		void resetForm();
+
 		//
 		void setSubjectList(List<SubjectProxy> programmes);
-    }
-	
+	}
+
 	//
-    @ContentSlot
-    public static final Type<RevealContentHandler<?>> SLOT_IndividualCourseSubscription = new Type<RevealContentHandler<?>>();
+	@ContentSlot
+	public static final Type<RevealContentHandler<?>> SLOT_IndividualCourseSubscription = new Type<RevealContentHandler<?>>();
 
-    //
-    @NameToken(NameTokens.individualCourseSubscription)
-    @ProxyCodeSplit
-    @UseGatekeeper(LoggedInGatekeeper.class)
-    interface MyProxy extends ProxyPlace<SupervisedStudySubscriptionPresenter> {
-    }
+	//
+	@NameToken(NameTokens.individualCourseSubscription)
+	@ProxyCodeSplit
+	@UseGatekeeper(LoggedInGatekeeper.class)
+	interface MyProxy extends ProxyPlace<SupervisedStudySubscriptionPresenter> {
+	}
 
-    //
-    @Inject
-    SupervisedStudySubscriptionPresenter(
-            EventBus eventBus,
-            MyView view, 
-            MyProxy proxy) {
-        super(eventBus, view, proxy, MainPagePresenter.TYPE_SetMainContent);
-        
-        getView().setUiHandlers(this);
-    }
-    
-    //
-    protected void onBind() {
-    	//
-        super.onBind();
-        //
-		getView().initializeUI();
-    }
-    
-    //
-    protected void onReset() {
-    	//
-        super.onReset();
-        //
-        loadStudentList();
-        //
-        loadProfessorList();
-        //
-        getView().resetForm();
-        //
-        loadSubjectList();
-    }
-    
-    
-    /* 
-     * Load student list when form is opened 
-     * */
-	private void loadStudentList() {
+	//
+	@Inject
+	SupervisedStudySubscriptionPresenter(EventBus eventBus, MyView view,
+			MyProxy proxy) {
+		super(eventBus, view, proxy, MainPagePresenter.TYPE_SetMainContent);
+
+		getView().setUiHandlers(this);
+	}
+	
+
+	//
+	protected void onBind() {
 		//
-		StudentRequestContext rc = getStudentRequestContext();
-		rc.listAllActive().fire(new Receiver<List<StudentProxy>>(){
+		super.onBind();
+		//
+		getView().initializeUI();
+	}
+	
+
+	//
+	protected void onReset() {
+		//
+		super.onReset();
+		//
+		loadStudentList();
+		//
+		loadProfessorList();
+		//
+		getView().resetForm();
+		//
+		loadSubjectList();
+	}
+	
+
+	/*
+	 * Load student list when form is opened
+	 */
+	private void loadStudentList() {
+		// 
+		BulletinRequestFactory rf = GWT.create(BulletinRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		BulletinRequestContext rc = rf.bulletinRequest();
+		rc.listAllActive( ).fire(new Receiver<List<BulletinProxy>>(){
 			@Override
 			public void onFailure(ServerFailure error){
 				Window.alert(error.getMessage());
 			}
 			@Override
-			public void onSuccess(List<StudentProxy> response) {
-				getView().setTableData(response);
+			public void onSuccess(List<BulletinProxy> response) {
+				//
+				List<BulletinProxy> bps = new ArrayList<BulletinProxy>();
+				for (BulletinProxy bp : response ) {
+					if (bp.getProgrammeName().toLowerCase().contains("matu") || bp.getProgrammeName().toLowerCase().contains("bac"))
+						bps.add( bp );
+				}
+				getView().setTableData( bps );
 			}
 		});
 	}
 	
-	
-	
+
 	/*
-	 * Load professor list, if the current user is a professor, show only him/her.
-	 * If current user is admin, show all the professors. */
-	public void loadProfessorList(){
+	 * Load professor list, if the current user is a professor, show only
+	 * him/her. If current user is admin, show all the professors.
+	 */
+	public void loadProfessorList() {
 		//
 		ProfessorRequestFactory rf = GWT.create(ProfessorRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
 		ProfessorRequestContext rc = rf.professorRequest();
-		if (currentUser.isProf()){
-			rc.getByEmail(currentUser.getUserEmail()).fire(new Receiver<List<ProfessorProxy>>(){
-				@Override
-				public void onFailure(ServerFailure error){
-					Window.alert(error.getMessage());
-				}
-				@Override
-				public void onSuccess(List<ProfessorProxy> response) {
-					getView().setProfListData(response, true);
-				}
-			});
+		if (currentUser.isProf()) {
+			rc.getByEmail(currentUser.getUserEmail()).fire(
+					new Receiver<List<ProfessorProxy>>() {
+						@Override
+						public void onFailure(ServerFailure error) {
+							Window.alert(error.getMessage());
+						}
+
+						@Override
+						public void onSuccess(List<ProfessorProxy> response) {
+							getView().setProfListData(response, true);
+						}
+					});
 		}
-		if (currentUser.isAdmin()){
-			rc.listAll().fire(new Receiver<List<ProfessorProxy>>(){
+		if (currentUser.isAdmin()) {
+			rc.listAll().fire(new Receiver<List<ProfessorProxy>>() {
 				@Override
-				public void onFailure(ServerFailure error){
+				public void onFailure(ServerFailure error) {
 					Window.alert(error.getMessage());
 				}
+
 				@Override
 				public void onSuccess(List<ProfessorProxy> response) {
 					getView().setProfListData(response, false);
@@ -167,19 +191,21 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
 		}
 	}
 	
-	
+
 	/*
 	 * */
 	private void loadSubjectList() {
 		//
 		SubjectRequestFactory rf = GWT.create(SubjectRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
 		SubjectRequestContext rc = rf.subjectRequest();
-		rc.listAllActive().fire(new Receiver<List<SubjectProxy>>(){
+		rc.listAllActive().fire(new Receiver<List<SubjectProxy>>() {
 			@Override
-			public void onFailure(ServerFailure error){
+			public void onFailure(ServerFailure error) {
 				Window.alert(error.getMessage());
 			}
+
 			@Override
 			public void onSuccess(List<SubjectProxy> response) {
 				getView().setSubjectList(response);
@@ -187,41 +213,48 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
 		});
 	}
 	
-	
-	/* 
-	 * Get the request context for StudenProxy.
-	 * Used in every function which call to Request Factory 
-	 * */
+
+	/*
+	 * Get the request context for StudenProxy. Used in every function which
+	 * call to Request Factory
+	 */
 	public StudentRequestContext getStudentRequestContext() {
 		StudentRequestFactory rf = GWT.create(StudentRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
 		return rf.studentRequest();
 	}
-
 	
+
 	/*
 	 * */
 	@Override
 	public void loadAppliedStudentsByDate(String date) {
 		//
-		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
-		rc.listAllByDate( date ).fire(new Receiver<List<CourseSubscriptionProxy>>(){
-			@Override
-			public void onFailure(ServerFailure error){
-				Window.alert(error.getMessage());
-			}
-			@Override
-			public void onSuccess(List<CourseSubscriptionProxy> response) {
-				getView().setAppliedStudentsTableData(response);
-			}
-		});
+		CourseSubscriptionRequestFactory rf = GWT
+				.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf
+				.courseSubscriptionRequestContext();
+		rc.listAllByDate(date).fire(
+				new Receiver<List<CourseSubscriptionProxy>>() {
+					@Override
+					public void onFailure(ServerFailure error) {
+						Window.alert(error.getMessage());
+					}
+
+					@Override
+					public void onSuccess(List<CourseSubscriptionProxy> response) {
+						getView().setAppliedStudentsTableData(response);
+					}
+				});
 	}
 	
-	
+
 	/*
-	 * Get the current user info when user is logged in */
+	 * Get the current user info when user is logged in
+	 */
 	@ProxyEvent
 	@Override
 	public void onLoginAuthenticated(LoginAuthenticatedEvent event) {
@@ -229,45 +262,120 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
 		this.currentUser = event.getCurrentUser();
 	}
 	
+
 	/*
 	 * Reload subscription list after a new subscription is added
-	 * */
+	 */
 	@ProxyEvent
 	@Override
 	public void onOnSupervisedStudySubscriptionAdded(
 			OnSupervisedStudySubscriptionAddedEvent event) {
 		//
-		loadAppliedStudentsByDate( event.getMessage() );
+		loadAppliedStudentsByDate(event.getMessage());
 	}
 
 	
 	/*
 	 * */
 	@Override
-	public void addCourseSubscription(String studentID, String profID, final String date,
-			boolean R, boolean ES, String note, String courseID) {
+	public void addCourseSubscription(String studentID, String profID,
+			final String date, boolean R, boolean ES, String note,
+			String courseID, Repetition rep, String dateRepetitionEnd ) {
 		//
 		if (profID.equals("")) {
-			Window.alert( NotificationValues.invalid_input + "Professeur" );
+			(new MyAlert(NotificationValues.invalid_input + "Professeur"))
+					.center();
 			return;
 		}
 		//
-		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
-		rc.saveAndReturn( studentID, profID, date, R, ES, note, courseID ).fire(new Receiver<CourseSubscriptionProxy>(){
+		if (!rep.equals(Repetition.NA)) {
+			//
+			if (dateRepetitionEnd.equals(date)) {
+				(new MyAlert(NotificationValues.invalid_input
+						+ "Merci de choisir la date de fin de la répétition."))
+						.center();
+				return;
+			}
+			//
+			CourseSubscriptionRequestFactory rf = GWT
+					.create(CourseSubscriptionRequestFactory.class);
+			rf.initialize(this.getEventBus(), new EventSourceRequestTransport(
+					this.getEventBus()));
+			CourseSubscriptionRequestContext rc = rf
+					.courseSubscriptionRequestContext();
+			rc.saveAndReturnWithRepetition(studentID, profID, date, R, ES, note, courseID, rep, dateRepetitionEnd )
+					.fire(new Receiver<Void>() {
+						@Override
+						public void onFailure(ServerFailure error) {
+							Window.alert(error.getMessage());
+						}
+
+						@Override
+						public void onSuccess(Void response) {
+							//
+							getEventBus()
+								.fireEvent(
+										new OnSupervisedStudySubscriptionAddedEvent(
+														date));
+							
+						}
+					});
+		} else {
+			//
+			// Save the subscription as unique
+			CourseSubscriptionRequestFactory rf = GWT
+					.create(CourseSubscriptionRequestFactory.class);
+			rf.initialize(this.getEventBus(), new EventSourceRequestTransport(
+					this.getEventBus()));
+			CourseSubscriptionRequestContext rc = rf
+					.courseSubscriptionRequestContext();
+			rc.saveAndReturn(studentID, profID, date, R, ES, note, courseID)
+					.fire(new Receiver<CourseSubscriptionProxy>() {
+						@Override
+						public void onFailure(ServerFailure error) {
+							Window.alert(error.getMessage());
+						}
+
+						@Override
+						public void onSuccess(CourseSubscriptionProxy response) {
+							//
+							if (response != null)
+								getEventBus()
+										.fireEvent(
+												new OnSupervisedStudySubscriptionAddedEvent(
+														date));
+							else {
+								Window.alert(NotificationValues.coursesubscription_studentexist);
+							}
+						}
+					});
+		}
+	}
+
+	
+	/*
+	 * */
+	@Override
+	public void removeCourseSubscription(CourseSubscriptionProxy subscription,
+			final String date) {
+		//
+		CourseSubscriptionRequestFactory rf = GWT
+				.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf
+				.courseSubscriptionRequestContext();
+		rc.removeCourseSubscription(subscription).fire(new Receiver<Void>() {
 			@Override
 			public void onFailure(ServerFailure error) {
 				Window.alert(error.getMessage());
 			}
+
 			@Override
-			public void onSuccess( CourseSubscriptionProxy response) {
+			public void onSuccess(Void response) {
 				//
-				if ( response != null )
-					getEventBus().fireEvent( new OnSupervisedStudySubscriptionAddedEvent( date ) );
-				else {
-					Window.alert( NotificationValues.coursesubscription_studentexist );
-				}
+				getEventBus().fireEvent(
+						new OnSupervisedStudySubscriptionAddedEvent(date));
 			}
 		});
 	}
@@ -276,77 +384,126 @@ public class SupervisedStudySubscriptionPresenter extends Presenter<SupervisedSt
 	/*
 	 * */
 	@Override
-	public void removeCourseSubscription(CourseSubscriptionProxy subscription, final String date) {
+	public void saveSubscriptionNote1(
+			final CourseSubscriptionProxy subscription, String note,
+			final String date) {
 		//
-		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
-		rc.removeCourseSubscription(subscription).fire(new Receiver<Void>(){
-			@Override
-			public void onFailure(ServerFailure error){
-				Window.alert(error.getMessage());
-			}
-			@Override
-			public void onSuccess(Void response ) {
-				//
-				getEventBus().fireEvent( new OnSupervisedStudySubscriptionAddedEvent( date ) );
-			}
-		});
-	}
-	
-	
-	
-	/*
-	 * */
-	@Override
-	public void saveSubscriptionNote1(final CourseSubscriptionProxy subscription,
-			String note, final String date ) {
-		//
-		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
-		CourseSubscriptionProxy cs = rc.edit( subscription );
+		CourseSubscriptionRequestFactory rf = GWT
+				.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf
+				.courseSubscriptionRequestContext();
+		CourseSubscriptionProxy cs = rc.edit(subscription);
 		cs.setNote1(note);
-		rc.saveAndReturn(cs).fire(new Receiver<CourseSubscriptionProxy>(){
+		rc.saveAndReturn(cs).fire(new Receiver<CourseSubscriptionProxy>() {
 			@Override
-			public void onFailure(ServerFailure error){
+			public void onFailure(ServerFailure error) {
 				Window.alert(error.getMessage());
 			}
+
 			@Override
 			public void onSuccess(CourseSubscriptionProxy response) {
 				//
-				getEventBus().fireEvent( new OnSupervisedStudySubscriptionAddedEvent( date ) );
+				getEventBus().fireEvent(
+						new OnSupervisedStudySubscriptionAddedEvent(date));
 			}
 		});
 	}
 
 	
 	/*
-	 * 
 	 * */
 	@Override
 	public void saveSubscriptionDetails(CourseSubscriptionProxy subscription,
 			String note, final String date, String subjectId, boolean isR,
 			boolean isES) {
 		//
-		CourseSubscriptionRequestFactory rf = GWT.create(CourseSubscriptionRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		CourseSubscriptionRequestContext rc = rf.courseSubscriptionRequestContext();
+		CourseSubscriptionRequestFactory rf = GWT
+				.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf
+				.courseSubscriptionRequestContext();
 		//
-		CourseSubscriptionProxy cs = rc.edit( subscription );
-		rc.saveAndReturn( cs, note, subjectId, isR, isES ).fire(new Receiver<CourseSubscriptionProxy>(){
-			@Override
-			public void onFailure(ServerFailure error){
-				Window.alert(error.getMessage());
-			}
-			@Override
-			public void onSuccess(CourseSubscriptionProxy response) {
-				//
-				getEventBus().fireEvent( new OnSupervisedStudySubscriptionAddedEvent( date ) );
-			}
-		});
-		
+		CourseSubscriptionProxy cs = rc.edit(subscription);
+		rc.saveAndReturn(cs, note, subjectId, isR, isES).fire(
+				new Receiver<CourseSubscriptionProxy>() {
+					@Override
+					public void onFailure(ServerFailure error) {
+						Window.alert(error.getMessage());
+					}
+
+					@Override
+					public void onSuccess(CourseSubscriptionProxy response) {
+						//
+						getEventBus().fireEvent(
+								new OnSupervisedStudySubscriptionAddedEvent(
+										date));
+					}
+				});
+
 	}
 
 	
+	
+	/*
+	 * */
+	@Override
+	public void removeAllRepetitions(CourseSubscriptionProxy ps, final String curDate) {
+		//
+		CourseSubscriptionRequestFactory rf = GWT
+				.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf
+				.courseSubscriptionRequestContext();
+		//
+		rc.removeAllRepetitions( ps ).fire(
+				new Receiver<Void>() {
+					@Override
+					public void onFailure(ServerFailure error) {
+						Window.alert(error.getMessage());
+					}
+
+					@Override
+					public void onSuccess(Void response) {
+						//
+						getEventBus().fireEvent(
+								new OnSupervisedStudySubscriptionAddedEvent(
+										curDate));
+					}
+				});
+	}
+
+
+	/*
+	 * */
+	@Override
+	public void removeFutureRepetitions(CourseSubscriptionProxy ps, final String curDate ) {
+		//
+		CourseSubscriptionRequestFactory rf = GWT
+				.create(CourseSubscriptionRequestFactory.class);
+		rf.initialize(this.getEventBus(),
+				new EventSourceRequestTransport(this.getEventBus()));
+		CourseSubscriptionRequestContext rc = rf
+				.courseSubscriptionRequestContext();
+		//
+		rc.removeFutureRepetitions( ps, curDate ).fire(
+				new Receiver<Void>() {
+					@Override
+					public void onFailure(ServerFailure error) {
+						Window.alert(error.getMessage());
+					}
+
+					@Override
+					public void onSuccess(Void response) {
+						//
+						getEventBus().fireEvent(
+								new OnSupervisedStudySubscriptionAddedEvent(
+										curDate ));
+					}
+				});
+	}
+
 }
