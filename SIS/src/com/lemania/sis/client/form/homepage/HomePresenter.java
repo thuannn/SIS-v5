@@ -110,7 +110,7 @@ public class HomePresenter
 		rc.authenticateUser("AAAAA", "AAAAA", true).fire( new Receiver<UserProxy>(){
 			@Override
 			public void onFailure(ServerFailure error) {
-				Window.alert(error.getMessage());
+				// Window.alert(error.getMessage());
 			}
 			@Override
 			public void onSuccess(UserProxy response) {

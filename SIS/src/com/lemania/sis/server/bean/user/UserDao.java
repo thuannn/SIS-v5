@@ -5,8 +5,11 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.jetty.server.Request;
+
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.apphosting.api.ApiProxy;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 import com.lemania.sis.server.SessionIdentifierGenerator;
@@ -85,7 +88,9 @@ public class UserDao extends MyDAOBase {
 		ofy().delete().entities(user);
 	}
 
-	/**/
+	
+	/*
+	 * */
 	public User authenticateUser(String userName, String password,
 			boolean isGoogleService) {
 		//
@@ -135,6 +140,7 @@ public class UserDao extends MyDAOBase {
 		else
 			return null;
 	}
+	
 
 	/*
 	 * */
@@ -142,6 +148,7 @@ public class UserDao extends MyDAOBase {
 		//
 		user.setPassword("");
 	}
+	
 
 	/*
 	 * */
@@ -163,6 +170,7 @@ public class UserDao extends MyDAOBase {
 			return null;
 	}
 
+	
 	/*
 	 * */
 	public void updateUserActiveStatus(String userEmail, Boolean userStatus) {
@@ -173,6 +181,7 @@ public class UserDao extends MyDAOBase {
 			ofy().save().entities(user);
 		}
 	}
+	
 
 	/*
 	 * */
@@ -189,6 +198,7 @@ public class UserDao extends MyDAOBase {
 			}
 		}
 	}
+	
 
 	/*
 	 * */
@@ -204,6 +214,7 @@ public class UserDao extends MyDAOBase {
 		}
 		return false;
 	}
+	
 
 	/*
 	 * */
@@ -212,6 +223,7 @@ public class UserDao extends MyDAOBase {
 		UserService userService = UserServiceFactory.getUserService();
 		return userService.createLoginURL("/");
 	}
+	
 
 	/*
 	 * */
@@ -224,6 +236,7 @@ public class UserDao extends MyDAOBase {
 		else
 			return "";
 	}
+	
 
 	/*
 	 * 22.07.2015 - Start

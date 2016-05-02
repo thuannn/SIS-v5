@@ -178,9 +178,9 @@ public class MainPagePresenter extends
 		if (currentUser == null)
 			currentUser = new CurrentUser();
 		currentUser.setLoggedIn(false);
-//		//
-//		this.getEventBus().fireEvent(new LoginAuthenticatedEvent(currentUser));
-//		this.getEventBus().fireEvent(new AfterUserLogOutEvent());
+		//
+		this.getEventBus().fireEvent(new LoginAuthenticatedEvent(currentUser));
+		this.getEventBus().fireEvent(new AfterUserLogOutEvent());
 		//
 		if (strGoogleLogoutURL != "")
 			Window.Location.replace( strGoogleLogoutURL );
@@ -195,7 +195,8 @@ public class MainPagePresenter extends
 		currentUser = event.getCurrentUser();
 		getView().initializeUi(currentUser);
 		//
-		getGoogleLogoutURL();
+		if ( strGoogleLogoutURL == "" )
+			getGoogleLogoutURL();
 	}
 	
 	/*

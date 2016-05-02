@@ -448,7 +448,8 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	/*
 	 * */
 	@UiHandler("cmdLogout")
-	void onCmdLogoutClick(ClickEvent event) {
+	void onCmdLogoutClick( ClickEvent event ) {
+		//
 		if (getUiHandlers() != null) {			
 			getUiHandlers().logOut();
 		}

@@ -80,6 +80,7 @@ public class AbsenceInputView extends PopupViewWithUiHandlers<AbsenceInputUiHand
 	
 	
 	/*
+	 * 20160502 - Clear table before adding new rows
 	 * */
 	@Override
 	public void setStudentListData(List<BulletinSubjectProxy> bulletinSubjects) {
@@ -88,6 +89,7 @@ public class AbsenceInputView extends PopupViewWithUiHandlers<AbsenceInputUiHand
 		providerBulletins.getList().addAll(bulletinSubjects);
 		//
 		BulletinSubjectProxy bsp;
+		tblAbsences.removeAllRows();
 		tblAbsences.setText(0, 0, "");
 		for ( int row = 0; row < bulletinSubjects.size(); row++ ) {
 			bsp = bulletinSubjects.get( row );

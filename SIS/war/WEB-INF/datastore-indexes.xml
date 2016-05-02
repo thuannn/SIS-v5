@@ -132,9 +132,15 @@
 	
 	
 	 <!-- Course subscription -->
+	 
     <datastore-index kind="CourseSubscription" ancestor="false" source="auto">
         <property name="student" direction="asc"/>
         <property name="date" direction="desc"/>
+    </datastore-index>
+    
+    <datastore-index kind="CourseSubscription" ancestor="false" source="manual">
+        <property name="repetitionCode" direction="asc"/>
+        <property name="date" direction="asc"/>
     </datastore-index>
     
 

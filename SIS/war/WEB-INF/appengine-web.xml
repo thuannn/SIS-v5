@@ -4,7 +4,7 @@
 
 	<application>lemania-eprofil</application>
 
-	<version>6-20160426-1</version>
+	<version>6-20160502-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -40,6 +40,23 @@
 <!--
 CHANGE LOG 
 
-6-20160426-1 : études surveillées - périodique 	 
+................
+6-20160502-1
 
+BUG FIX
+	- Absence input : liste des matières pas mise à jour quand changer un élève
+
+................
+6-20160429-1
+
+Etudes Surveillées
+	- Alerte de duplication -> ajoute toujour possible
+	- repetition jour
+
+................
+6-20160426-1 
+
+Etudes Surveillées
+	- études surveillées - périodique
+	- lister seulement les élèves du bac et de la matu
 -->
