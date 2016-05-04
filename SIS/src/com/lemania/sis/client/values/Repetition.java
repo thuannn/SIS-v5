@@ -4,6 +4,7 @@ public enum Repetition {
 	
 	// Objets directement construits
 	NA ( "Unique" ),
+	J1 ( "Quotidien" ),
 	W1 ( "Chaque semaine" ), 
 	W2 ( "Chaque 2 semaines" ), 
 	W3 ( "Chaque 3 semaines" ), 

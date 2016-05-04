@@ -10,123 +10,149 @@
 			<g:VerticalPanel width="100%" spacing="10"
 				horizontalAlignment="ALIGN_LEFT">
 
-				<g:Grid cellSpacing="10">
-					<g:row>
-						<g:customCell>
-							<g:Label text="Professeur :" />
-						</g:customCell>
-						<g:customCell>
-							<g:ListBox ui:field="lstProfs" width="300px" />
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="Date d'inscription :" />
-						</g:customCell>
-						<g:customCell>
-							<p2:DateBox ui:field="dateFrom" width="300px" />
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="." styleName="hiddenText" />
-						</g:customCell>
-						<g:customCell>
-							<g:Button styleName="gridButton" ui:field="cmdFilter"
-								text="Consulter cette date">Consulter cette date</g:Button>
-						</g:customCell>
-					</g:row>
-				</g:Grid>
+				<g:HorizontalPanel width="100%">
 
+					<g:Cell width="70%">
+						<g:Grid cellSpacing="10">
+							<g:row>
+								<g:customCell>
+									<g:Label text="Date d'inscription :" />
+								</g:customCell>
+								<g:customCell>
+									<p2:DateBox ui:field="dateFrom" width="300px" />
+								</g:customCell>
+								<g:customCell>
+									<g:Button styleName="gridButton" ui:field="cmdFilter"
+										text="Consulter cette date">Consulter cette date</g:Button>
+								</g:customCell>
+							</g:row>
+						</g:Grid>
+					</g:Cell>
+
+					<g:Cell width="30%">
+
+
+						<g:Grid cellSpacing="10">
+							<g:row>
+								<g:customCell>
+									<g:Label text="Professeur:" />
+								</g:customCell>
+								<g:customCell>
+									<g:ListBox ui:field="lstProfs" width="250px" />
+								</g:customCell>
+							</g:row>
+							<g:row>
+								<g:customCell>
+									<g:Label text="Classe - Matière :" />
+								</g:customCell>
+								<g:customCell>
+									<g:ListBox ui:field="lstAssignments" width="250px" />
+								</g:customCell>
+							</g:row>
+						</g:Grid>
+					</g:Cell>
+
+				</g:HorizontalPanel>
 
 				<g:HorizontalPanel width="100%">
 
 					<g:Cell width="70%">
+
 						<g:VerticalPanel width="100%" spacing="5">
-							<g:Label text="Liste des élèves inscrits" />
+
+
+
+							<g:Label text="Liste des élèves inscrits" styleName="sectionTitle" />
+
 							<p1:DataGrid width="100%" height="450px" ui:field="tblAppliedStudents" />
+
 						</g:VerticalPanel>
+
 					</g:Cell>
-					
+
 					<g:Cell width="30%">
 						<g:VerticalPanel width="100%" spacing="5">
-							<g:Label text="Liste complète des élèves" />
+
+
+							<g:Label text="Liste des élèves" styleName="sectionTitle" />
+
 							<p1:DataGrid width="100%" height="450px" ui:field="tblStudents" />
+
 						</g:VerticalPanel>
+
 					</g:Cell>
 
 				</g:HorizontalPanel>
-				
+
 				<g:VerticalPanel ui:field="pnlSubscriptionDetail">
-				    <g:Grid cellSpacing="10">
-			        <g:row>
-					<g:customCell>
-						<g:Label text="Elève :" />
-					</g:customCell>
-					<g:customCell>
-						<g:Label ui:field="lblStudentName" width="300px" />
-					</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="Matière :" />
-						</g:customCell>
-						<g:customCell>
-							<g:ListBox ui:field="lstSubjects" width="300px" />
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="R (Rattrapage) :" />
-						</g:customCell>
-						<g:customCell>
-							<g:CheckBox text="" ui:field="blnR"/>
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="T (Travail personnel) :" />
-						</g:customCell>
-						<g:customCell>
-							<g:CheckBox text="" ui:field="blnES"/>
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="Répétition :" />
-						</g:customCell>
-						<g:customCell>
-						    <g:HorizontalPanel width="100%">
-						        <g:ListBox ui:field="lstRepetition" width="150px" />
-						       <g:Label text="Date de fin :" /> 
-						       <p2:DateBox ui:field="dateRepetitionEnd" width="150px" />
-						    </g:HorizontalPanel>
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="A faire :" />
-						</g:customCell>
-						<g:customCell>
-							<g:TextArea width="" characterWidth="90"
-										ui:field="txtNote1"
-										height="" visibleLines="5" />
-						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="." styleName="hiddenText" />
-						</g:customCell>
-						<g:customCell>
-						    <g:HorizontalPanel width="100%">
-						        <g:Button styleName="gridButton" ui:field="cmdCancel"
-									text="Annuler">Annuler</g:Button>
-								<g:Button styleName="gridButton" ui:field="cmdSave"
-									text="Enregistrer">Enregistrer</g:Button>
-							</g:HorizontalPanel>
-						</g:customCell>
-					</g:row>
-				</g:Grid>
+					<g:Grid cellSpacing="10">
+						<g:row>
+							<g:customCell>
+								<g:Label text="Elève :" />
+							</g:customCell>
+							<g:customCell>
+								<g:Label ui:field="lblStudentName" width="300px" />
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Matière :" />
+							</g:customCell>
+							<g:customCell>
+								<g:ListBox ui:field="lstSubjects" width="300px" />
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="R (Rattrapage) :" />
+							</g:customCell>
+							<g:customCell>
+								<g:CheckBox text="" ui:field="blnR" />
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="T (Travail personnel) :" />
+							</g:customCell>
+							<g:customCell>
+								<g:CheckBox text="" ui:field="blnES" />
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="Répétition :" />
+							</g:customCell>
+							<g:customCell>
+								<g:HorizontalPanel width="100%">
+									<g:ListBox ui:field="lstRepetition" width="150px" />
+									<g:Label text="Date de fin :" />
+									<p2:DateBox ui:field="dateRepetitionEnd" width="150px" />
+								</g:HorizontalPanel>
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="A faire :" />
+							</g:customCell>
+							<g:customCell>
+								<g:TextArea width="" characterWidth="90" ui:field="txtNote1"
+									height="" visibleLines="5" />
+							</g:customCell>
+						</g:row>
+						<g:row>
+							<g:customCell>
+								<g:Label text="." styleName="hiddenText" />
+							</g:customCell>
+							<g:customCell>
+								<g:HorizontalPanel width="100%">
+									<g:Button styleName="gridButton" ui:field="cmdCancel"
+										text="Annuler">Annuler</g:Button>
+									<g:Button styleName="gridButton" ui:field="cmdSave"
+										text="Enregistrer">Enregistrer</g:Button>
+								</g:HorizontalPanel>
+							</g:customCell>
+						</g:row>
+					</g:Grid>
 				</g:VerticalPanel>
 
 			</g:VerticalPanel>

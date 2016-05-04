@@ -164,8 +164,9 @@ public class CourseSubscriptionDao extends MyDAOBase {
 		//
 		// Check if this student is already in the list for this date
 		Query<CourseSubscription> q = ofy().load().type(CourseSubscription.class)
-				.filter("date", date)
-				.filter( "student", Key.create( Student.class, Long.parseLong(studentID) ));
+				.filter( "date", date)
+				.filter( "student", Key.create( Student.class, Long.parseLong(studentID) ))
+				.filter( "subject", Key.create( Subject.class, Long.parseLong(subjectID)) );
 		if (q.count()>0)
 			return null;
 		//
@@ -214,6 +215,8 @@ public class CourseSubscriptionDao extends MyDAOBase {
 				//
 				c.setTime( curDate );
 				//
+				if ( rep.equals( Repetition.J1) )
+					c.add( Calendar.DATE, 1);
 				if ( rep.equals( Repetition.W1) )
 					c.add( Calendar.DATE, 7);
 				if ( rep.equals( Repetition.W2) )

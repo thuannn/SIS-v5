@@ -10,15 +10,11 @@
 			<g:VerticalPanel width="100%" spacing="10"
 				horizontalAlignment="ALIGN_LEFT">
 
-				<g:Grid cellSpacing="10">
-					<g:row>
-						<g:customCell>
-							<g:Label text="Professeur :" />
-						</g:customCell>
-						<g:customCell>
-							<g:ListBox ui:field="lstProfs" width="300px" />
-						</g:customCell>
-					</g:row>
+			    <g:HorizontalPanel width="100%">
+				    
+				    <g:Cell width="50%">
+						<g:Grid cellSpacing="10">
+					
 					<g:row>
 						<g:customCell>
 							<g:Label text="Date d'inscription :" />
@@ -26,31 +22,44 @@
 						<g:customCell>
 							<p2:DateBox ui:field="dateFrom" width="300px" />
 						</g:customCell>
-					</g:row>
-					<g:row>
-						<g:customCell>
-							<g:Label text="." styleName="hiddenText" />
-						</g:customCell>
 						<g:customCell>
 							<g:Button styleName="gridButton" ui:field="cmdFilter"
 								text="Consulter cette date">Consulter cette date</g:Button>
 						</g:customCell>
 					</g:row>
+					
 				</g:Grid>
+					</g:Cell>
 
+					<g:Cell width="50%">
+						<g:Grid cellSpacing="10">
+					<g:row>
+						<g:customCell>
+							<g:Label text="Professeur surveillant :" />
+						</g:customCell>
+						<g:customCell>
+							<g:ListBox ui:field="lstProfs" width="300px" />
+						</g:customCell>
+					</g:row>
+					
+				</g:Grid>
+					</g:Cell>
+
+				</g:HorizontalPanel>
+			    
 
 				<g:HorizontalPanel width="100%">
 				    
 				    <g:Cell width="50%">
 						<g:VerticalPanel width="100%" spacing="5">
-							<g:Label text="Liste des élèves inscrits" />
+							<g:Label text="Liste des élèves inscrits"  styleName="sectionTitle"  />
 							<p1:DataGrid width="100%" height="450px" ui:field="tblAppliedStudents" />
 						</g:VerticalPanel>
 					</g:Cell>
 
 					<g:Cell width="50%">
 						<g:VerticalPanel width="100%" spacing="5">
-							<g:Label text="Suivi d'un élève" />
+							<g:Label text="Suivi d'un élève"  styleName="sectionTitle"  />
 							<p1:DataGrid width="100%" height="450px" ui:field="tblStudentSubscriptions" />
 						</g:VerticalPanel>
 					</g:Cell>

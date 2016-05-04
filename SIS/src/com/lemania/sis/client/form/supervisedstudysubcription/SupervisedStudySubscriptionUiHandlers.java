@@ -8,6 +8,10 @@ interface SupervisedStudySubscriptionUiHandlers extends UiHandlers {
 	//
 	void loadAppliedStudentsByDate( String date );
 	//
+	void onProfessorSelected(String profId);
+	//
+	void onAssignmentSelected(String assignmentId);
+	//
 	void addCourseSubscription( 
 			String studentID, String profID, String date, boolean R, boolean ES, String note, String courseID,
 			Repetition repetition, String dateRepetitionEnd );

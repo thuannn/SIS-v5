@@ -137,7 +137,8 @@ public class FrmMarkInputView extends ViewWithUiHandlers<FrmMarkInputUiHandler> 
 	}
 	
 	
-	/**/
+	/*
+	 * */
 	@UiHandler("lstProfs")
 	void onLstProfsChange(ChangeEvent event) {
 		//
@@ -499,7 +500,8 @@ public class FrmMarkInputView extends ViewWithUiHandlers<FrmMarkInputUiHandler> 
 	}
 	
 	
-	/**/
+	/*
+	 * */
 	@UiHandler("lstAssignments")
 	void onLstAssignmentsChange(ChangeEvent event) {
 		//

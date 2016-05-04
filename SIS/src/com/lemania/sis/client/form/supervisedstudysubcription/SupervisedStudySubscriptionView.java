@@ -8,6 +8,7 @@ import javax.inject.Inject;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -44,9 +45,9 @@ import com.lemania.sis.client.values.NotificationValues;
 import com.lemania.sis.client.values.Repetition;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.SubjectProxy;
-import com.lemania.sis.shared.bulletin.BulletinProxy;
+import com.lemania.sis.shared.assignment.AssignmentProxy;
+import com.lemania.sis.shared.bulletinsubject.BulletinSubjectProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
-import com.lemania.sis.shared.student.StudentProxy;
 import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
 class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudySubscriptionUiHandlers> implements SupervisedStudySubscriptionPresenter.MyView {
@@ -78,13 +79,14 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
     @UiField DateBox dateRepetitionEnd;
     @UiField Button cmdFilter;
     //
-    ListDataProvider<BulletinProxy> dataProvider = new ListDataProvider<BulletinProxy>();
-    @UiField(provided=true) DataGrid<BulletinProxy> tblStudents = new DataGrid<BulletinProxy>();
+    ListDataProvider<BulletinSubjectProxy> dataProvider = new ListDataProvider<BulletinSubjectProxy>();
+    @UiField(provided=true) DataGrid<BulletinSubjectProxy> tblStudents = new DataGrid<BulletinSubjectProxy>();
     //
     ListDataProvider<CourseSubscriptionProxy> appliedStudentsDataProvider = new ListDataProvider<CourseSubscriptionProxy>();
     @UiField(provided=true) DataGrid<CourseSubscriptionProxy> tblAppliedStudents = new DataGrid<CourseSubscriptionProxy>();
     //
     @UiField ListBox lstProfs;
+    @UiField ListBox lstAssignments;
     //
     private DialogBox pp;
     //
@@ -98,7 +100,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
     @UiField Button cmdCancel;
     @UiField Label lblStudentName;
     //
-    private BulletinProxy selectedStudent = null;
+    private BulletinSubjectProxy selectedStudent = null;
     private CourseSubscriptionProxy selectedSubscription = null;
     private boolean newSubscriptionEdit;
     
@@ -147,16 +149,16 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	 * */
 	public void initializeStudentTable() {
 		// Add a text column to show the name.
-	    Column<BulletinProxy, String> colFirstName = new Column<BulletinProxy, String>(new TextCell()) {
+	    Column<BulletinSubjectProxy, String> colFirstName = new Column<BulletinSubjectProxy, String>(new TextCell()) {
 	      @Override
-	      public String getValue(BulletinProxy object) {
+	      public String getValue(BulletinSubjectProxy object) {
 	        return object.getStudentName();
 	      }
 	    };
 	    tblStudents.addColumn(colFirstName, "Nom");
 	    
 	    // Add a selection model to handle user selection.
-	    final SingleSelectionModel<BulletinProxy> selectionModel = new SingleSelectionModel<BulletinProxy>();
+	    final SingleSelectionModel<BulletinSubjectProxy> selectionModel = new SingleSelectionModel<BulletinSubjectProxy>();
 	    tblStudents.setSelectionModel(selectionModel);
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 	    	//
@@ -166,15 +168,15 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	    });
 	    
 	    // Inscrire
-	    Column<BulletinProxy, String> colAdd = new Column<BulletinProxy, String> (new GridButtonCell()){
+	    Column<BulletinSubjectProxy, String> colAdd = new Column<BulletinSubjectProxy, String> (new GridButtonCell()){
 	    	@Override
-	    	public String getValue(BulletinProxy bp) {
+	    	public String getValue(BulletinSubjectProxy bp) {
 	    		return "Inscrire";
 	    	}
 	    };
-	    colAdd.setFieldUpdater(new FieldUpdater<BulletinProxy, String>(){
+	    colAdd.setFieldUpdater(new FieldUpdater<BulletinSubjectProxy, String>(){
 	    	@Override
-	    	public void update(int index, BulletinProxy ps, String value) {
+	    	public void update(int index, BulletinSubjectProxy ps, String value) {
 	    		//
 	    		selectedStudent = ps;
 	    		newSubscriptionEdit = true;
@@ -551,7 +553,6 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	 * */
 	private void resetPnlSubscriptionDetail() {
 		//
-		lstSubjects.setSelectedIndex(0);
 		blnR.setValue(false);
 		blnES.setValue(false);
 		txtNote1.setText("");
@@ -569,7 +570,7 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	/*
 	 * */
 	@Override
-	public void setTableData(List<BulletinProxy> studentList) {
+	public void setTableData(List<BulletinSubjectProxy> studentList) {
 		//
 		dataProvider.getList().clear();
 		dataProvider.setList(studentList);
@@ -585,6 +586,30 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	void onCmdFilterClick(ClickEvent event) {
 		//
 		loadAppliedStudentsByDate();
+	}
+	
+	/*
+	 * */
+	@UiHandler("lstProfs")
+	void onLstProfsChange(ChangeEvent event) {
+		//
+		if (getUiHandlers() != null)
+			getUiHandlers().onProfessorSelected( lstProfs.getValue(lstProfs.getSelectedIndex()) );
+	}
+	
+	
+	/*
+	 * */
+	@UiHandler("lstAssignments")
+	void onLstAssignmentsChange(ChangeEvent event) {
+		//
+		// Auto select the current subject in the subscription panel
+		lstSubjects.setSelectedIndex( lstAssignments.getSelectedIndex() );
+		//
+		dataProvider.getList().clear();
+		//
+		if (getUiHandlers() != null)
+			getUiHandlers().onAssignmentSelected( lstAssignments.getValue(lstAssignments.getSelectedIndex()));
 	}
 
 	
@@ -610,16 +635,27 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 	}
 	
 	
-	/**/
+	/*
+	 * */
 	@Override
-	public void setSubjectList(List<SubjectProxy> programmes) {
+	public void setAssignmentTableData(List<AssignmentProxy> assignments) {
+		// 		
+		lstAssignments.clear();
+		lstAssignments.addItem("-","");
+		for (AssignmentProxy assignment : assignments){
+			lstAssignments.addItem( 
+							assignment.getClasseName() + " - "  
+							+ assignment.getSubjectName(), 
+				assignment.getId().toString());
+		}
+		// Set subject list
 		// First clear existing data
 		lstSubjects.clear();
 		
 		// 
 		lstSubjects.addItem("-", "");
-		for ( SubjectProxy subject : programmes )
-			lstSubjects.addItem( subject.getSubjectName(), subject.getId().toString() );
+		for ( AssignmentProxy subject : assignments )
+			lstSubjects.addItem( subject.getSubjectName(), subject.getSubjectId() );
 	}
 	
 	

@@ -4,7 +4,7 @@
 
 	<application>lemania-eprofil</application>
 
-	<version>6-20160502-1</version>
+	<version>6-20160504-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -41,6 +41,13 @@
 CHANGE LOG 
 
 ................
+6-20160504-1
+
+NOUVELLE FONCTION
+	- ES : repetition par jour
+	- Lister les matière et les élève par professeur (comme les notes)
+
+................
 6-20160502-1
 
 BUG FIX
@@ -59,4 +66,5 @@ Etudes Surveillées
 Etudes Surveillées
 	- études surveillées - périodique
 	- lister seulement les élèves du bac et de la matu
+
 -->

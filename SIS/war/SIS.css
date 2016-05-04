@@ -1,6 +1,14 @@
 /* Add css rules here for your application. */
 
 
+/*
+Universal
+*/
+
+input[type=text] {
+	height: 18px;
+	font-size: 12px;
+}
 
 
 /******** Study Log ***********/
@@ -537,16 +545,17 @@ Agenda
 
 
 /* stock list header row */
+
 .pageTitle {
 	color: White;
 	padding: 2px;
 	font-size: 12px !important;
-	font-family: Verdana;
 	letter-spacing: 1px;
 	background-color: #157FCC;
 	height:30px;
 	line-height: 30px;
 }
+
 .whitePanel{
 	margin: 0px;
 	padding: 0px;

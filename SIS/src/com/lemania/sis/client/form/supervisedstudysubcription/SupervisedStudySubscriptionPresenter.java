@@ -23,6 +23,7 @@ import com.gwtplatform.mvp.client.HasUiHandlers;
 import com.lemania.sis.client.CurrentUser;
 import com.lemania.sis.client.LoggedInGatekeeper;
 import com.lemania.sis.client.UI.MyAlert;
+import com.lemania.sis.client.event.CheckDeadlineEvent;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent.LoginAuthenticatedHandler;
 import com.lemania.sis.client.form.mainpage.MainPagePresenter;
@@ -33,9 +34,15 @@ import com.lemania.sis.client.values.NotificationValues;
 import com.lemania.sis.client.values.Repetition;
 import com.lemania.sis.shared.ProfessorProxy;
 import com.lemania.sis.shared.SubjectProxy;
+import com.lemania.sis.shared.assignment.AssignmentProxy;
+import com.lemania.sis.shared.assignment.AssignmentRequestFactory;
+import com.lemania.sis.shared.assignment.AssignmentRequestFactory.AssignmentRequestContext;
 import com.lemania.sis.shared.bulletin.BulletinProxy;
 import com.lemania.sis.shared.bulletin.BulletinRequestFactory;
 import com.lemania.sis.shared.bulletin.BulletinRequestFactory.BulletinRequestContext;
+import com.lemania.sis.shared.bulletinsubject.BulletinSubjectProxy;
+import com.lemania.sis.shared.bulletinsubject.BulletinSubjectRequestFactory;
+import com.lemania.sis.shared.bulletinsubject.BulletinSubjectRequestFactory.BulletinSubjectRequestContext;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionProxy;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionRequestFactory;
 import com.lemania.sis.shared.coursesubscription.CourseSubscriptionRequestFactory.CourseSubscriptionRequestContext;
@@ -44,7 +51,6 @@ import com.lemania.sis.shared.service.ProfessorRequestFactory;
 import com.lemania.sis.shared.service.SubjectRequestFactory;
 import com.lemania.sis.shared.service.ProfessorRequestFactory.ProfessorRequestContext;
 import com.lemania.sis.shared.service.SubjectRequestFactory.SubjectRequestContext;
-import com.lemania.sis.shared.student.StudentProxy;
 import com.lemania.sis.shared.student.StudentRequestFactory;
 import com.lemania.sis.shared.student.StudentRequestFactory.StudentRequestContext;
 
@@ -64,7 +70,7 @@ public class SupervisedStudySubscriptionPresenter
 		void initializeUI();
 
 		//
-		public void setTableData(List<BulletinProxy> studentList);
+		public void setTableData(List<BulletinSubjectProxy> studentList);
 
 		//
 		public void setAppliedStudentsTableData(
@@ -75,9 +81,9 @@ public class SupervisedStudySubscriptionPresenter
 
 		//
 		void resetForm();
-
+		
 		//
-		void setSubjectList(List<SubjectProxy> programmes);
+		void setAssignmentTableData(List<AssignmentProxy> assignments);
 	}
 
 	//
@@ -115,40 +121,9 @@ public class SupervisedStudySubscriptionPresenter
 		//
 		super.onReset();
 		//
-		loadStudentList();
-		//
 		loadProfessorList();
 		//
 		getView().resetForm();
-		//
-		loadSubjectList();
-	}
-	
-
-	/*
-	 * Load student list when form is opened
-	 */
-	private void loadStudentList() {
-		// 
-		BulletinRequestFactory rf = GWT.create(BulletinRequestFactory.class);
-		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-		BulletinRequestContext rc = rf.bulletinRequest();
-		rc.listAllActive( ).fire(new Receiver<List<BulletinProxy>>(){
-			@Override
-			public void onFailure(ServerFailure error){
-				Window.alert(error.getMessage());
-			}
-			@Override
-			public void onSuccess(List<BulletinProxy> response) {
-				//
-				List<BulletinProxy> bps = new ArrayList<BulletinProxy>();
-				for (BulletinProxy bp : response ) {
-					if (bp.getProgrammeName().toLowerCase().contains("matu") || bp.getProgrammeName().toLowerCase().contains("bac"))
-						bps.add( bp );
-				}
-				getView().setTableData( bps );
-			}
-		});
 	}
 	
 
@@ -193,28 +168,6 @@ public class SupervisedStudySubscriptionPresenter
 	
 
 	/*
-	 * */
-	private void loadSubjectList() {
-		//
-		SubjectRequestFactory rf = GWT.create(SubjectRequestFactory.class);
-		rf.initialize(this.getEventBus(),
-				new EventSourceRequestTransport(this.getEventBus()));
-		SubjectRequestContext rc = rf.subjectRequest();
-		rc.listAllActive().fire(new Receiver<List<SubjectProxy>>() {
-			@Override
-			public void onFailure(ServerFailure error) {
-				Window.alert(error.getMessage());
-			}
-
-			@Override
-			public void onSuccess(List<SubjectProxy> response) {
-				getView().setSubjectList(response);
-			}
-		});
-	}
-	
-
-	/*
 	 * Get the request context for StudenProxy. Used in every function which
 	 * call to Request Factory
 	 */
@@ -249,6 +202,54 @@ public class SupervisedStudySubscriptionPresenter
 						getView().setAppliedStudentsTableData(response);
 					}
 				});
+	}
+	
+	
+	/*
+	 * */
+	@Override
+	public void onProfessorSelected(String profId) {
+		//
+		if (profId.isEmpty()){
+			getView().resetForm();
+			return;
+		}
+		//
+		AssignmentRequestFactory rf = GWT.create(AssignmentRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		AssignmentRequestContext rc = rf.assignmentRequest();
+		rc.listAllActive( profId ).fire(new Receiver<List<AssignmentProxy>>(){
+			@Override
+			public void onFailure(ServerFailure error){
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(List<AssignmentProxy> response) {
+				getView().setAssignmentTableData(response);
+			}
+		});
+	}
+	
+	
+	/*
+	 * */
+	@Override
+	public void onAssignmentSelected(String assignmentId) {
+		//
+		BulletinSubjectRequestFactory rf = GWT.create(BulletinSubjectRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		BulletinSubjectRequestContext rc = rf.bulletinSubjectRequest();
+		rc.listAllByAssignment( assignmentId ).fire(new Receiver<List<BulletinSubjectProxy>>(){
+			@Override
+			public void onFailure(ServerFailure error){
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(List<BulletinSubjectProxy> response) {	
+				//
+				getView().setTableData( response );
+			}
+		});
 	}
 	
 
@@ -345,7 +346,8 @@ public class SupervisedStudySubscriptionPresenter
 												new OnSupervisedStudySubscriptionAddedEvent(
 														date));
 							else {
-								Window.alert(NotificationValues.coursesubscription_studentexist);
+								(new MyAlert( NotificationValues.coursesubscription_studentexist ))
+										.center();
 							}
 						}
 					});
