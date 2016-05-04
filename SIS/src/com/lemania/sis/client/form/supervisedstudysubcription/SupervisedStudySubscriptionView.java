@@ -670,8 +670,12 @@ class SupervisedStudySubscriptionView extends ViewWithUiHandlers<SupervisedStudy
 			lstProfs.addItem(prof.getProfName(), prof.getId().toString());
 		//
 		// autoSelect is true if this user is a professor
-		if ( autoSelect && (profs.size()>0) )
+		if ( autoSelect && (profs.size()>0) ) {
+			//
 			lstProfs.setSelectedIndex(1);
+			//
+			onLstProfsChange( null );
+		}
 	}
 
 	
