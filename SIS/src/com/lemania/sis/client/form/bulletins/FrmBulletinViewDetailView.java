@@ -373,9 +373,10 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 				tblBulletin.setText(rowCount+1, 26, "");
 			else
 				tblBulletin.setText(rowCount+1, 26, 
-						(!subject.getT3().equals("") || !subject.getExamT3().equals("")) ? subject.getRemarqueT3()
-								: ( (!subject.getT2().equals("") || !subject.getExamT2().equals("")) ? subject.getRemarqueT2()
-										: subject.getRemarqueT1() ) );
+						(!subject.getT4().equals("") || !subject.getExamT4().equals("")) ? subject.getRemarqueT4()
+								: ( ( !subject.getT3().equals("") || !subject.getExamT3().equals("") ) ? subject.getRemarqueT3()
+										: ( (!subject.getT2().equals("") || !subject.getExamT2().equals("") ) ? subject.getRemarqueT2()
+												: subject.getRemarqueT1() ) ) );
 			//
 			for (int i=0; i<27; i++)
 				tblBulletin.getCellFormatter().setStyleName(rowCount, i, "subjectLine");

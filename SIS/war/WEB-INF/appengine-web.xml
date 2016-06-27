@@ -4,7 +4,7 @@
 
 	<application>lemania-eprofil</application>
 
-	<version>6-20160504-1</version>
+	<version>6-201600627-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -39,6 +39,14 @@
 
 <!--
 CHANGE LOG 
+
+................
+6-201600627-1
+
+BUG FIX
+
+4e commentaire ne s'affiche pas pour Second, PM
+
 
 ................
 6-20160504-1

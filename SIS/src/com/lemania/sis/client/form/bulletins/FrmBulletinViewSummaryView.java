@@ -297,9 +297,10 @@ public class FrmBulletinViewSummaryView extends ViewWithUiHandlers<FrmBulletinVi
 			tblNotes.setText(i, 9, subjects.get( rowCount ).getExamT4().toString());
 			tblNotes.setText(i, 10, subjects.get( rowCount ).getAn());
 			tblNotes.setText(i, 11, (
-					(!subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("")) ? subjects.get(rowCount).getRemarqueT3()
-							: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("")) ? subjects.get(rowCount).getRemarqueT2()
-									: subjects.get(rowCount).getRemarqueT1() ) ) );		
+					( !subjects.get(rowCount).getT4().equals("") || !subjects.get(rowCount).getExamT4().equals("") ) ? subjects.get(rowCount).getRemarqueT4() 
+							: ( ( !subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("") ) ? subjects.get(rowCount).getRemarqueT3()
+									: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("") ) ? subjects.get(rowCount).getRemarqueT2()
+											: subjects.get(rowCount).getRemarqueT1() ) ) ) );		
 			//
 			if ( !subjects.get( rowCount ).getAn().isEmpty() ){
 				totalMoyenne = totalMoyenne + Double.parseDouble(subjects.get( rowCount ).getAn()) * subjects.get( rowCount ).getSubjectCoef();
@@ -359,9 +360,10 @@ public class FrmBulletinViewSummaryView extends ViewWithUiHandlers<FrmBulletinVi
 			tblNotes.setText(i, 5, subjects.get( rowCount ).getExamT2().toString());			
 			tblNotes.setText(i, 6, subjects.get( rowCount ).getAn());
 			tblNotes.setText(i, 7, (										
-					(!subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("")) ? subjects.get(rowCount).getRemarqueT3()
-							: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("")) ? subjects.get(rowCount).getRemarqueT2()
-									: subjects.get(rowCount).getRemarqueT1() ) ) );	
+					( !subjects.get(rowCount).getT4().equals("") || !subjects.get(rowCount).getExamT4().equals("") ) ? subjects.get(rowCount).getRemarqueT4()
+							: ( ( !subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("") ) ? subjects.get(rowCount).getRemarqueT3()
+									: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("") ) ? subjects.get(rowCount).getRemarqueT2()
+											: subjects.get(rowCount).getRemarqueT1() ) ) ) );	
 			//
 			if ( !subjects.get( rowCount ).getAn().isEmpty() ){
 				totalMoyenne = totalMoyenne + Double.parseDouble(subjects.get( rowCount ).getAn()) * subjects.get( rowCount ).getSubjectCoef();
@@ -417,9 +419,10 @@ public class FrmBulletinViewSummaryView extends ViewWithUiHandlers<FrmBulletinVi
 			tblNotes.setText(i, 5, subjects.get( rowCount ).getExamT4().toString());
 			tblNotes.setText(i, 6, subjects.get( rowCount ).getAn());
 			tblNotes.setText(i, 7, (
-					(!subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("")) ? subjects.get(rowCount).getRemarqueT3()
-							: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("")) ? subjects.get(rowCount).getRemarqueT2()
-									: subjects.get(rowCount).getRemarqueT1() ) ) );		
+					( !subjects.get(rowCount).getT4().equals("") || !subjects.get(rowCount).getExamT4().equals("") ) ? subjects.get(rowCount).getRemarqueT4()
+							: ( ( !subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("") ) ? subjects.get(rowCount).getRemarqueT3()
+									: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("") ) ? subjects.get(rowCount).getRemarqueT2()
+											: subjects.get(rowCount).getRemarqueT1() ) ) ) );		
 			//
 			if ( !subjects.get( rowCount ).getAn().isEmpty() ){
 				totalMoyenne = totalMoyenne + Double.parseDouble(subjects.get( rowCount ).getAn()) * subjects.get( rowCount ).getSubjectCoef();
