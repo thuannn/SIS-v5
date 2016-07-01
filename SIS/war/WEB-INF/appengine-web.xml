@@ -4,7 +4,7 @@
 
 	<application>lemania-eprofil</application>
 
-	<version>6-201600627-1</version>
+	<version>6-20160701-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -39,6 +39,15 @@
 
 <!--
 CHANGE LOG 
+
+6-20160701-1
+___
+NOUVELLE FONCTION : Exporter en Excel des cahier de textes
+
+
+6-201600630-1
+___
+Update cron.xml
 
 ................
 6-201600627-1

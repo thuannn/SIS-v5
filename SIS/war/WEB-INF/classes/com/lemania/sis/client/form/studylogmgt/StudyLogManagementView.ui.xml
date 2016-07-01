@@ -86,16 +86,21 @@
 							ui:field="pnlStudents" visible="false">
 							<g:FlexTable ui:field="tblStudents" width="100%" />
 						</g:ScrollPanel>
-						
-						
-
+					
 					</g:VerticalPanel>
 				</g:cell>
 				<g:cell>
 					<g:VerticalPanel width="100%" spacing="5">
 
 						<!-- Main study log table -->
-						<g:Button styleName="buttonGreen" ui:field="cmdAdd">Saisir un nouveau texte</g:Button>
+						<g:HorizontalPanel width="100%">
+						    <g:cell horizontalAlignment="ALIGN_LEFT">
+								<g:Button styleName="buttonGreen" ui:field="cmdAdd">Saisir un nouveau texte</g:Button>
+							</g:cell>
+							<g:cell horizontalAlignment="ALIGN_RIGHT">
+								<g:Anchor ui:field="anchorExcel" href="/studylog" text="Exporter en Excel" />
+							</g:cell>
+						</g:HorizontalPanel>
 
 						<g:ScrollPanel height="400px" ui:field="pnlLogs" width="100%">
 							<g:FlexTable ui:field="tblLogs" width="100%"></g:FlexTable>
@@ -179,6 +184,7 @@
 									</g:row>
 								</g:Grid>
 							</g:HorizontalPanel>
+							
 						</g:VerticalPanel>
 						<!-- Study log input window -->
 

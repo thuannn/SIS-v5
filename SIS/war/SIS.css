@@ -72,6 +72,17 @@ input[type=text] {
 	top:1px;
 }
 
+.whitePanelLog {
+	margin: 0px;
+	padding: 0px;
+	background-color: white;
+	width: 100%;
+}
+
+.printLog {
+	font-size: 14px !important;
+}
+
 
 
 /******** Buttons ***********/
@@ -562,6 +573,8 @@ Agenda
 	background-color: white;
 	width: 100%;
 }
+
+
 .sectionTitle {
 	color: Black;
 	padding: 3px;

@@ -78,6 +78,15 @@
 		<servlet-name>GcsServlet</servlet-name>
 		<url-pattern>/gcs/*</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StudyLogServlet</servlet-name>
+		<servlet-class>com.lemania.sis.server.servlet.StudyLogServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StudyLogServlet</servlet-name>
+		<url-pattern>/studylog/*</url-pattern>
+	</servlet-mapping>
 
 	
 	<!-- Configure HTTPS URLs  -->
