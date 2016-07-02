@@ -45,7 +45,7 @@ public class StudyLogServlet extends HttpServlet {
 		try {
 			response.setContentType("application/vnd.ms-excel");
 			response.setHeader("Content-Disposition",
-					"attachment; filename=sampleName.xls");
+					"attachment; filename=cahierdetextes.xls");
 			WritableWorkbook w = Workbook.createWorkbook(response
 					.getOutputStream());
 			WritableSheet s = w.createSheet("Demo", 0);

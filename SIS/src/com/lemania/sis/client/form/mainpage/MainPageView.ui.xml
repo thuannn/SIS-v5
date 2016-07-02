@@ -70,8 +70,9 @@
 
 						<!-- <g:Dock direction="NORTH"> -->
 						<g:HorizontalPanel>
-							<g:HorizontalPanel verticalAlignment="ALIGN_BOTTOM">
+							<g:HorizontalPanel verticalAlignment="ALIGN_MIDDLE">
 								<g:Image url="" width="" height="40px" ui:field="imgLogo" />
+								<g:Label styleName="hiddenText">...</g:Label>
 								<g:Label styleName="logoText">eProfil</g:Label>
 							</g:HorizontalPanel>
 							<g:HorizontalPanel spacing="10">
