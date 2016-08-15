@@ -230,6 +230,10 @@
 												<g:Hyperlink targetHistoryToken="!addecole"
 													text="Rajouter une école" ui:field="cmdSchoolAdd" />
 											</g:TreeItem>
+											<g:TreeItem text="Données">
+												<g:Hyperlink text="Exportation des données"
+													targetHistoryToken="dataexport" ui:field="cmdDataExport" />
+											</g:TreeItem>
 										</g:TreeItem>
 										<g:TreeItem text="Gestion de l&apos;accès">
 											<g:Hyperlink text="Gestion des codes d&apos;accès"

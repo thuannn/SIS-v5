@@ -662,7 +662,7 @@ public class BulletinSubjectDao extends MyDAOBase {
 		ps.setProfessor( Key.create(Professor.class, Long.parseLong(professorId)));
 		ps.setProfName( ofy().load().key(ps.getProfessor()).now().getProfName());
 		//
-		if (professor1Id.equals("")) 
+		if (professor1Id.equals(""))
 			ps.setProfessor1(null);
 		else { 
 			ps.setProfessor1( Key.create(Professor.class, Long.parseLong(professor1Id)));
@@ -723,12 +723,12 @@ public class BulletinSubjectDao extends MyDAOBase {
 			curBulletinBranche.setBrancheCoef( profileBranche.getBrancheCoef() );
 			curBulletinBranche.setBulletinBrancheName( profileBranche.getProfileBrancheName() );
 			curBulletinBranche.setBulletinSubject( key );
-			ofy().save().entities(curBulletinBranche);
+			ofy().save().entities(curBulletinBranche).now();
 			//
 			ps.setTotalBrancheCoef( ps.getTotalBrancheCoef() + profileBranche.getBrancheCoef() );
 		}		
 		//
-		ofy().save().entities( ps );
+		ofy().save().entities( ps ).now();
 		//
 		try {
 			return ofy().load().key(key).now();

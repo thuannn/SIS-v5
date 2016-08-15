@@ -4,7 +4,7 @@
 
 	<application>lemania-eprofil</application>
 
-	<version>6-20160701-1</version>
+	<version>6-20160809-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -40,26 +40,39 @@
 <!--
 CHANGE LOG 
 
+6-20160809-1
+............
+- Remove paging in Programme/Classe, Attributions Personnalisées
+
+6-20160808-1
+............
+- Changé l'année scolaire 2016 - 2017
+
+
+6-20160711-1
+............
+- Nouvelle page : Data export
+- Nouvelle fonction : Export - Attributions des branches
+
+
 6-20160701-1
-___
+............
 NOUVELLE FONCTION : Exporter en Excel des cahier de textes
 
 
 6-201600630-1
-___
+............
 Update cron.xml
 
-................
+
 6-201600627-1
-
-BUG FIX
-
-4e commentaire ne s'affiche pas pour Second, PM
-
-
 ................
-6-20160504-1
+BUG FIX
+- 4e commentaire ne s'affiche pas pour Second, PM
 
+
+6-20160504-1
+................
 NOUVELLE FONCTION
 	- ES : repetition par jour
 	- Lister les matière et les élève par professeur (comme les notes)

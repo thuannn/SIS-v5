@@ -1,11 +1,12 @@
-<!-- Indices written at Sat, 2 Jul 2016 16:25:44 CEST -->
+<!-- Indices written at Mon, 11 Jul 2016 18:03:19 CEST -->
 
 <datastore-indexes>
 
     <!-- Used 1 time in query history -->
-    <datastore-index kind="BulletinSubject" ancestor="false" source="auto">
-        <property name="bulletin" direction="asc"/>
-        <property name="subjectCoef" direction="asc"/>
+    <datastore-index kind="Bulletin" ancestor="false" source="auto">
+        <property name="isFinished" direction="asc"/>
+        <property name="classeName" direction="asc"/>
+        <property name="studentName" direction="asc"/>
     </datastore-index>
 
 </datastore-indexes>

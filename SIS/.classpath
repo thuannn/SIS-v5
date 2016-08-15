@@ -54,11 +54,11 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance.jar"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/storage-v1r33lv1.18.0-rc"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt-theme-neptune.jar"/>
-	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwtp-all-1.5.1.jar"/>
-	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/objectify-5.1.9.jar"/>
-	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/requestfactory-apt.jar"/>
-	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/requestfactory-client.jar"/>
-	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/requestfactory-server.jar"/>
-	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/01.DEV/01-IDE/01-Lib/gwt-2.7.0/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwtp-all-1.5.1.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/objectify-5.1.9.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwt-2.7.0/requestfactory-apt.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwt-2.7.0/requestfactory-client.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwt-2.7.0/requestfactory-server.jar"/>
+	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwt-2.7.0/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

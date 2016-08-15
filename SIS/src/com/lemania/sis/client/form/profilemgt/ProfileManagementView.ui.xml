@@ -41,9 +41,9 @@
 					<g:cell width="65%">
 					<g:VerticalPanel width="100%" styleName="subSection" ui:field="pnlSubject">
 								<g:Label text="Liste des matière du programme choisi" styleName="sectionTitle"/>
-								<p1:DataGrid width="" height="400px" ui:field="tblSubjects" pageSize="10"/>
+								<p1:DataGrid width="" height="400px" ui:field="tblSubjects"/>
 								<g:Cell horizontalAlignment="ALIGN_CENTER">
-									<p1:SimplePager location="CENTER" ui:field="pagerSubjects" page="0" pageSize="10" pageStart="0"/>
+									<p1:SimplePager location="CENTER" ui:field="pagerSubjects" page="0" pageStart="0"/>
 								</g:Cell>
 								<g:VerticalPanel width="100%" spacing="2" ui:field="pnlSubjectAdd">
 								<g:Label text="Rajouter une matière" styleName="sectionTitle"/>

@@ -15,6 +15,7 @@ import com.lemania.sis.client.form.bulletins.FrmBulletinViewDetailView;
 import com.lemania.sis.client.form.bulletins.FrmBulletinViewSummaryPresenter;
 import com.lemania.sis.client.form.bulletins.FrmBulletinViewSummaryView;
 import com.lemania.sis.client.form.classroom.ClassroomModule;
+import com.lemania.sis.client.form.dataexport.DataExportModule;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationInputPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationInputStudentPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationInputStudentView;
@@ -28,7 +29,6 @@ import com.lemania.sis.client.form.mainpage.MainPageView;
 import com.lemania.sis.client.form.markinput.FrmMarkInputPresenter;
 import com.lemania.sis.client.form.markinput.FrmMarkInputView;
 import com.lemania.sis.client.form.masteragenda.MasterAgendaModule;
-import com.lemania.sis.client.place.DefaultPlace;
 import com.lemania.sis.client.place.NameTokens;
 import com.lemania.sis.client.presenter.EcolePresenter;
 import com.lemania.sis.client.view.ContactView;
@@ -102,6 +102,7 @@ public class ClientModule extends AbstractPresenterModule {
 		install(new StudyLogStudentModule());
 		install(new SupervisedStudySubscriptionModule());
 		install(new SupervisedStudyTrackingModule());
+		install(new DataExportModule());
 		
 		
 // 20151221 - Upgrade to GWTP 1.5.1

@@ -17,6 +17,7 @@ import com.lemania.sis.client.form.bulletinmgt.FrmBulletinManagementPresenter;
 import com.lemania.sis.client.form.bulletins.FrmBulletinViewDetailPresenter;
 import com.lemania.sis.client.form.bulletins.FrmBulletinViewSummaryPresenter;
 import com.lemania.sis.client.form.classroom.ClassroomPresenter;
+import com.lemania.sis.client.form.dataexport.DataExportPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationInputPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationInputStudentPresenter;
 import com.lemania.sis.client.form.evaluations.FrmEvaluationReportListPresenter;
@@ -154,4 +155,6 @@ public interface ClientGinjector extends Ginjector {
 	AsyncProvider<SupervisedStudySubscriptionPresenter> getIndividualCourseSubscriptionPresenter();
 	
 	AsyncProvider<SupervisedStudyTrackingPresenter> getSupervisedStudyTrackingPresenter();
+	
+	AsyncProvider<DataExportPresenter> getDataExportPresenter();
 }

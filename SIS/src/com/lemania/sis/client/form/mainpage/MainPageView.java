@@ -129,6 +129,8 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	@UiField Hyperlink cmdMonitoredStudiesSubscriptionProf;
 	@UiField Hyperlink cmdMonitoredStudiesLogProf;
 	//
+	@UiField Hyperlink cmdDataExport;
+	//
 	@UiField BorderLayoutContainer con;
 	@UiField FlowLayoutContainer conWest;
 //	@UiField SimpleContainer conCenter;
@@ -811,6 +813,11 @@ public class MainPageView extends ViewWithUiHandlers<MainPageUiHandler> implemen
 	}
 	@UiHandler("cmdMonitoredStudiesLogProf")
 	void onCmdMonitoredStudiesLogClickProf(ClickEvent event) {
+		//
+		switchButton( (Hyperlink)event.getSource() );
+	}
+	@UiHandler("cmdDataExport")
+	void onCmdDataExport(ClickEvent event) {
 		//
 		switchButton( (Hyperlink)event.getSource() );
 	}
