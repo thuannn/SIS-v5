@@ -262,7 +262,7 @@ public class BulletinSubjectDao extends MyDAOBase {
 	
 	
 	
-	/*
+	/* 
 	 * 
 	 * */
 	public List<BulletinSubject> listAllByAssignment(String assignmentId) {
@@ -275,28 +275,34 @@ public class BulletinSubjectDao extends MyDAOBase {
 					.filter("classe", assignment.getClasse())
 					.filter("isActive", true);
 			
-			// Get the Bulletin Subject list
+			// Get the Bulletin Subject list by professor's asssignments
 			List<BulletinSubject> fullBulletinSubjectList = new ArrayList<BulletinSubject>();
+			//
 			Query<BulletinSubject> q = ofy().load().type(BulletinSubject.class)
 					.filter("subject", assignment.getSubject())
 					.filter("professor", assignment.getProf())
 					.order("subjectName");
 			fullBulletinSubjectList.addAll( q.list() );
+			
 			// If found nothing with the first professor, look by the second professor
 			q = ofy().load().type(BulletinSubject.class)
 					.filter("subject", assignment.getSubject())
 					.filter("professor1", assignment.getProf())
 					.order("subjectName");
 			fullBulletinSubjectList.addAll( q.list() );
+			
 			// If found nothing with the first professor, look by the third professor
 			q = ofy().load().type(BulletinSubject.class)
 					.filter("subject", assignment.getSubject())
 					.filter("professor2", assignment.getProf())
 					.order("subjectName");
 			fullBulletinSubjectList.addAll( q.list() );
+			
 			//
 			List<BulletinSubject> returnList = new ArrayList<BulletinSubject>();
-			//
+			
+			// 
+			// First, get all the Bulletin Subject of the student in the same class as in Bulletin
 			for ( BulletinSubject bulletinSubject : fullBulletinSubjectList ){
 				// Check if this Bulletin Subject belongs to Bulletin list of the class
 				for (Bulletin bulletin : qBulletin){
@@ -306,37 +312,69 @@ public class BulletinSubjectDao extends MyDAOBase {
 					//
 					if (bulletinSubject.getBulletin().getId() == bulletin.getId()) {
 						//
-						if (bulletinSubject.getProfessor() != null) {
-							bulletinSubject.setProfName( ofy().load().key(bulletinSubject.getProfessor()).now().getProfName() );
-							bulletinSubject.setProfId( Long.toString( bulletinSubject.getProfessor().getId() ));
-						}
-						if (bulletinSubject.getProfessor1() != null) {
-							bulletinSubject.setProf1Name( ofy().load().key(bulletinSubject.getProfessor1()).now().getProfName() );
-							bulletinSubject.setProf1Id( Long.toString( bulletinSubject.getProfessor1().getId() ));
-						}
-						if (bulletinSubject.getProfessor2() != null) {
-							bulletinSubject.setProf2Name( ofy().load().key(bulletinSubject.getProfessor2()).now().getProfName() );
-							bulletinSubject.setProf2Id( Long.toString( bulletinSubject.getProfessor2().getId() ));
-						}
+						returnList.add( populateData( bulletinSubject, bulletin ) );
 						//
-						bulletinSubject.setSubjectName( ofy().load().key( bulletinSubject.getSubject()).now().getSubjectName() );	
-						bulletinSubject.setSubjectId( Long.toString(
-								ofy().load().key( bulletinSubject.getSubject()).now().getId() ));
-						bulletinSubject.setClassId( Long.toString( 
-								ofy().load().key( ofy().load().key( bulletinSubject.getBulletin()).now().getClasse() ).now().getId() ));
-						//
-						bulletinSubject.setStudentName( bulletin.getStudentName() );
-						bulletinSubject.setStudentId( bulletin.getStudentId().toString() );
-						returnList.add( bulletinSubject );
 						break;
 					}
 				}
 			}
+			//
+			// Second, get all the student from other classes who participate in this course
+			Bulletin extraBulletin;
+			q = ofy().load().type(BulletinSubject.class)
+					.filter("extraClasse", assignment.getClasse())
+					.filter("subject", assignment.getSubject())
+					.filter("professor", assignment.getProf())
+					.order("subjectName");
+			for ( BulletinSubject bulletinSubject : q ) {
+				//
+				extraBulletin = ofy().load().key(bulletinSubject.getBulletin()).now();
+				//
+				// Check if this Bulletin Subject belong to a finished Bulletin, if yes skip it
+				if ( extraBulletin.getIsFinished().equals(true) )
+					continue;
+				//
+				returnList.add( populateData( bulletinSubject, extraBulletin ) );
+			}
+			
+			//
 			Collections.sort(returnList);
+			//
 			return returnList;
 		}
 		return null;
 	}
+	
+	
+	/*
+	 * */
+	BulletinSubject populateData( BulletinSubject bulletinSubject, Bulletin bulletin ) {
+		//
+		if (bulletinSubject.getProfessor() != null) {
+			bulletinSubject.setProfName( ofy().load().key(bulletinSubject.getProfessor()).now().getProfName() );
+			bulletinSubject.setProfId( Long.toString( bulletinSubject.getProfessor().getId() ));
+		}
+		if (bulletinSubject.getProfessor1() != null) {
+			bulletinSubject.setProf1Name( ofy().load().key(bulletinSubject.getProfessor1()).now().getProfName() );
+			bulletinSubject.setProf1Id( Long.toString( bulletinSubject.getProfessor1().getId() ));
+		}
+		if (bulletinSubject.getProfessor2() != null) {
+			bulletinSubject.setProf2Name( ofy().load().key(bulletinSubject.getProfessor2()).now().getProfName() );
+			bulletinSubject.setProf2Id( Long.toString( bulletinSubject.getProfessor2().getId() ));
+		}
+		//
+		bulletinSubject.setSubjectName( ofy().load().key( bulletinSubject.getSubject()).now().getSubjectName() );	
+		bulletinSubject.setSubjectId( Long.toString(
+				ofy().load().key( bulletinSubject.getSubject()).now().getId() ));
+		bulletinSubject.setClassId( Long.toString( 
+				ofy().load().key( ofy().load().key( bulletinSubject.getBulletin()).now().getClasse() ).now().getId() ));
+		//
+		bulletinSubject.setStudentName( bulletin.getStudentName() );
+		bulletinSubject.setStudentId( bulletin.getStudentId().toString() );
+		//
+		return bulletinSubject;
+	}
+	
 	
 	
 	/*
@@ -653,9 +691,12 @@ public class BulletinSubjectDao extends MyDAOBase {
 	
 	/*
 	 * */
-	public BulletinSubject saveAndReturn(String bulletinId, String subjectId, String professorId, String professor1Id, String professor2Id, String subjectCoef ) {
+	public BulletinSubject saveAndReturn(String bulletinId, String subjectId, String professorId, String professor1Id, String professor2Id, String subjectCoef, String profileId ) {
+		//
+		Bulletin bulletin = ofy().load().key( Key.create(Bulletin.class, Long.parseLong(bulletinId))).now();
 		//
 		BulletinSubject ps = new BulletinSubject();
+		//
 		ps.setBulletin( Key.create( Bulletin.class, Long.parseLong(bulletinId)));
 		ps.setSubject(Key.create( Subject.class, Long.parseLong(subjectId)));
 		//
@@ -680,18 +721,31 @@ public class BulletinSubjectDao extends MyDAOBase {
 		
 		Key<BulletinSubject> key = ofy().save().entities( ps ).now().keySet().iterator().next();
 		
+		//
+		Profile profile= ofy().load().key( Key.create(Profile.class, Long.parseLong(profileId)) ).now();
+		
+		//
+		// if not the same class as in Bulletin, then it is an Extra Class
+		if ( ! Long.toString( bulletin.getProfile().getId() ).equals( profileId ) ) {
+			//
+			ps.setExtraClasse( profile.getClasse() );
+			ps.setExtraClasseName( (ofy().load().key(profile.getClasse()).now()).getClassName() );
+		}
+		
+		//
+		// 16.08.2016 - Extra classe 
+//		Bulletin bulletin = ofy().load().key(ps.getBulletin()).now();
+//		if ( bulletin.getProfile() != null ) {
+//			profile = ofy().load().key( bulletin.getProfile() ).now();
+//		} else {
+//			Query<Profile> profiles = ofy().load().type(Profile.class)
+//					.filter("classe", bulletin.getClasse());
+//			profile = profiles.list().get(0);
+//		}
+		
+		//
 		// Save the related branches
 		BulletinBranche curBulletinBranche;		
-		//
-		Profile profile;
-		Bulletin bulletin = ofy().load().key(ps.getBulletin()).now();
-		if ( bulletin.getProfile() != null ) {
-			profile = ofy().load().key( bulletin.getProfile() ).now();
-		} else {
-			Query<Profile> profiles = ofy().load().type(Profile.class)
-					.filter("classe", bulletin.getClasse());
-			profile = profiles.list().get(0);
-		}
 		//
 		// Search for this course in the profile with different professors
 		List<Key<Professor>> profKeys = new ArrayList<Key<Professor>>();

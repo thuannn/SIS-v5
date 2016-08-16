@@ -82,4 +82,6 @@ public interface BulletinSubjectProxy extends EntityProxy {
 	//
 	public String getClassId();
 	public String getSubjectId();
+	//
+	public String getExtraClasseName();
 }

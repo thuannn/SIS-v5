@@ -7,15 +7,16 @@ import com.googlecode.objectify.annotation.Index;
 import com.lemania.sis.server.DatastoreObject;
 import com.lemania.sis.server.Subject;
 import com.lemania.sis.server.bean.bulletin.Bulletin;
+import com.lemania.sis.server.bean.classe.Classe;
 import com.lemania.sis.server.bean.professor.Professor;
 
 @Entity
 @Index
 public class BulletinSubject extends DatastoreObject implements Comparable<BulletinSubject> {
 	//
-	private Key<Subject> subject;
-	private Key<Bulletin> bulletin;
-	private Key<Professor> professor;
+	private Key<Subject> 	subject;
+	private Key<Bulletin> 	bulletin;
+	private Key<Professor> 	professor;
 	//
 	private Boolean isActive = true;
 	private Double subjectCoef;
@@ -43,6 +44,10 @@ public class BulletinSubject extends DatastoreObject implements Comparable<Bulle
 	// 20141202 - Multiple professors for one subject
 	private Key<Professor> professor1;
 	private Key<Professor> professor2;
+	//
+	// 15.08.2016
+	private Key<Classe>		extraClasse = null;		// Use when a student study a course from another class
+	private String 			extraClasseName = "";
 	
 	//
 	//
@@ -325,5 +330,21 @@ public class BulletinSubject extends DatastoreObject implements Comparable<Bulle
 
 	public void setProf2Name(String prof2Name) {
 		this.prof2Name = prof2Name;
+	}
+
+	public Key<Classe> getExtraClasse() {
+		return extraClasse;
+	}
+
+	public void setExtraClasse(Key<Classe> extraClasse) {
+		this.extraClasse = extraClasse;
+	}
+
+	public String getExtraClasseName() {
+		return extraClasseName;
+	}
+
+	public void setExtraClasseName(String extraClasseName) {
+		this.extraClasseName = extraClasseName;
 	}
 }

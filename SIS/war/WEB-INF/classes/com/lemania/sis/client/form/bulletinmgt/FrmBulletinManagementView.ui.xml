@@ -70,6 +70,14 @@
 									<g:VerticalPanel width="100%" ui:field="pnlSubjectAdd">
 										<g:Label text="Rajouter une matière" styleName="sectionTitle" />
 										<g:Grid width="" cellPadding="2" cellSpacing="2">
+										    <g:row>
+												<g:customCell>
+													<g:Label text="Classe :" />
+												</g:customCell>
+												<g:customCell>
+													<g:ListBox ui:field="lstProfiles" width="200px" />
+												</g:customCell>
+											</g:row>
 											<g:row>
 												<g:customCell>
 													<g:Label text="Matière :" />

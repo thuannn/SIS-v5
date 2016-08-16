@@ -4,11 +4,11 @@
 
 	<application>lemania-eprofil</application>
 
-	<version>6-20160809-1</version>
+	<version>6-20160816-1</version>
 
 	<threadsafe>true</threadsafe>
 
-	<instance-class>F2</instance-class>
+	<instance-class>F4</instance-class>
 	<automatic-scaling>
 		<min-idle-instances>automatic</min-idle-instances>
 		<!-- ‘automatic’ is the default value. -->
@@ -38,7 +38,17 @@
 </appengine-web-app>
 
 <!--
-CHANGE LOG 
+CHANGE LOG
+
+6-20160815-1
+............
+- Ajouter multiple classe-matière dans Evaluation,Notes, Absences 
+
+
+6-20160815-1
+............
+- Possibilité d'ajouter une matière d'une autre classe pour un élève
+ 
 
 6-20160809-1
 ............

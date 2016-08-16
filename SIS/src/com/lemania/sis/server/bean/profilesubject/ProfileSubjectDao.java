@@ -243,4 +243,27 @@ public class ProfileSubjectDao extends MyDAOBase {
 		}
 		return returnList;
 	}
+	
+	
+	/*
+	 * */
+	public List<Professor> listProfessorsBySubjectProfile( String subjectId, String profileId ) {
+		//
+		Query<ProfileSubject> q = ofy().load().type(ProfileSubject.class)
+				.filter("subject", Key.create(Subject.class, Long.parseLong(subjectId)) )
+				.filter("profile", Key.create( Profile.class, Long.parseLong(profileId)) )
+				.order("profName");
+		//
+		List<Professor> returnList = new ArrayList<Professor>();
+		for ( ProfileSubject profileSubject : q ){
+			//
+			if (profileSubject.getProfessor() != null)
+				returnList.add( ofy().load().key( profileSubject.getProfessor() ).now() );
+			if (profileSubject.getProfessor1() != null)
+				returnList.add( ofy().load().key( profileSubject.getProfessor1() ).now() );
+			if (profileSubject.getProfessor2() != null)
+				returnList.add( ofy().load().key( profileSubject.getProfessor2() ).now() );
+		}
+		return returnList;
+	}
 }

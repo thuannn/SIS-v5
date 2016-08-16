@@ -15,6 +15,7 @@ import com.lemania.sis.shared.ClasseProxy;
 import com.lemania.sis.shared.CoursProxy;
 import com.lemania.sis.shared.EcoleProxy;
 import com.lemania.sis.shared.ProfessorProxy;
+import com.lemania.sis.shared.ProfileProxy;
 import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.bulletin.BulletinProxy;
 import com.lemania.sis.shared.bulletinbranche.BulletinBrancheProxy;
@@ -85,6 +86,7 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	@UiField ListBox lstEcoles;
 	@UiField ListBox lstProgrammes;
 	@UiField ListBox lstClasses;
+	@UiField ListBox lstProfiles;
 	@UiField ListBox lstSubjects;
 	@UiField ListBox lstProfessors;
 	@UiField DoubleBox txtSubjectCoef;
@@ -205,9 +207,9 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	/**/
 	@Override
 	public void setClasseList(List<ClasseProxy> classes) {
+		//
 		// First clear existing data
 		lstClasses.clear();
-		
 		// 
 		lstClasses.addItem("-", "");
 		for ( ClasseProxy cours : classes )
@@ -215,6 +217,9 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 	
 	
+	/* 
+	 * 
+	 * */
 	@UiHandler("lstClasses")
 	void onLstClassesChange(ChangeEvent event) {
 		//
@@ -226,6 +231,17 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 		//
 		if (getUiHandlers() != null)
 			getUiHandlers().onClassChange(lstClasses.getValue(lstClasses.getSelectedIndex()));
+	}
+	
+	
+	/* 
+	 * 
+	 * */
+	@UiHandler("lstProfiles")
+	void onLstProfilesChange(ChangeEvent event) {
+		//
+		if (getUiHandlers() != null)
+			getUiHandlers().onProfileChange( lstProfiles.getValue( lstProfiles.getSelectedIndex() ) );
 	}
 
 	
@@ -362,6 +378,17 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	/**/
 	private void initializeSubjectTable() {
 		//
+		//
+	    TextColumn<BulletinSubjectProxy> colClasse = new TextColumn<BulletinSubjectProxy>() {
+	      @Override
+	      public String getValue(BulletinSubjectProxy object) {
+	        return object.getExtraClasseName();
+	      }
+	    };	    
+	    tblSubjects.setColumnWidth(colClasse, 7, Unit.PCT);
+	    tblSubjects.addColumn(colClasse, "Classe+");
+	    
+		//
 	    TextColumn<BulletinSubjectProxy> colSubjectName = new TextColumn<BulletinSubjectProxy>() {
 	      @Override
 	      public String getValue(BulletinSubjectProxy object) {
@@ -459,6 +486,7 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	    				cmdAddSubject.setVisible(true);
 	    				lstSubjects.setEnabled(true);
 	    				txtSubjectCoef.setEnabled(true);
+	    				lstProfiles.setEnabled(true);
 	    				//
 	    				// Reset the professor list
 	    				lstProfessors.setSelectedIndex(0);
@@ -473,11 +501,17 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 				cmdAddSubject.setVisible(false);
 				lstSubjects.setEnabled(false);
 				txtSubjectCoef.setEnabled(false);
+				lstProfiles.setEnabled(false);
 				//
 				// Show the currrently selected profs of this course
-				FieldValidation.selectItemByText( lstSubjects, selectedSubject.getSubjectName() );
-	    		onLstSubjectsChange( null );
-	    		isEditingProfs = true;
+				if ( ! selectedSubject.getExtraClasseName().equals("") )
+					FieldValidation.selectItemByText( lstProfiles, selectedSubject.getExtraClasseName() );
+				else
+					FieldValidation.selectItemByText( lstProfiles, lstClasses.getSelectedItemText() );
+	    		//
+				onLstProfilesChange( null );
+	    		//
+				isEditingProfs = true;
 				//
 				pp.setGlassEnabled( true );
 	    		pp.show();
@@ -635,7 +669,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 					lstProfessors.getValue(lstProfessors.getSelectedIndex()),
 					lstProfessors.getValue(lstProfessors1.getSelectedIndex()),
 					lstProfessors.getValue(lstProfessors2.getSelectedIndex()),
-					txtSubjectCoef.getText());
+					txtSubjectCoef.getText(), 
+					lstProfiles.getValue( lstProfiles.getSelectedIndex() ) );
 	}
 	
 	
@@ -683,7 +718,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 
 	
-	/**/
+	/*
+	 * */
 	@Override
 	public void setSubjectListData(List<SubjectProxy> subjects) {
 		//
@@ -694,18 +730,29 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 			lstSubjects.addItem( subject.getSubjectName(), subject.getId().toString() );
 		}
 		lstSubjects.setSelectedIndex(0);
+		//
+		if ( isEditingProfs ) {
+			//
+			FieldValidation.selectItemByText( lstSubjects, selectedSubject.getSubjectName() );
+			onLstSubjectsChange( null );
+		}
 	}
 	
 	
-	/**/
+	/*
+	 * */
 	@UiHandler("lstSubjects")
-	void onLstSubjectsChange(ChangeEvent event) {
+	void onLstSubjectsChange( ChangeEvent event ) {
+		//
 		if (getUiHandlers() != null)
-			getUiHandlers().loadProfessorList( lstSubjects.getValue( lstSubjects.getSelectedIndex()), lstClasses.getValue(lstClasses.getSelectedIndex()));
+			getUiHandlers().loadProfessorList( 
+					lstSubjects.getValue( lstSubjects.getSelectedIndex()), 
+					lstProfiles.getValue( lstProfiles.getSelectedIndex()) );
 	}
 
 	
-	/**/
+	/*
+	 * */
 	@Override
 	public void setProfessorListData(List<ProfessorProxy> profs) {
 		//
@@ -761,5 +808,17 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 				selectedBranche.getId().toString() , 
 				lstBranches.getValue(lstBranches.getSelectedIndex()),
 				txtBrancheCoef.getText() );
+	}
+
+	
+	/*
+	 * */
+	@Override
+	public void setProfileList(List<ProfileProxy> profiles) {
+		//
+		lstProfiles.clear();
+		lstProfiles.addItem( "-", "" );
+		for ( ProfileProxy pp : profiles )
+			lstProfiles.addItem( pp.getProfileName(), pp.getId().toString() );
 	}
 }

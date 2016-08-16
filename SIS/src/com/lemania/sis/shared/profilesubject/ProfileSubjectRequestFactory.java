@@ -33,6 +33,8 @@ public interface ProfileSubjectRequestFactory extends RequestFactory {
 		Request<ProfileSubjectProxy> updateSubjectProf( ProfileSubjectProxy profile, String profId, String profId1, String profId2 );
 		//
 		Request<List<ProfessorProxy>> listProfessorsByProfileSubject( String subjectId, String classId );
+		//
+		Request<List<ProfessorProxy>> listProfessorsBySubjectProfile( String subjectId, String profileId );
 	}
 	
 	ProfileSubjectRequestContext profileSubjectRequest();

@@ -67,6 +67,7 @@ public class FrmEvaluationInputPresenter
 	@UseGatekeeper( ProfessorGateKeeper.class )
 	public interface MyProxy extends ProxyPlace<FrmEvaluationInputPresenter> {		
 	}
+	
 
 	/*
 	 * */
@@ -75,6 +76,7 @@ public class FrmEvaluationInputPresenter
 			final MyProxy proxy) {
 		super(eventBus, view, proxy);
 	}
+	
 
 	/*
 	 * */
@@ -82,6 +84,7 @@ public class FrmEvaluationInputPresenter
 	protected void revealInParent() {
 		RevealContentEvent.fire(this, MainPagePresenter.TYPE_SetMainContent, this);
 	}
+	
 
 	/*
 	 * */
@@ -93,6 +96,7 @@ public class FrmEvaluationInputPresenter
 		getView().setUiHandlers(this);
 		getView().initializeUI();
 	}
+	
 
 	/*
 	 * */
@@ -103,6 +107,7 @@ public class FrmEvaluationInputPresenter
 		getView().resetForm();
 		loadProfessorList();
 	}
+	
 
 	/*
 	 * */
@@ -137,6 +142,7 @@ public class FrmEvaluationInputPresenter
 		}
 	}
 	
+	
 	/*
 	 * */
 	@ProxyEvent
@@ -145,6 +151,7 @@ public class FrmEvaluationInputPresenter
 		//
 		this.currentUser = event.getCurrentUser();
 	}
+	
 
 	/*
 	 * */
@@ -170,6 +177,7 @@ public class FrmEvaluationInputPresenter
 			}
 		});
 	}
+	
 
 	/*
 	 * */
@@ -190,6 +198,7 @@ public class FrmEvaluationInputPresenter
 			}
 		});
 	}
+	
 
 	/*
 	 * */
@@ -199,6 +208,7 @@ public class FrmEvaluationInputPresenter
 		//
 		populateEvaluationSubjectList(profId, assignmentId, evaluationHeaderId);
 	}
+	
 
 	/*	
 	 * Populate the list of Evaluation Subject for each student in the assignment list 
@@ -225,8 +235,10 @@ public class FrmEvaluationInputPresenter
 			}
 		});
 	}
+	
 
-	//
+	/*
+	 * */
 	@Override
 	public void updateEvaluation(EvaluationSubjectProxy es, String value, int order) {
 		//

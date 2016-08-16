@@ -42,7 +42,6 @@ import com.lemania.sis.shared.service.EventSourceRequestTransport;
 import com.lemania.sis.shared.service.ProfessorRequestFactory;
 import com.lemania.sis.shared.service.ProfessorRequestFactory.ProfessorRequestContext;
 import com.lemania.sis.shared.service.SettingOptionRequestFactory.SettingOptionRequestContext;
-import com.sencha.gxt.widget.core.client.box.AlertMessageBox;
 
 public class FrmMarkInputPresenter extends
 		Presenter<FrmMarkInputPresenter.MyView, FrmMarkInputPresenter.MyProxy> 
@@ -108,7 +107,9 @@ public class FrmMarkInputPresenter extends
 	}
 	
 	
-	/**/
+	/*
+	 * 
+	 * */
 	@Override
 	protected void onReset() {
 		//

@@ -15,6 +15,8 @@ public interface FrmBulletinManagementUiHandler extends UiHandlers {
 	//
 	void onClassChange(String classId);
 	//
+	void onProfileChange( String profileId );
+	//
 	void removeSubject(BulletinSubjectProxy subject);
 	void removeBranche( BulletinBrancheProxy branche );
 	//
@@ -27,7 +29,7 @@ public interface FrmBulletinManagementUiHandler extends UiHandlers {
 	//
 	void updateSubjectProf ( BulletinSubjectProxy subject, String profId, String prof1Id, String prof2Id, Integer lastSubjectIndex );
 	//
-	void addSubject(String bulletinId, String subjectId, String profId, String profId1, String profId2, String coef);
+	void addSubject(String bulletinId, String subjectId, String profId, String profId1, String profId2, String coef, String profileId );
 	void addBranche(String bulletinSubjectId, String brancheId, String coef);
 	//
 	void loadProfessorList( String subjectId, String classId );
