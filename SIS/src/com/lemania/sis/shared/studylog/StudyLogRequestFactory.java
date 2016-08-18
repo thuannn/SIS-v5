@@ -34,6 +34,10 @@ public interface StudyLogRequestFactory extends RequestFactory {
 		Request<Void> removeStudyLog(StudyLogProxy studyLog);
 
 		Request<List<StudyLogProxy>> listAll();
+		
+		Request<List<StudyLogProxy>> listAllByBulletin( String bulletinId, String dateFrom, String dateTo  );
+		
+		Request<List<StudyLogProxy>> listAllByBulletinClasseSubject( String bulletinId, String classId, String subjectId, String dateFrom, String dateTo  );
 
 		Request<List<StudyLogProxy>> listAllBySubjectClass(String subjectId,
 				String classeId, String dateFrom, String dateTo);

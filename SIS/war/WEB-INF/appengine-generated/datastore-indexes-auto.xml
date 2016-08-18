@@ -1,11 +1,12 @@
-<!-- Indices written at Tue, 16 Aug 2016 16:52:15 CEST -->
+<!-- Indices written at Wed, 17 Aug 2016 16:49:57 CEST -->
 
 <datastore-indexes>
 
-    <!-- Used 9 times in query history -->
-    <datastore-index kind="Profile" ancestor="false" source="auto">
-        <property name="isActive" direction="asc"/>
-        <property name="profileName" direction="asc"/>
+    <!-- Used 16 times in query history -->
+    <datastore-index kind="StudyLog" ancestor="false" source="auto">
+        <property name="keyClasse" direction="asc"/>
+        <property name="keySubject" direction="asc"/>
+        <property name="logDate" direction="asc"/>
     </datastore-index>
 
 </datastore-indexes>

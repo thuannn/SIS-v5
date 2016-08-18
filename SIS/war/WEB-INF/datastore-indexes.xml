@@ -122,6 +122,13 @@
 		<property name="subject" direction="asc"/>
 		<property name="bulletin" direction="asc"/>
 	</datastore-index>
+	
+	<datastore-index kind="BulletinSubject" ancestor="false" source="manual">
+        <property name="extraClasse" direction="asc"/>
+        <property name="professor" direction="asc"/>
+        <property name="subject" direction="asc"/>
+        <property name="subjectName" direction="asc"/>
+    </datastore-index>
 
 	<!-- Bulletin Branche -->
 

@@ -21,6 +21,7 @@ public class StudyLogStudentLoadLogsEvent extends GwtEvent<StudyLogStudentLoadLo
     private final String classId;
     private final String dateFrom;
     private final String dateTo;
+    private final String bulletinId;
    
     public String getDateFrom() {
 		return dateFrom;
@@ -30,12 +31,13 @@ public class StudyLogStudentLoadLogsEvent extends GwtEvent<StudyLogStudentLoadLo
 		return dateTo;
 	}
 
-	StudyLogStudentLoadLogsEvent(final String message, String subjectId, String classId, String dateFrom, String dateTo) {
+	StudyLogStudentLoadLogsEvent(final String message, String subjectId, String classId, String dateFrom, String dateTo, String bulletinId) {
         this.message = message;
         this.subjectId = subjectId;
         this.classId = classId;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
+        this.bulletinId = bulletinId;
     }
 
     public static Type<StudyLogStudentLoadLogsHandler> getType() {
@@ -62,6 +64,10 @@ public class StudyLogStudentLoadLogsEvent extends GwtEvent<StudyLogStudentLoadLo
 
 	public String getClassId() {
 		return classId;
+	}
+
+	public String getBulletinId() {
+		return bulletinId;
 	}
 
 }

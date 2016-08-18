@@ -273,7 +273,8 @@ public class FrmBulletinCreationPresenter
 	}
 
 	
-	/**/
+	/*
+	 * */
 	@Override
 	public void onClassChanged(final String classId) {
 		//
@@ -297,8 +298,10 @@ public class FrmBulletinCreationPresenter
 			}
 		});
 	}
+	
 
-	//
+	/*
+	 * */
 	@Override
 	public void removeBulletin(BulletinProxy bp) {
 		//

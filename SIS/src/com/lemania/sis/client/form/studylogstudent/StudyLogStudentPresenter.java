@@ -222,6 +222,7 @@ public class StudyLogStudentPresenter
 				});
 	}
 
+	
 	/*
 	 * */
 	public String getClassId(String bulletinId) {
@@ -234,8 +235,10 @@ public class StudyLogStudentPresenter
 		return "";
 	}
 
+	
 	/*********************** Event Handlers ******************************/
 
+	
 	/*
 	 * */
 	@ProxyEvent
@@ -244,6 +247,7 @@ public class StudyLogStudentPresenter
 		//
 		this.currentUser = event.getCurrentUser();
 	}
+
 
 	/*
 	 * */
@@ -255,10 +259,9 @@ public class StudyLogStudentPresenter
 		rf.initialize(this.getEventBus(),
 				new EventSourceRequestTransport(this.getEventBus()));
 		StudyLogRequestContext rc = rf.studyLogRequestContext();
-		if (!event.getSubjectId().equals(DataValues.optionAll)) {
+		if (!event.getSubjectId().equals( DataValues.optionAll )) {
 			//
-			rc.listAllBySubjectClass(event.getSubjectId(), event.getClassId(),
-					event.getDateFrom(), event.getDateTo()).fire(
+			rc.listAllByBulletinClasseSubject( event.getBulletinId(), event.getClassId(), event.getSubjectId(),  event.getDateFrom(), event.getDateTo()).fire (
 					new Receiver<List<StudyLogProxy>>() {
 						@Override
 						public void onFailure(ServerFailure error) {
@@ -272,7 +275,7 @@ public class StudyLogStudentPresenter
 					});
 		} else {
 			//
-			rc.listAllByClass( event.getClassId(), event.getDateFrom(), event.getDateTo() ).fire(
+			rc.listAllByBulletin( event.getBulletinId(), event.getDateFrom(), event.getDateTo() ).fire (
 					new Receiver<List<StudyLogProxy>>() {
 						@Override
 						public void onFailure(ServerFailure error) {
@@ -316,11 +319,11 @@ public class StudyLogStudentPresenter
 				});
 	}
 
+	
 	/*
 	 * */
 	@Override
-	public void onBulletinChange(final String bulletinId,
-			final String dateFrom, final String dateTo) {
+	public void onBulletinChange(final String bulletinId, final String dateFrom, final String dateTo) {
 		//
 		BulletinSubjectRequestFactory rf = GWT
 				.create(BulletinSubjectRequestFactory.class);
@@ -345,7 +348,8 @@ public class StudyLogStudentPresenter
 									new StudyLogStudentLoadLogsEvent("",
 											DataValues.optionAll,
 											getClassId(bulletinId), dateFrom,
-											dateTo));
+											dateTo,
+											bulletinId ));
 						}
 					});
 		} else {
@@ -366,7 +370,8 @@ public class StudyLogStudentPresenter
 									new StudyLogStudentLoadLogsEvent("",
 											DataValues.optionAll,
 											getClassId(bulletinId), dateFrom,
-											dateTo));
+											dateTo, 
+											bulletinId ));
 						}
 					});
 		}
@@ -376,12 +381,11 @@ public class StudyLogStudentPresenter
 	/*
 	 * */
 	@Override
-	public void onSubjectChanged(String bulletinId, String subjectId,
-			String dateFrom, String dateTo) {
+	public void onSubjectChanged(String bulletinId, String subjectId, String dateFrom, String dateTo) {
 		//
 		getEventBus().fireEvent(
 				new StudyLogStudentLoadLogsEvent("", subjectId,
-						getClassId(bulletinId), dateFrom, dateTo));
+						getClassId(bulletinId), dateFrom, dateTo, bulletinId ));
 	}
 
 }

@@ -16,6 +16,8 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 import com.lemania.sis.server.Subject;
 import com.lemania.sis.server.bean.assignment.Assignment;
+import com.lemania.sis.server.bean.bulletin.Bulletin;
+import com.lemania.sis.server.bean.bulletinsubject.BulletinSubject;
 import com.lemania.sis.server.bean.classe.Classe;
 import com.lemania.sis.server.bean.professor.Professor;
 import com.lemania.sis.server.service.MyDAOBase;
@@ -213,9 +215,90 @@ public class StudyLogDao extends MyDAOBase {
 	}
 	
 	
+	/*
+	 * */
+	public List<StudyLog> listAllByBulletin( String bulletinId, String dateFrom, String dateTo  ) {
+		//
+		//
+		Query<StudyLog> queryLogs;
+		// Get all the bulletin subjects
+		List<StudyLog> studyLogList = new ArrayList<StudyLog>();
+		//
+		Query<BulletinSubject> queryBulletinSubject = ofy().load().type( BulletinSubject.class )
+				.filter("bulletin", Key.create(Bulletin.class, Long.parseLong(bulletinId)));
+		// Loop through the subject list, if Extra Class exist, load the study log of this class, otherwise load from main class in Bulletin
+		for ( BulletinSubject bs : queryBulletinSubject ) {
+			//
+			if ( bs.getExtraClasse() != null ) {
+				queryLogs = ofy().load().type( StudyLog.class )
+						.filter("keySubject", bs.getSubject() )
+						.filter("keyClasse", bs.getExtraClasse() )
+						.filter("logDate >=", dateFrom )
+						.filter("logDate <=", dateTo )
+						.order("logDate");
+				studyLogList.addAll( queryLogs.list() );
+			} else {
+				queryLogs = ofy().load().type( StudyLog.class )
+						.filter("keySubject", bs.getSubject() )
+						.filter("keyClasse", (ofy().load().key(Key.create(Bulletin.class,Long.parseLong(bulletinId)) ).now()).getClasse())
+						.filter("logDate >=", dateFrom )
+						.filter("logDate <=", dateTo )
+						.order("logDate");
+				studyLogList.addAll( queryLogs.list() );
+			}
+		}
+		//
+		populateIgnoredData( studyLogList );
+		Collections.sort( studyLogList, new StudyLogDateComparator() );
+		return studyLogList;
+	}
+	
+	
+	/*
+	 * */
+	public List<StudyLog> listAllByBulletinClasseSubject( String bulletinId, String classId, String subjectId, String dateFrom, String dateTo  ) {
+		//
+		//
+		Query<StudyLog> queryLogs;
+		// Get all the bulletin subjects
+		List<StudyLog> studyLogList = new ArrayList<StudyLog>();
+		//
+		Query<BulletinSubject> queryBulletinSubject = ofy().load().type( BulletinSubject.class )
+				.filter("bulletin", Key.create(Bulletin.class, Long.parseLong(bulletinId)))
+				.filter("subject", Key.create( Subject.class, Long.parseLong(subjectId)));
+		// Loop through the subject list, if Extra Class exist, load the study log of this class, otherwise load from main class in Bulletin
+		for ( BulletinSubject bs : queryBulletinSubject ) {
+			//
+			if ( bs.getExtraClasse() != null ) {
+				queryLogs = ofy().load().type( StudyLog.class )
+						.filter("keySubject", bs.getSubject() )
+						.filter("keyClasse", bs.getExtraClasse() )
+						.filter("logDate >=", dateFrom )
+						.filter("logDate <=", dateTo )
+						.order("logDate");
+				studyLogList.addAll( queryLogs.list() );
+			} else {
+				queryLogs = ofy().load().type( StudyLog.class )
+						.filter("keySubject", bs.getSubject() )
+						.filter("keyClasse", (ofy().load().key(Key.create(Bulletin.class,Long.parseLong(bulletinId)) ).now()).getClasse())
+						.filter("logDate >=", dateFrom )
+						.filter("logDate <=", dateTo )
+						.order("logDate");
+				studyLogList.addAll( queryLogs.list() );
+			}
+		}
+		//
+		populateIgnoredData( studyLogList );
+		Collections.sort( studyLogList, new StudyLogDateComparator() );
+		return studyLogList;
+	}
+	
+	
 	/* 
 	 * */
 	public List<StudyLog> listAllBySubjectClass( String subjectId, String classeId, String dateFrom, String dateTo ) {
+		//
+		List<StudyLog> returnList = new ArrayList<StudyLog>();
 		//
 		Key<Subject> keySubject = Key.create( Subject.class, Long.parseLong(subjectId) );
 		Key<Classe> keyClasse = Key.create( Classe.class, Long.parseLong(classeId) );
@@ -226,10 +309,14 @@ public class StudyLogDao extends MyDAOBase {
 				.filter("logDate >=", dateFrom )
 				.filter("logDate <=", dateTo )
 				.order("logDate");
-		List<StudyLog> returnList = new ArrayList<StudyLog>();
+		//
 		for ( StudyLog studyLog : q.list() ){
 			returnList.add( studyLog );
 		}
+		//
+		// TODO Load extra class if there is any
+		
+		
 		//
 		populateIgnoredData( returnList );
 		Collections.sort( returnList, new StudyLogDateComparator() );

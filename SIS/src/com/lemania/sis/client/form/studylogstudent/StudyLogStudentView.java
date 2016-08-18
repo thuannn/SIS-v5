@@ -285,6 +285,7 @@ class StudyLogStudentView extends ViewWithUiHandlers<StudyLogStudentUiHandlers> 
 			getUiHandlers().onClassChange(lstClasses.getValue(lstClasses.getSelectedIndex()));
 	}
 	
+	
 	/*
 	 * */
 	@UiHandler("lstBulletins")
@@ -299,6 +300,7 @@ class StudyLogStudentView extends ViewWithUiHandlers<StudyLogStudentUiHandlers> 
 					);
 	}
 
+	
 	/*
 	 * */
 	@UiHandler("lstSubjects")
