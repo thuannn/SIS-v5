@@ -67,6 +67,9 @@ public class BulletinSubject extends DatastoreObject implements Comparable<Bulle
 	@IgnoreSave private String studentName;
 	//
 	@IgnoreSave String classId;
+	//
+	@IgnoreSave String profileId = "";
+	@IgnoreSave String extraProfileId = "";
 	
 	
 	
@@ -346,5 +349,21 @@ public class BulletinSubject extends DatastoreObject implements Comparable<Bulle
 
 	public void setExtraClasseName(String extraClasseName) {
 		this.extraClasseName = extraClasseName;
+	}
+
+	public String getProfileId() {
+		return profileId;
+	}
+
+	public void setProfileId(String profileId) {
+		this.profileId = profileId;
+	}
+
+	public String getExtraProfileId() {
+		return extraProfileId;
+	}
+
+	public void setExtraProfileId(String extraProfileId) {
+		this.extraProfileId = extraProfileId;
 	}
 }

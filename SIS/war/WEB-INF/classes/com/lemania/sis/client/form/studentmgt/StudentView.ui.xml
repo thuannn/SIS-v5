@@ -19,9 +19,9 @@
 				<g:Label styleName="hiddenText" text="-" width="50px"/>
 				<g:Label text="Recherche un nom :" width="" horizontalAlignment="ALIGN_RIGHT"/>
 			</g:HorizontalPanel>
-				<p1:DataGrid width="100%" height="450px" ui:field="tblStudents" pageSize="15"/>
+				<p1:DataGrid width="100%" height="450px" ui:field="tblStudents"/>
 				<g:Cell horizontalAlignment="ALIGN_CENTER">
-					<p1:SimplePager location="CENTER" ui:field="pagerStudent" page="0" pageSize="15" pageStart="0"/>
+					<p1:SimplePager location="CENTER" ui:field="pagerStudent" page="0" pageStart="0"/>
 				</g:Cell>
 			</g:VerticalPanel>
 		</g:VerticalPanel>

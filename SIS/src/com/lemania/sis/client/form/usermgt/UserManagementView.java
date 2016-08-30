@@ -331,6 +331,7 @@ public class UserManagementView extends ViewWithUiHandlers<UserManagementUiHandl
 			dpUserAll.getList().add(up);
 		}
 		//
+		pagerUser.setPageSize( dpUser.getList().size() );
 		populateSuggestBox( dpUser.getList() );
 	}
 	
@@ -401,6 +402,7 @@ public class UserManagementView extends ViewWithUiHandlers<UserManagementUiHandl
 		dpUser.refresh();
 		tblUser.redraw();
 		//
+		pagerUser.setPageSize( dpUser.getList().size() );
 		populateSuggestBox( dpUser.getList() );
 	}
 	
@@ -416,6 +418,7 @@ public class UserManagementView extends ViewWithUiHandlers<UserManagementUiHandl
 		dpUserActive.refresh();
 		tblUser.redraw();
 		//
+		pagerUser.setPageSize( dpUser.getList().size() );
 		populateSuggestBox( dpUser.getList() );
 	}
 	
@@ -431,6 +434,7 @@ public class UserManagementView extends ViewWithUiHandlers<UserManagementUiHandl
 		dpUserInactive.refresh();
 		tblUser.redraw();
 		//
+		pagerUser.setPageSize( dpUser.getList().size() );
 		populateSuggestBox( dpUser.getList() );
 	}
 	
@@ -481,7 +485,11 @@ public class UserManagementView extends ViewWithUiHandlers<UserManagementUiHandl
 		for (UserProxy up : dpUser.getList() ) {
 			if ( userName.contains( up.getFullName() ) ) {
 				tblUser.getSelectionModel().setSelected( up, true );
-				pagerUser.setPage( Math.round( dpUser.getList().indexOf(up) / pagerUser.getPageSize() ) );
+				tblUser.getRowElement( dpUser.getList().indexOf(up) ).scrollIntoView();
+				
+// 2016.08.22 : no more paging
+//				pagerUser.setPage( Math.round( dpUser.getList().indexOf(up) / pagerUser.getPageSize() ) );
+				
 				break;
 			}
 		}

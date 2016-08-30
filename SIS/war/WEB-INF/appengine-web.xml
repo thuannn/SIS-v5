@@ -3,8 +3,9 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
 	<application>lemania-eprofil</application>
-
-	<version>6-20160816-1</version>
+<!-- 	<application>pierreviret-eprofil</application> -->
+	
+	<version>6-20160829-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -39,6 +40,15 @@
 
 <!--
 CHANGE LOG
+
+6-20160829-1
+--
+BUG FIX : Attributions personnalisées - Changer un nom de professeur 
+
+
+6-20160822-1
+- Enlevé le paging de la liste des élèves 
+
 
 6-20160816-1
 6-20160815-1

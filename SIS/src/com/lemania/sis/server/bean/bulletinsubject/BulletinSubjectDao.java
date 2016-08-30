@@ -130,6 +130,7 @@ public class BulletinSubjectDao extends MyDAOBase {
 			bulletinSubject.setClassId( Long.toString( 
 					ofy().load().key( ofy().load().key( bulletinSubject.getBulletin()).now().getClasse() ).now().getId() ));
 			//
+			populateData( bulletinSubject );
 			returnList.add( calculateTotalBrancheCoef( bulletinSubject.getId().toString() ) );
 		}
 		return returnList;
@@ -312,7 +313,7 @@ public class BulletinSubjectDao extends MyDAOBase {
 					//
 					if (bulletinSubject.getBulletin().getId() == bulletin.getId()) {
 						//
-						returnList.add( populateData( bulletinSubject, bulletin ) );
+						returnList.add( populateData( bulletinSubject ) );
 						//
 						break;
 					}
@@ -334,7 +335,7 @@ public class BulletinSubjectDao extends MyDAOBase {
 				if ( extraBulletin.getIsFinished().equals(true) )
 					continue;
 				//
-				returnList.add( populateData( bulletinSubject, extraBulletin ) );
+				returnList.add( populateData( bulletinSubject ) );
 			}
 			
 			//
@@ -348,7 +349,9 @@ public class BulletinSubjectDao extends MyDAOBase {
 	
 	/*
 	 * */
-	BulletinSubject populateData( BulletinSubject bulletinSubject, Bulletin bulletin ) {
+	BulletinSubject populateData( BulletinSubject bulletinSubject ) {
+		//
+		Bulletin bulletin = ofy().load().key( bulletinSubject.getBulletin() ).now();
 		//
 		if (bulletinSubject.getProfessor() != null) {
 			bulletinSubject.setProfName( ofy().load().key(bulletinSubject.getProfessor()).now().getProfName() );
@@ -371,6 +374,12 @@ public class BulletinSubjectDao extends MyDAOBase {
 		//
 		bulletinSubject.setStudentName( bulletin.getStudentName() );
 		bulletinSubject.setStudentId( bulletin.getStudentId().toString() );
+		//
+		bulletinSubject.setProfileId( ofy().load().key(bulletin.getProfile()).now().getId().toString() );
+		Query<Profile> p = ofy().load().type( Profile.class )
+				.filter("classe", bulletinSubject.getExtraClasse() );
+		if ( p.list().size() > 0 )
+			bulletinSubject.setExtraProfileId( p.list().get(0).getId().toString() );
 		//
 		return bulletinSubject;
 	}

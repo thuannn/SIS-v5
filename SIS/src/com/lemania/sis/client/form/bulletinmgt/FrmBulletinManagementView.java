@@ -451,15 +451,15 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	    
 	    
 	    //
-	    Column<BulletinSubjectProxy, String> colEdit = new Column<BulletinSubjectProxy, String> (new GridButtonCell()){
+	    Column<BulletinSubjectProxy, String> colEdit = new Column<BulletinSubjectProxy, String> (new GridButtonCell()) {
 	    	@Override
-	    	public String getValue(BulletinSubjectProxy bp){
+	    	public String getValue(BulletinSubjectProxy bp) {
 	    		return "Editer";
 	    	}
 	    };
-	    colEdit.setFieldUpdater(new FieldUpdater<BulletinSubjectProxy, String>(){
+	    colEdit.setFieldUpdater(new FieldUpdater<BulletinSubjectProxy, String>() {
 	    	@Override
-	    	public void update(int index, BulletinSubjectProxy subject, String value){
+	    	public void update(int index, BulletinSubjectProxy subject, String value) {
 	    		selectedSubjectIndex = index;
 	    		selectedSubject = subject;
 	    		//
@@ -503,11 +503,11 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 				txtSubjectCoef.setEnabled(false);
 				lstProfiles.setEnabled(false);
 				//
-				// Show the currrently selected profs of this course
+				// Show the currently selected profs of this course
 				if ( ! selectedSubject.getExtraClasseName().equals("") )
-					FieldValidation.selectItemByText( lstProfiles, selectedSubject.getExtraClasseName() );
+					FieldValidation.selectItemByValue( lstProfiles, selectedSubject.getExtraProfileId() );
 				else
-					FieldValidation.selectItemByText( lstProfiles, lstClasses.getSelectedItemText() );
+					FieldValidation.selectItemByValue( lstProfiles, selectedSubject.getProfileId() );
 	    		//
 				onLstProfilesChange( null );
 	    		//
@@ -559,8 +559,10 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	    //
 	    subjectDataProvider.addDataDisplay(tblSubjects);
 	}
+	
 
-	/**/
+	/*
+	 * */
 	private void initializeBulletinTable() {
 		//
 	    TextColumn<BulletinProxy> colFirstName = new TextColumn<BulletinProxy>() {
@@ -594,7 +596,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 	
 	
-	/**/
+	/*
+	 * */
 	void clearBrancheUi(){
 		//
     	brancheDataProvider.getList().clear();
@@ -658,7 +661,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 	
 	
-	/**/
+	/*
+	 * */
 	@UiHandler("cmdAddSubject")
 	void onCmdAddSubjectClick(ClickEvent event) {
 		//
@@ -674,7 +678,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 	
 	
-	/**/
+	/*
+	 * */
 	@UiHandler("cmdAddBranche")
 	void onCmdAddBrancheClick(ClickEvent event) {
 		//
@@ -686,7 +691,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 
 	
-	/**/
+	/*
+	 * */
 	@Override
 	public void showAddedSubject(BulletinSubjectProxy subject) {
 		//
@@ -695,7 +701,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 
 	
-	/**/
+	/*
+	 * */
 	@Override
 	public void showAddedBranche(BulletinBrancheProxy branche) {
 		//
@@ -704,7 +711,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	}
 
 	
-	/**/
+	/*
+	 * */
 	@Override
 	public void setBrancheListData(List<BrancheProxy> branches) {
 		//

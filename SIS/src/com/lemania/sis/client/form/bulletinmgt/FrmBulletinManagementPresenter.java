@@ -142,6 +142,7 @@ public class FrmBulletinManagementPresenter
 	}
 	
 	
+	
 	/*
 	 * */
 	private void loadProfileList() {
@@ -162,7 +163,6 @@ public class FrmBulletinManagementPresenter
 				Window.alert(error.getMessage());
 			}
 		});
-		//
 	}
 	
 

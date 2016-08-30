@@ -9,18 +9,20 @@
 	</cron>
 
 
-	<!-- <cron> -->
-	<!-- <description>eProfil PV - Daily Backups</description> -->
-	<!-- <url>/_ah/datastore_admin/backup.create?name=PV-eProfil&amp;kind=AbsenceItem&amp;kind=Assignment&amp;kind=Branche&amp;kind=Bulletin&amp;kind=BulletinBranche&amp;kind=BulletinSubject&amp;kind=Classe&amp;kind=Cours&amp;kind=Ecole&amp;kind=EvaluationHeader&amp;kind=EvaluationStudentReport&amp;kind=EvaluationSubject&amp;kind=Parent&amp;kind=Period&amp;kind=PeriodItem&amp;kind=Professor&amp;kind=Profile&amp;kind=ProfileBranche&amp;kind=ProfileSubject&amp;kind=SettingOption&amp;kind=Student&amp;kind=Subject&amp;kind=User&amp;filesystem=gs&amp;gs_bucket_name=eprofil-pv-backups</url> -->
-	<!-- <schedule>every day 00:00</schedule> -->
-	<!-- <target>ah-builtin-python-bundle</target> -->
-	<!-- </cron> -->
+<!-- 	<cron> -->
+<!-- 		<description>eProfil PV - Daily Backups</description> -->
+<!-- 		<url>/_ah/datastore_admin/backup.create?name=Lemania-eProfil&amp;kind=AbsenceItem&amp;kind=Assignment&amp;kind=Branche&amp;kind=Bulletin&amp;kind=BulletinBranche&amp;kind=BulletinSubject&amp;kind=Classe&amp;kind=Cours&amp;kind=Ecole&amp;kind=EvaluationHeader&amp;kind=EvaluationStudentReport&amp;kind=EvaluationSubject&amp;kind=Parent&amp;kind=Period&amp;kind=PeriodItem&amp;kind=Professor&amp;kind=Profile&amp;kind=ProfileBranche&amp;kind=ProfileSubject&amp;kind=SettingOption&amp;kind=Student&amp;kind=Subject&amp;kind=User&amp;kind=StudyLog&amp;filesystem=gs&amp;gs_bucket_name=eprofil-pv-backups</url> -->
+<!-- 		<schedule>every day 00:00</schedule> -->
+<!-- 		<target>ah-builtin-python-bundle</target> -->
+<!-- 	</cron> -->
+	
 
-	<!-- <cron> -->
-	<!-- <description>eProfil LC Lausanne - Daily Backups</description> -->
-	<!-- <url>/_ah/datastore_admin/backup.create?name=LC-Lausanne-eProfil&amp;kind=AbsenceItem&amp;kind=Assignment&amp;kind=Branche&amp;kind=Bulletin&amp;kind=BulletinBranche&amp;kind=BulletinSubject&amp;kind=Classe&amp;kind=Cours&amp;kind=Ecole&amp;kind=EvaluationHeader&amp;kind=EvaluationStudentReport&amp;kind=EvaluationSubject&amp;kind=Parent&amp;kind=Period&amp;kind=PeriodItem&amp;kind=Professor&amp;kind=Profile&amp;kind=ProfileBranche&amp;kind=ProfileSubject&amp;kind=SettingOption&amp;kind=Student&amp;kind=Subject&amp;kind=User&amp;kind=StudyLog&amp;filesystem=gs&amp;gs_bucket_name=lclausanne-eprofil-backups</url> -->
-	<!-- <schedule>every day 00:00</schedule> -->
-	<!-- <target>ah-builtin-python-bundle</target> -->
-	<!-- </cron> -->
+<!-- 	<cron> -->
+<!-- 		<description>eProfil LC Lausanne - Daily Backups</description> -->
+<!-- 		<url>/_ah/datastore_admin/backup.create?name=LC-Lausanne-eProfil&amp;kind=AbsenceItem&amp;kind=Assignment&amp;kind=Branche&amp;kind=Bulletin&amp;kind=BulletinBranche&amp;kind=BulletinSubject&amp;kind=Classe&amp;kind=Cours&amp;kind=Ecole&amp;kind=EvaluationHeader&amp;kind=EvaluationStudentReport&amp;kind=EvaluationSubject&amp;kind=Parent&amp;kind=Period&amp;kind=PeriodItem&amp;kind=Professor&amp;kind=Profile&amp;kind=ProfileBranche&amp;kind=ProfileSubject&amp;kind=SettingOption&amp;kind=Student&amp;kind=Subject&amp;kind=User&amp;kind=StudyLog&amp;filesystem=gs&amp;gs_bucket_name=lclausanne-eprofil-backups -->
+<!-- 		</url> -->
+<!-- 		<schedule>every day 00:00</schedule> -->
+<!-- 		<target>ah-builtin-python-bundle</target> -->
+<!-- 	</cron> -->
 
 </cronentries>

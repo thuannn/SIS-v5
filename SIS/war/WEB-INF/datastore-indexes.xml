@@ -166,6 +166,12 @@
 	</datastore-index>
 
 	<!-- Profile -->
+	
+	<datastore-index kind="Profile" ancestor="false" source="manual">
+        <property name="isActive" direction="asc"/>
+        <property name="profileName" direction="asc"/>
+    </datastore-index>
+
 
 	<datastore-index kind="Profile" ancestor="false" source="manual">
 		<property name="classe" direction="asc"/>

@@ -179,6 +179,7 @@ public class StudentView extends ViewWithUiHandlers<StudentListUiHandler> implem
 			mySuggestions.add( sp.getFirstName() + " " + sp.getLastName() );
 		}
 		//
+		pagerStudent.setPageSize( studentList.size() );
 		pagerStudent.setPage(0);
 	}
 
@@ -218,7 +219,11 @@ public class StudentView extends ViewWithUiHandlers<StudentListUiHandler> implem
 		for (StudentProxy sp : dataProvider.getList() ) {
 			if ( studentName.contains( sp.getFirstName() + " " + sp.getLastName() ) ) {
 				tblStudents.getSelectionModel().setSelected( sp, true );
-				pagerStudent.setPage( Math.round( dataProvider.getList().indexOf(sp) / pagerStudent.getPageSize() ) );
+				tblStudents.getRowElement( dataProvider.getList().indexOf(sp) ).scrollIntoView();
+				
+// 2016.08.22 - No more paging
+//				pagerStudent.setPage( Math.round( dataProvider.getList().indexOf(sp) / pagerStudent.getPageSize() ) );
+				
 				break;
 			}
 		}
