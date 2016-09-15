@@ -210,12 +210,22 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 		//
 		sendMethod = method;
 		lblNotifStudentName.setText( selectedAbsenceItem.getStudentName() );
-		txtSendMessage.setText( 
+		if ( selectedAbsenceItem.getCodeAbsenceType().equals( AbsenceValues.absenceType_Exclude_Code ) ) {
+			//
+			txtSendMessage.setText( 
+					selectedAbsenceItem.getStudentName() + " a été exclu(e) " 
+					+ " le " + selectedAbsenceItem.getStrAbsenceDate().substring(6) + "." + selectedAbsenceItem.getStrAbsenceDate().substring(4,6) + "." + selectedAbsenceItem.getStrAbsenceDate().substring(0,4)  
+					+ " de "+ selectedAbsenceItem.getPeriodDesc().replace(":", "h") +".\n\n"
+					+ "ECOLE LEMANIA" );
+		} else {
+			//
+			txtSendMessage.setText( 
 				"Absence de " + selectedAbsenceItem.getStudentName() 
 				+ " le " + selectedAbsenceItem.getStrAbsenceDate().substring(6) + "." + selectedAbsenceItem.getStrAbsenceDate().substring(4,6) + "." + selectedAbsenceItem.getStrAbsenceDate().substring(0,4)  
 				+ " de "+ selectedAbsenceItem.getPeriodDesc().replace(":", "h") +".\n\n"
 				+ "Merci d’en prendre note et de nous faire parvenir rapidement l’éventuelle excuse.\n"
 				+ "ECOLE LEMANIA" );
+		}
 		//
 		if ( method == messageType.SMS ) {
 			lblSendMethod.setText( "SMS" );

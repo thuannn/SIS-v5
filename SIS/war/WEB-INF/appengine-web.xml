@@ -2,10 +2,11 @@
 
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
+<!--     <application>lclausanne-eprofil</application> -->
 	<application>lemania-eprofil</application>
 <!-- 	<application>pierreviret-eprofil</application> -->
-	
-	<version>6-20160829-1</version>
+  
+	<version>6-20160915-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -41,8 +42,13 @@
 <!--
 CHANGE LOG
 
+6-20160915-1
+............
+- Changer le texte de notification pour les SMS et emails
+
+
 6-20160829-1
---
+............
 BUG FIX : Attributions personnalisées - Changer un nom de professeur 
 
 
