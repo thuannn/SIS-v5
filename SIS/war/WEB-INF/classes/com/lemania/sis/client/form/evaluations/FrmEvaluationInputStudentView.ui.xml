@@ -73,7 +73,7 @@
 				</g:row>
 				<g:row/>
 			</g:Grid>
-				<g:Button text="Version imprimmée" ui:field="cmdPrint">Version imprimmé</g:Button>
+				<g:Button text="Version imprimée" ui:field="cmdPrint">Version imprimée</g:Button>
 			</g:HorizontalPanel>
 			<g:VerticalPanel width="100%" ui:field="pnlEvaluationPrint">
 				<g:VerticalPanel width="100%" horizontalAlignment="ALIGN_CENTER">
@@ -155,7 +155,7 @@
 				<g:HorizontalPanel width="100%" spacing="5">
 				<g:Label text="Commentaire(s) éventuel(s) et pistes d&apos;amélioration :"/>
 				<g:TextArea visibleLines="5" characterWidth="100" ui:field="txtCommentaire" styleName="sis-TextArea"/>
-				<g:Button ui:field="cmdSave" enabled="false">Enregister</g:Button>
+				<g:Button ui:field="cmdSave" enabled="false">Enregistrer</g:Button>
 			</g:HorizontalPanel>
 				<g:Label styleName="hiddenText"/>
 			</g:VerticalPanel>

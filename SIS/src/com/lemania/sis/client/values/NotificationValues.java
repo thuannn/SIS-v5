@@ -80,4 +80,7 @@ public class NotificationValues {
 	// Course subscription
 	public static String coursesubscription_studentexist = "Elève existe déjà dans la liste des élèves inscrits.";
 	
+	// Bulletin Management
+	public static String subjectChangeAlert = "ATTENTION : Les attributions des branches peuvent être différentes.";
+	
 }

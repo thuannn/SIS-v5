@@ -9,6 +9,7 @@ import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyEvent;
 import com.lemania.sis.client.UI.FieldValidation;
+import com.lemania.sis.client.UI.MyAlert;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent;
 import com.lemania.sis.client.event.LoginAuthenticatedEvent.LoginAuthenticatedHandler;
 import com.lemania.sis.client.event.StudentAfterStatusChangeEvent;
@@ -590,12 +591,17 @@ public class FrmBulletinManagementPresenter
 	 * */
 	@Override
 	public void updateSubjectProf(BulletinSubjectProxy subject, String profId, String prof1Id, String prof2Id,
-			final Integer lastSubjectIndex) {
+			final Integer lastSubjectIndex, String subjectId) {
+		//
+		if (profId.equals("")) {
+			(new MyAlert( NotificationValues.invalid_input + " Professeur" )).center();
+			return;
+		}
 		//
 		BulletinSubjectRequestFactory rf = GWT.create(BulletinSubjectRequestFactory.class);
 		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
 		BulletinSubjectRequestContext rc = rf.bulletinSubjectRequest();
-		rc.updateBulletinSubjectProf( subject, profId, prof1Id, prof2Id ).fire(new Receiver<BulletinSubjectProxy>(){
+		rc.updateBulletinSubjectProf( subject, profId, prof1Id, prof2Id, subjectId ).fire(new Receiver<BulletinSubjectProxy>(){
 			@Override
 			public void onFailure(ServerFailure error){
 				Window.alert(error.getMessage());

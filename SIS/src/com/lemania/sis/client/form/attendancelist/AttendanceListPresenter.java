@@ -22,6 +22,7 @@ import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.lemania.sis.client.CurrentUser;
 import com.lemania.sis.client.LoggedInGatekeeper;
 import com.lemania.sis.client.ProfessorGateKeeper;
+import com.lemania.sis.client.UI.MyAlert;
 import com.lemania.sis.client.event.AttendanceListAssignmentAfterSelectedEvent;
 import com.lemania.sis.client.event.AttendanceListAssignmentAfterSelectedEvent.AttendanceListAssignmentAfterSelectedHandler;
 import com.lemania.sis.client.event.AttendanceListAssignmentSelectedEvent;
@@ -81,6 +82,8 @@ public class AttendanceListPresenter
 		void showAbsenceItems( List<AbsenceItemProxy> aip );
 		//
 		void setUpdatedAbsenceItem( AbsenceItemProxy ai );
+		//
+		void clearCheckValue();
 	}
 
 	@ContentSlot
@@ -257,7 +260,8 @@ public class AttendanceListPresenter
 				@Override
 				public void onFailure(ServerFailure error){
 					//
-					Window.alert(error.getMessage());
+					(new MyAlert(error.getMessage().replace("Server Error:", ""))).center();
+					getView().clearCheckValue();
 				}
 				@Override
 				public void onSuccess( AbsenceItemProxy response ) {

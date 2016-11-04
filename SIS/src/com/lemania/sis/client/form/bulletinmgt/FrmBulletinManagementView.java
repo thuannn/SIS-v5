@@ -6,10 +6,14 @@ import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.lemania.sis.client.UI.FieldValidation;
 import com.lemania.sis.client.UI.GridButtonCell;
+import com.lemania.sis.client.UI.MyAlert;
+import com.lemania.sis.client.values.NotificationValues;
+import com.lemania.sis.server.Subject;
 import com.lemania.sis.shared.BrancheProxy;
 import com.lemania.sis.shared.ClasseProxy;
 import com.lemania.sis.shared.CoursProxy;
@@ -20,6 +24,12 @@ import com.lemania.sis.shared.SubjectProxy;
 import com.lemania.sis.shared.bulletin.BulletinProxy;
 import com.lemania.sis.shared.bulletinbranche.BulletinBrancheProxy;
 import com.lemania.sis.shared.bulletinsubject.BulletinSubjectProxy;
+import com.sencha.gxt.widget.core.client.Dialog.PredefinedButton;
+import com.sencha.gxt.widget.core.client.box.ConfirmMessageBox;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent;
+import com.sencha.gxt.widget.core.client.event.DialogHideEvent.DialogHideHandler;
+import com.sencha.gxt.widget.core.client.event.HideEvent;
+import com.sencha.gxt.widget.core.client.event.HideEvent.HideHandler;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
@@ -43,6 +53,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Button;
+import com.googlecode.objectify.Key;
 
 public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinManagementUiHandler> implements
 		FrmBulletinManagementPresenter.MyView {
@@ -344,7 +355,6 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 				FieldValidation.selectItemByText( lstBranches, selectedBranche.getBulletinBrancheName() );
 				txtBrancheCoef.setText( selectedBranche.getBrancheCoef().toString() );
 				//
-				pp.setGlassEnabled( true );
 	    		pp.show();
 	    		pp.center();
 	    	}
@@ -450,13 +460,14 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	    tblSubjects.setColumnWidth(colTotalBrancheCoef, 10, Unit.PCT);
 	    
 	    
-	    //
+	    // EDIT COLUMN
 	    Column<BulletinSubjectProxy, String> colEdit = new Column<BulletinSubjectProxy, String> (new GridButtonCell()) {
 	    	@Override
 	    	public String getValue(BulletinSubjectProxy bp) {
 	    		return "Editer";
 	    	}
 	    };
+	    //
 	    colEdit.setFieldUpdater(new FieldUpdater<BulletinSubjectProxy, String>() {
 	    	@Override
 	    	public void update(int index, BulletinSubjectProxy subject, String value) {
@@ -499,7 +510,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	    		pp.add( pnlSubjectAdd );
 	    		cmdSaveSubject.setVisible(true);
 				cmdAddSubject.setVisible(false);
-				lstSubjects.setEnabled(false);
+// 20161101 - Allow subject change
+				lstSubjects.setEnabled(true);
 				txtSubjectCoef.setEnabled(false);
 				lstProfiles.setEnabled(false);
 				//
@@ -514,6 +526,8 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 				isEditingProfs = true;
 				//
 				pp.setGlassEnabled( true );
+				pp.setModal(true);
+				pp.setAutoHideEnabled(false);
 	    		pp.show();
 	    		pp.center();
 	    	}
@@ -752,6 +766,9 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	@UiHandler("lstSubjects")
 	void onLstSubjectsChange( ChangeEvent event ) {
 		//
+		if( isEditingProfs  &&  !selectedSubject.getSubjectId().equals(lstSubjects.getSelectedValue()) )
+			(new MyAlert( NotificationValues.subjectChangeAlert )).center();
+		//
 		if (getUiHandlers() != null)
 			getUiHandlers().loadProfessorList( 
 					lstSubjects.getValue( lstSubjects.getSelectedIndex()), 
@@ -799,11 +816,13 @@ public class FrmBulletinManagementView extends ViewWithUiHandlers<FrmBulletinMan
 	@UiHandler("cmdSaveSubject")
 	void onCmdSaveSubjectClick(ClickEvent event) {
 		//
-		getUiHandlers().updateSubjectProf( selectedSubject, 
+		getUiHandlers().updateSubjectProf( 
+				selectedSubject, 
 				lstProfessors.getValue( lstProfessors.getSelectedIndex() ), 
 				lstProfessors1.getValue( lstProfessors1.getSelectedIndex() ), 
 				lstProfessors2.getValue( lstProfessors2.getSelectedIndex() ), 
-				selectedSubjectIndex );
+				selectedSubjectIndex,
+				lstSubjects.getValue( lstSubjects.getSelectedIndex() ) );
 	}
 	
 	

@@ -19,9 +19,9 @@ public class AbsenceItem extends DatastoreObject implements Comparable<AbsenceIt
 	
 	@Load private Key<Student> keyStudent;
 	@Load private Key<Period> keyPeriod;
+	@Load private Key<Subject> keySubject;
 	private Key<Professor> keyProf;
 	private Key<Classe> keyClasse;
-	@Load private Key<Subject> keySubject;
 	private Key<MotifAbsence> keyMotif;
 	private String codeAbsenceType = "";
 	private String profComment  = "";

@@ -59,11 +59,14 @@
 						</g:VerticalPanel>
     			</g:HorizontalPanel>
     		</g:HorizontalPanel>
+    		
     		<g:HorizontalPanel spacing="5" verticalAlignment="ALIGN_MIDDLE">
     			<g:Label text="4." horizontalAlignment="ALIGN_LEFT" styleName="step" width=""/>
     			<g:Label text="-" styleName="header" ui:field="lblTitle"/>
     		</g:HorizontalPanel>
+    		
     		<g:FlexTable width="100%" ui:field="tblAttendance"/>
+    		
     		<g:Label text="-" styleName="hiddenText"/>
     	</g:VerticalPanel>
     </g:HTMLPanel>

@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
+import com.lemania.sis.client.values.AbsenceValues;
 import com.lemania.sis.server.Subject;
 import com.lemania.sis.server.bean.assignment.Assignment;
 import com.lemania.sis.server.bean.classe.Classe;
@@ -139,7 +140,7 @@ public class AbsenceItemDao extends MyDAOBase {
 	
 	/*
 	 * */
-	public AbsenceItem saveAbsenceItem(
+	public AbsenceItem saveAbsenceItem (
 			String strDate,
 			String studentId,
 			String periodId,
@@ -151,8 +152,21 @@ public class AbsenceItemDao extends MyDAOBase {
 			String profComment,
 			int lateMinute,
 			boolean justified,
-			boolean parentNotified ) {
+			boolean parentNotified ) throws Exception {
 		//
+		// Check if there exist an absence for this student
+		Query<AbsenceItem> q = ofy().load().type(AbsenceItem.class)
+				.filter("keyStudent", Key.create(Student.class, Long.parseLong(studentId)))
+				.filter("keyPeriod", Key.create(Period.class, Long.parseLong(periodId)))
+				.filter("keyClasse", Key.create( Classe.class, Long.parseLong(classId)))
+				.filter("keySubject", Key.create( Subject.class, Long.parseLong(subjectId)))
+				.filter("strAbsenceDate", strDate);
+		if (q.count() > 0) {
+			throw new Exception("Une absence a été saisie pour cet élève. Motif : " 
+									+ AbsenceValues.getDescriptionFR( q.list().get(0).getCodeAbsenceType() ));
+		}
+		//
+		// Save new absence item
 		AbsenceItem returnAI = new AbsenceItem();
 		returnAI.setStrAbsenceDate(strDate);
 		returnAI.setKeyStudent( Key.create(Student.class, Long.parseLong(studentId)));

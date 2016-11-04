@@ -2,11 +2,12 @@
 
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
-<!--     <application>lclausanne-eprofil</application> -->
+<!--    <application>lclausanne-eprofil</application> -->
 	<application>lemania-eprofil</application>
 <!-- 	<application>pierreviret-eprofil</application> -->
+<!-- 	<application>sis-dev</application> -->
   
-	<version>6-20160915-1</version>
+	<version>6-20161031-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -41,6 +42,18 @@
 
 <!--
 CHANGE LOG
+
+6-20161031-1
+............
+- Evaluation - Corriger fautes d'orthographe
+- Possibilté de changer un Subject d'un BulletinSubject
+- Eviter les duplication des absences avec different motifs
+
+
+6-20160920-1
+............
+- Version imprimée - notes en détails
+
 
 6-20160915-1
 ............

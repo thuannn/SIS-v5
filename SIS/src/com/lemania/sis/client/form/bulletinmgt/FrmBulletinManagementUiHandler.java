@@ -26,8 +26,9 @@ public interface FrmBulletinManagementUiHandler extends UiHandlers {
 	void updateBranche( String bulletinBrancheId, String brancheId, String coef );
 	//
 	void updateSubjectCoef( BulletinSubjectProxy subject, String coef, Integer lastSubjectIndex);
-	//
-	void updateSubjectProf ( BulletinSubjectProxy subject, String profId, String prof1Id, String prof2Id, Integer lastSubjectIndex );
+	
+	// Update BulletinSubject with Prof and Subject
+	void updateSubjectProf ( BulletinSubjectProxy subject, String profId, String prof1Id, String prof2Id, Integer lastSubjectIndex, String subjectId );
 	//
 	void addSubject(String bulletinId, String subjectId, String profId, String profId1, String profId2, String coef, String profileId );
 	void addBranche(String bulletinSubjectId, String brancheId, String coef);

@@ -6,6 +6,9 @@ import java.util.List;
 import com.gwtplatform.mvp.client.ViewWithUiHandlers;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.lemania.sis.shared.ClasseProxy;
@@ -13,10 +16,19 @@ import com.lemania.sis.shared.bulletin.BulletinProxy;
 import com.lemania.sis.shared.bulletinbranche.BulletinBrancheProxy;
 import com.lemania.sis.shared.bulletinsubject.BulletinSubjectProxy;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinViewDetailUiHandler> implements
@@ -41,6 +53,10 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 	@UiField ListBox lstBulletins;
 	@UiField ListBox lstClasses;
 	@UiField HorizontalPanel pnlAdmin;
+	@UiField Button cmdPrint;
+	@UiField VerticalPanel pnlMainBulletin;
+	@UiField AbsolutePanel pnlBulletin;
+	@UiField Label lblStudentName;
 	
 	//
 	List<BulletinProxy> bulletins = new ArrayList<BulletinProxy>(); 
@@ -119,6 +135,7 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 		}
 	}
 	
+	
 	/*
 	 * */
 	@UiHandler("lstBulletins")
@@ -128,7 +145,12 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 		//
 		if (getUiHandlers() != null)
 			getUiHandlers().onBulletinChange( this.bulletins.get( lstBulletins.getSelectedIndex() - 1 ) );
+		//
+		lblStudentName.setText( 
+				this.bulletins.get( lstBulletins.getSelectedIndex() - 1 ).getStudentName() 
+				+ " - " + this.bulletins.get( lstBulletins.getSelectedIndex() - 1 ).getClasseName() );
 	}
+	
 
 	/*
 	 * */
@@ -443,5 +465,40 @@ public class FrmBulletinViewDetailView extends ViewWithUiHandlers<FrmBulletinVie
 		tblBulletin.getColumnFormatter().addStyleName(25, "gradeColumn");
 		//
 		styleTableNormal();
+	}
+	
+	
+	/*
+	 * */
+	@UiHandler("cmdPrint")
+	void onCmdPrintClick(ClickEvent event) {
+		//
+		PopupPanel popup = new PopupPanel(true) {
+			@Override
+			  protected void onPreviewNativeEvent(final NativePreviewEvent event) {
+			    super.onPreviewNativeEvent(event);
+			    switch (event.getTypeInt()) {
+			        case Event.ONKEYDOWN:
+			            if (event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+			                hide();
+			            }
+			            break;
+			    }
+			}
+		};
+		popup.setStyleName("whitePanel");
+		if ( tblBulletin.getOffsetHeight() > Window.getClientHeight() )
+			popup.setHeight( tblBulletin.getOffsetHeight() + "px");
+		else
+			popup.setHeight( Window.getClientHeight() + "px");
+		popup.add( pnlBulletin );
+		//
+		popup.addCloseHandler(new CloseHandler<PopupPanel>() {
+			public void onClose(CloseEvent<PopupPanel> event) {
+				pnlMainBulletin.add( pnlBulletin );
+			}
+		});
+		//
+		popup.show();
 	}
 }

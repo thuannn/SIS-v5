@@ -68,7 +68,7 @@
 											pageStart="0" ui:field="pagerSubjects" />
 									</g:Cell>
 									<g:VerticalPanel width="100%" ui:field="pnlSubjectAdd">
-										<g:Label text="Rajouter une matière" styleName="sectionTitle" />
+										<g:Label text="Ajouter / Modifier une matière" styleName="sectionTitle" />
 										<g:Grid width="" cellPadding="2" cellSpacing="2">
 										    <g:row>
 												<g:customCell>

@@ -64,14 +64,14 @@ public class BulletinBrancheDao extends MyDAOBase {
 	}
 	
 	
-	/*
+	/* LIST ALL BRANCHES BY SUBJECT
 	 * */
-	public List<BulletinBranche> listAll( String bulletinSubjectId ){
+	public List<BulletinBranche> listAll( String bulletinSubjectId ) {
 		//
 		Query<BulletinBranche> q = ofy().load().type(BulletinBranche.class)
 				.filter("bulletinSubject", Key.create(BulletinSubject.class, Long.parseLong(bulletinSubjectId)));
 		List<BulletinBranche> returnList = new ArrayList<BulletinBranche>();
-		for ( BulletinBranche bulletinBranche : q ){
+		for ( BulletinBranche bulletinBranche : q ) {
 			bulletinBranche.setBulletinBrancheName( ofy().load().key( bulletinBranche.getBulletinBranche()).now().getBrancheName() );
 			returnList.add( bulletinBranche );
 		}
@@ -81,6 +81,7 @@ public class BulletinBrancheDao extends MyDAOBase {
 	
 	
 	/*
+	 * LIST ALL BRANCHES BY BULLETIN (WITH MULTIPLE SUBJECTS WITHIN BULLETIN)
 	 * */
 	public List<BulletinBranche> listAllByBulletin( String bulletinId ) {
 		//

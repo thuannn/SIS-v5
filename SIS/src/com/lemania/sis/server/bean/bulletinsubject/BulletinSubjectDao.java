@@ -836,7 +836,9 @@ public class BulletinSubjectDao extends MyDAOBase {
 	
 	/*
 	 * */
-	public BulletinSubject updateBulletinSubjectProf( BulletinSubject bs, String profId, String prof1Id, String prof2Id ) {
+	public BulletinSubject updateBulletinSubjectProf( BulletinSubject bs, String profId, String prof1Id, String prof2Id, String subjectId ) {
+		//
+		Subject newSubject;
 		//
 		Key<Professor> kf = Key.create(Professor.class, Long.parseLong(profId));
 		bs.setProfessor( kf );
@@ -858,6 +860,13 @@ public class BulletinSubjectDao extends MyDAOBase {
 		else {
 			bs.setProfessor2( Key.create( Professor.class, Long.parseLong(prof2Id)) );
 			bs.setProf2Name( ofy().load().key( bs.getProfessor2() ).now().getProfName() );
+		}
+		
+		if ( !subjectId.equals("") && !subjectId.equals( Long.toString(bs.getSubject().getId())) ) {
+			newSubject = ofy().load().key( Key.create( Subject.class, Long.parseLong(subjectId)) ).now();
+			bs.setSubject( Key.create( Subject.class, Long.parseLong(subjectId)) );
+			bs.setSubjectId( subjectId );
+			bs.setSubjectName( newSubject.getSubjectName() );
 		}
 		//
 		Key<BulletinSubject> key = ofy().save().entities( bs ).now().keySet().iterator().next();
