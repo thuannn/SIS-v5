@@ -12,6 +12,8 @@ import com.lemania.sis.client.place.NameTokens;
 import com.lemania.sis.client.popup.absenceinput.AbsenceInputPresenter;
 import com.gwtplatform.mvp.client.annotations.UseGatekeeper;
 import com.lemania.sis.client.AdminGateKeeper;
+import com.lemania.sis.client.CurrentSchool;
+import com.lemania.sis.client.CurrentUser;
 import com.gwtplatform.mvp.client.proxy.ProxyPlace;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -20,7 +22,11 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.lemania.sis.client.event.AbsenceAfterInputEvent;
+import com.lemania.sis.client.event.LoginAuthenticatedEvent;
 import com.lemania.sis.client.event.AbsenceAfterInputEvent.AbsenceAfterInputHandler;
+import com.lemania.sis.client.event.DrawSchoolInterfaceEvent;
+import com.lemania.sis.client.event.DrawSchoolInterfaceEvent.DrawSchoolInterfaceHandler;
+import com.lemania.sis.client.event.LoginAuthenticatedEvent.LoginAuthenticatedHandler;
 import com.lemania.sis.client.form.mainpage.MainPagePresenter;
 import com.lemania.sis.shared.absenceitem.AbsenceItemProxy;
 import com.lemania.sis.shared.absenceitem.AbsenceItemRequestFactory;
@@ -39,7 +45,8 @@ import com.lemania.sis.shared.student.StudentRequestFactory.StudentRequestContex
 
 public class AbsenceManagementPresenter
 		extends Presenter<AbsenceManagementPresenter.MyView, AbsenceManagementPresenter.MyProxy>
-		implements AbsenceManagementUiHandlers, AbsenceAfterInputHandler {
+		implements AbsenceManagementUiHandlers, AbsenceAfterInputHandler, LoginAuthenticatedHandler,
+		DrawSchoolInterfaceHandler {
 
 	public interface MyView extends View, HasUiHandlers<AbsenceManagementUiHandlers> {
 		//
@@ -48,8 +55,6 @@ public class AbsenceManagementPresenter
 		public void setStudentSuggestboxData( List<BulletinProxy> bulleetins );
 		//
 		public void setAbsenceItemTableData( List<AbsenceItemProxy> absenceItems );
-		//
-//		void setMotifListData(List<MotifAbsenceProxy> motifs);
 		//
 		void initializeUI();
 		//
@@ -65,6 +70,9 @@ public class AbsenceManagementPresenter
 		void showNotificationDatesSMS( AbsenceItemProxy ai );
 	}
 
+	//
+	CurrentUser currentUser;
+	CurrentSchool currentSchool;
 	//
 	private AbsenceInputPresenter popupAbsenceInput;
 	//
@@ -104,29 +112,7 @@ public class AbsenceManagementPresenter
 		loadStudentList();
 		//
 		getView().resetUI();
-		//
-//		loadMotifs();
 	}
-	
-	
-//	/*
-//	 * */
-//	private void loadMotifs() {
-//		//
-//		MotifAbsenceRequestFactory rf = GWT.create(MotifAbsenceRequestFactory.class);
-//		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-//		MotifAbsenceRequestContext rc = rf.motifAbsenceRequestContext();
-//		rc.listAll().fire(new Receiver<List<MotifAbsenceProxy>>(){
-//			@Override
-//			public void onFailure(ServerFailure error){
-//				Window.alert(error.getMessage());
-//			}
-//			@Override
-//			public void onSuccess(List<MotifAbsenceProxy> response) {
-//				getView().setMotifListData(response);
-//			}
-//		});
-//	}
 	
 
 	/* 
@@ -262,30 +248,6 @@ public class AbsenceManagementPresenter
 	}
 
 	
-//	/*
-//	 * */
-//	@Override
-//	public void updateMotif(AbsenceItemProxy ai, String motifID) {
-//		//
-//		AbsenceItemRequestFactory rf = GWT.create(AbsenceItemRequestFactory.class);
-//		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
-//		AbsenceItemRequestContext rc = rf.absenceItemRequestContext();
-//		//
-//		AbsenceItemProxy updateAI = rc.edit(ai);
-//		rc.updateMotif(updateAI, motifID).fire(new Receiver<AbsenceItemProxy>(){
-//			@Override
-//			public void onFailure(ServerFailure error){
-//				//
-//				Window.alert(error.getMessage());
-//			}
-//			@Override
-//			public void onSuccess( AbsenceItemProxy response ) {
-//				//
-//				getView().setUpdatedAbsenceItem( response );
-//			}
-//		});
-//	}
-	
 
 	/*
 	 * CRITICAL - load student absences base on student id and date range
@@ -319,6 +281,7 @@ public class AbsenceManagementPresenter
 	
 	
 	/*
+	 * 
 	 * */
 	private void loadStudentsParents( String studentId ) {
 		//
@@ -339,6 +302,7 @@ public class AbsenceManagementPresenter
 
 	
 	/*
+	 * 
 	 * */
 	@Override
 	public void showAbsenceInputPopup( String studentId, String studentName ) {
@@ -350,6 +314,7 @@ public class AbsenceManagementPresenter
 
 	
 	/*
+	 * 
 	 * */
 	@ProxyEvent
 	@Override
@@ -361,6 +326,7 @@ public class AbsenceManagementPresenter
 
 	
 	/*
+	 * 
 	 * */
 	@Override
 	public void removeAbsenceItem(AbsenceItemProxy aip) {
@@ -384,6 +350,7 @@ public class AbsenceManagementPresenter
 
 
 	/*
+	 * 
 	 * */
 	@Override
 	public void loadAbsentStudens(String dateFrom, String dateTo) {
@@ -404,31 +371,31 @@ public class AbsenceManagementPresenter
 			}
 		});
 	}
+	
 
 
 	/*
+	 * 
 	 * */
 	@Override
-	public void sendEmail(final String absenceItemID, String studentName, String parentName,
-			String parentEmail, String message) {
+	public void sendEmail(final String absenceItemID, String studentName, String parentName, String parentEmail, String message) {
 		//
 		String subject = "Notification de l'absence de " + studentName;
 		//
-		String from = "thuannn@gmail.com, Ecole Lemania";
+		String from = "thuannn@gmail.com, " + currentSchool.getSchoolName();
 		//
 		String to = parentEmail + "," + parentName + "/";
 		//
-		String replyto = "info@lemania.ch, Ecole Lemania"  + "/";
+		String replyto = currentSchool.getSchoolEmailInfo() + ", " + currentSchool.getSchoolName()  + "/";
 		//
-		String cc = "info@lemania.ch, INFO Lemania" + "/" + "thuan.nguyen@lemania.ch, Thuan Nguyen"  + "/";
-//		cc = "/";
+		String cc = currentSchool.getSchoolEmailInfo() + ", " + currentSchool.getSchoolName() + "/" + "thuan.nguyen@lemania.ch, Thuan Nguyen"  + "/";
 		//
 		ContactRequestFactory rf = GWT.create(ContactRequestFactory.class);
 		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
 		ContactRequestContext rc = rf.contactRequest();
-		rc.sendEmail( subject, from, to, replyto, cc, message ).fire(new Receiver<Void>(){
+		rc.sendEmail( subject, from, to, replyto, cc, message ).fire(new Receiver<Void>() {
 			@Override
-			public void onFailure(ServerFailure error){
+			public void onFailure(ServerFailure error) {
 				Window.alert(error.getMessage());
 			}
 			@Override
@@ -438,9 +405,11 @@ public class AbsenceManagementPresenter
 			}
 		});
 	}
+	
 
 
 	/*
+	 * 
 	 * */
 	@Override
 	public void sendSMS(final String absenceItemID, String number, String message) {
@@ -462,7 +431,9 @@ public class AbsenceManagementPresenter
 	}
 	
 	
+	
 	/*
+	 * 
 	 * */
 	private void saveNotificationDateEmail(String absenceItemID) {
 		//
@@ -480,6 +451,30 @@ public class AbsenceManagementPresenter
 				//
 				getView().showNotificationDatesEmail( response );
 				getView().setUpdatedAbsenceItem(response);
+			}
+		});
+	}
+	
+	
+	/*
+	 * 
+	 * */
+	private void saveNotificationDateEmail( List<AbsenceItemProxy> absenceItems ) {
+		//
+		AbsenceItemRequestFactory rf = GWT.create(AbsenceItemRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		AbsenceItemRequestContext rc = rf.absenceItemRequestContext();
+		//
+		rc.saveNotificationDateEmail( absenceItems ).fire(new Receiver<List<AbsenceItemProxy>>() {
+			@Override
+			public void onFailure(ServerFailure error) {
+				//
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess( List<AbsenceItemProxy> returnAbsenceItems ) {
+				//
+				getView().setAbsenceItemTableData( returnAbsenceItems );
 			}
 		});
 	}
@@ -506,4 +501,78 @@ public class AbsenceManagementPresenter
 			}
 		});
 	}
+	
+	
+	/*
+	 * */
+	@ProxyEvent
+	@Override
+	public void onLoginAuthenticated(LoginAuthenticatedEvent event) {
+		//
+		this.currentUser = event.getCurrentUser();
+	}
+
+
+	/*
+	 * */
+	@Override
+	public CurrentUser getCurrentUser() {
+		// 
+		return this.currentUser; 
+	}
+
+
+	/*
+	 * */
+	@ProxyEvent
+	@Override
+	public void onDrawSchoolInterface(DrawSchoolInterfaceEvent event) {
+		//
+		this.currentSchool = event.getCurrentSchool();
+	}
+
+
+	/*
+	 * */
+	@Override
+	public CurrentSchool getCurrentSchool() {
+		//
+		return this.currentSchool;
+	}
+
+
+	/*
+	 * 
+	 * */
+	@Override
+	public void sendEmailSummary(final List<AbsenceItemProxy> absenceItems, String studentName, String parentName,
+			String parentEmail, String message) {
+		//
+		String subject = "Notification de l'absence de " + studentName;
+		//
+		String from = "thuannn@gmail.com, " + currentSchool.getSchoolName();
+		//
+		String to = parentEmail + "," + parentName + "/";
+		//
+		String replyto = currentSchool.getSchoolEmailInfo() + ", " + currentSchool.getSchoolName()  + "/";
+		//
+		String cc = currentSchool.getSchoolEmailInfo() + ", " + currentSchool.getSchoolName() + "/" + "thuan.nguyen@lemania.ch, Thuan Nguyen"  + "/";
+		//
+		ContactRequestFactory rf = GWT.create(ContactRequestFactory.class);
+		rf.initialize(this.getEventBus(), new EventSourceRequestTransport(this.getEventBus()));
+		ContactRequestContext rc = rf.contactRequest();
+		rc.sendEmail( subject, from, to, replyto, cc, message ).fire(new Receiver<Void>() {
+			@Override
+			public void onFailure(ServerFailure error) {
+				//
+				Window.alert(error.getMessage());
+			}
+			@Override
+			public void onSuccess(Void response) {
+				//
+				saveNotificationDateEmail( absenceItems );
+			}
+		});
+	}
+
 }

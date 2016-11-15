@@ -40,10 +40,18 @@ public class NotificationValues {
 	/* For UI of each school
 	 * 20150728 - Add EBSR
 	 * */
-	public static String ecoleLemania = "LM";
-	public static String pierreViret = "PV";
+	public static String ecoleLemania 	= "LM";
+	public static String pierreViret 	= "PV";
 	public static String lemaniacollegelaussane = "LCL";
-	public static String ebsr = "EBSR";
+	public static String ebsr 			= "EBSR";
+	
+	public static String lemania_address = "Chemin de Préville 3, 1003 Lausanne";
+	public static String lemania_emailinfo = "info@lemania.ch";
+	public static String lemania_schoolName = "Ecole Lémania";
+	
+	public static String pv_address = "Chemin des Cèdres 3, 1004 Lausanne";
+	public static String pv_emailinfo = "info@pierreviret.ch";
+	public static String pv_schoolName = "College Pierre Viret";
 	
 	// Read only
 	public static String readOnly = "Vous avez l'accès en lecture seule - La modification n'a pas été effectuée";

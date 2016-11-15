@@ -18,6 +18,7 @@ import com.lemania.sis.server.bean.period.Period;
 import com.lemania.sis.server.bean.professor.Professor;
 import com.lemania.sis.server.bean.student.Student;
 import com.lemania.sis.server.service.MyDAOBase;
+import com.lemania.sis.shared.absenceitem.AbsenceItemProxy;
 
 public class AbsenceItemDao extends MyDAOBase {
 
@@ -336,6 +337,41 @@ public class AbsenceItemDao extends MyDAOBase {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	
+	
+	/*
+	 * */
+	public List<AbsenceItem> saveNotificationDateEmail( List<AbsenceItem> absenceItems ) {
+		//
+		List<AbsenceItem> returnList = new ArrayList<AbsenceItem>();
+		AbsenceItem returnAI;
+		String date = "";
+		Date nn = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+		Key<AbsenceItem> key = null;
+		// Load the item
+		for ( AbsenceItem ai : absenceItems ) {
+			//
+			date = sdf.format(nn)
+					+ "|" 
+					+ ((ai.getNotificationDateEmail() == null) ? "":ai.getNotificationDateEmail());
+			ai.setNotificationDateEmail( date );
+			ai.setParentNotified(true);
+			//
+			key = ofy().save().entities( ai ).now().keySet().iterator().next();
+			//
+			try {
+				returnAI = ofy().load().key(key).now();
+				populateIgnoreSaveValues( returnAI );
+				returnList.add( returnAI );
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}
+		//
+		return returnList;
 	}
 	
 	

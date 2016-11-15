@@ -3,7 +3,11 @@
  */
 package com.lemania.sis.client.form.absencemgt;
 
+import java.util.List;
+
 import com.gwtplatform.mvp.client.UiHandlers;
+import com.lemania.sis.client.CurrentSchool;
+import com.lemania.sis.client.CurrentUser;
 import com.lemania.sis.shared.absenceitem.AbsenceItemProxy;
 
 /**
@@ -32,5 +36,11 @@ public interface AbsenceManagementUiHandlers extends UiHandlers {
 	//
 	void sendEmail(String absenceItemID, String studentName, String parentName, String parentEmail, String message);
 	//
+	void sendEmailSummary( List<AbsenceItemProxy> absenceItems, String studentName, String parentName, String parentEmail, String message);
+	//
 	void sendSMS(String absenceItemID, String number, String message);
+	//
+	CurrentUser getCurrentUser();
+	//
+	CurrentSchool getCurrentSchool();
 }

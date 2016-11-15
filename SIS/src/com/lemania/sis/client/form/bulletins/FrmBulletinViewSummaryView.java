@@ -9,6 +9,7 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.lemania.sis.client.UI.MyAlert;
 import com.lemania.sis.client.values.NotificationValues;
 import com.lemania.sis.shared.ClasseProxy;
 import com.lemania.sis.shared.bulletin.BulletinProxy;
@@ -23,6 +24,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Grid;
@@ -83,6 +85,8 @@ public class FrmBulletinViewSummaryView extends ViewWithUiHandlers<FrmBulletinVi
 	@UiField HorizontalPanel pnlLogo;
 	@UiField Grid pnlDescription;
 	@UiField VerticalPanel pnlRemarque;
+	
+	Integer clickedCellIndex = -1, clickedRowIndex = -1;
 	
 	
 	/*
@@ -421,7 +425,7 @@ public class FrmBulletinViewSummaryView extends ViewWithUiHandlers<FrmBulletinVi
 							: ( ( !subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("") ) ? subjects.get(rowCount).getRemarqueT3()
 									: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("") ) ? subjects.get(rowCount).getRemarqueT2()
 											: subjects.get(rowCount).getRemarqueT1() ) ) ) );		
-			//
+			// TODO : 2016.11.08 - Continue here....
 			if ( !subjects.get( rowCount ).getAn().isEmpty() ){
 				totalMoyenne = totalMoyenne + Double.parseDouble(subjects.get( rowCount ).getAn()) * subjects.get( rowCount ).getSubjectCoef();
 				totalCoef = totalCoef + subjects.get( rowCount ).getSubjectCoef();
@@ -734,6 +738,7 @@ public class FrmBulletinViewSummaryView extends ViewWithUiHandlers<FrmBulletinVi
 		Integer rowCount = 0;
 		Double totalMoyenne = 0.0;
 		Double totalCoef = 0.0;
+		Label remarque;
 		//
 		for (int i = rowStart; i< (subjects.size()+rowStart); i++) {
 			tblNotes.setText(i, 0, subjects.get( rowCount ).getSubjectName());
@@ -743,10 +748,26 @@ public class FrmBulletinViewSummaryView extends ViewWithUiHandlers<FrmBulletinVi
 			tblNotes.setText(i, 4, subjects.get( rowCount ).getT2().toString());
 			tblNotes.setText(i, 5, subjects.get( rowCount ).getExamT2().toString());
 			tblNotes.setText(i, 6, subjects.get( rowCount ).getAn());
-			tblNotes.setText(i, 7, (
-					(!subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("")) ? subjects.get(rowCount).getRemarqueT3()
+			//
+			remarque = new Label( (!subjects.get(rowCount).getT3().equals("") || !subjects.get(rowCount).getExamT3().equals("")) ? subjects.get(rowCount).getRemarqueT3()
 							: ( (!subjects.get(rowCount).getT2().equals("") || !subjects.get(rowCount).getExamT2().equals("")) ? subjects.get(rowCount).getRemarqueT2()
-									: subjects.get(rowCount).getRemarqueT1() ) ) );
+									: subjects.get(rowCount).getRemarqueT1() ) );
+			
+			tblNotes.setWidget( i, 7, remarque );
+			remarque.addClickHandler( new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					//
+					Integer clickedRow = tblNotes.getCellForEvent(event).getRowIndex();
+					(new MyAlert( 
+							(!curSubjects.get(clickedRow-1).getT3().equals("") || !curSubjects.get(clickedRow-1).getExamT3().equals("")) ? curSubjects.get(clickedRow-1).getRemarqueT3()
+									: ( (!curSubjects.get(clickedRow-1).getT2().equals("") || !curSubjects.get(clickedRow-1).getExamT2().equals("")) ? curSubjects.get(clickedRow-1).getRemarqueT2()
+											: curSubjects.get(clickedRow-1).getRemarqueT1() )
+								)).center();;
+				}
+				
+			});
 			//
 			if ( !subjects.get( rowCount ).getAn().isEmpty() ){
 				totalMoyenne = totalMoyenne + Double.parseDouble(subjects.get( rowCount ).getAn()) * subjects.get( rowCount ).getSubjectCoef();

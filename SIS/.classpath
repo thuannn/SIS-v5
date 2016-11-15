@@ -6,7 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gxt.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jxl.jar"/>
@@ -60,5 +59,6 @@
 	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwt-2.7.0/requestfactory-client.jar"/>
 	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwt-2.7.0/requestfactory-server.jar"/>
 	<classpathentry kind="lib" path="/Users/ngocthuannguyen13/OneDrive/Dev_Resources/Lib/gwt-2.7.0/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

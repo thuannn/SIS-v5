@@ -3,6 +3,7 @@ package com.lemania.sis.client.event;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.HasHandlers;
+import com.lemania.sis.client.CurrentSchool;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 public class DrawSchoolInterfaceEvent extends
@@ -12,6 +13,7 @@ public class DrawSchoolInterfaceEvent extends
 	
 	//
 	private String schoolCode;
+	private CurrentSchool currentSchool;
 
 	public interface DrawSchoolInterfaceHandler extends EventHandler {
 		void onDrawSchoolInterface(DrawSchoolInterfaceEvent event);
@@ -27,6 +29,11 @@ public class DrawSchoolInterfaceEvent extends
 	
 	public DrawSchoolInterfaceEvent(String schoolCode) {
 		this.schoolCode = schoolCode;
+	}
+	
+	public DrawSchoolInterfaceEvent(CurrentSchool addCurrentSchool) {
+		this.schoolCode = addCurrentSchool.getSchoolCode();
+		this.currentSchool = addCurrentSchool;
 	}
 
 	@Override
@@ -53,5 +60,13 @@ public class DrawSchoolInterfaceEvent extends
 
 	public void setSchoolCode(String schoolCode) {
 		this.schoolCode = schoolCode;
+	}
+
+	public CurrentSchool getCurrentSchool() {
+		return currentSchool;
+	}
+
+	public void setCurrentSchool(CurrentSchool currentSchool) {
+		this.currentSchool = currentSchool;
 	}
 }

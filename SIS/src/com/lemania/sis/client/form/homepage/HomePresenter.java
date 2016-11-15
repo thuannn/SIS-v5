@@ -8,6 +8,7 @@ import com.gwtplatform.mvp.client.View;
 import com.gwtplatform.mvp.client.annotations.ProxyCodeSplit;
 import com.gwtplatform.mvp.client.annotations.NameToken;
 import com.gwtplatform.mvp.client.annotations.ProxyEvent;
+import com.lemania.sis.client.CurrentSchool;
 import com.lemania.sis.client.CurrentUser;
 import com.lemania.sis.client.event.AfterUserLogOutEvent;
 import com.lemania.sis.client.event.AfterUserLogOutEvent.AfterUserLogOutHandler;
@@ -172,15 +173,18 @@ public class HomePresenter
 			}
 			@Override
 			public void onSuccess(List<SettingOptionProxy> response) {
+				//
 				for (SettingOptionProxy setting : response){
+					//
 					if (setting.getOptionName().equals("DEADLINE")) {
 						deadLine = Integer.parseInt(setting.getOptionValue());
 					}
+					//
 					if (setting.getOptionName().equals("BLOCK")) {
 						systemBlocked = Boolean.parseBoolean(setting.getOptionValue());
 					}
 				}
-				
+				//
 				authenticateUserWithSettings(userName, password);
 			}
 		});
@@ -269,6 +273,8 @@ public class HomePresenter
 		
 		// if everything looks good, initialize the objects
 		getEventBus().fireEvent(new LoginAuthenticatedEvent(currentUser));
+		
+		//
 		getView().toggleLoginPanel(false);
 	}
 
@@ -297,9 +303,24 @@ public class HomePresenter
 			}
 			@Override
 			public void onSuccess(List<SettingOptionProxy> response) {
+				//
 				for (SettingOptionProxy setting : response){
 					if (setting.getOptionName().equals("ECOLE")) {
-						getEventBus().fireEvent(new DrawSchoolInterfaceEvent(setting.getOptionValue()));
+						// Get the current school settings
+						CurrentSchool currentSchool = new CurrentSchool();
+						currentSchool.setSchoolCode( setting.getOptionValue() );
+						if ( setting.getOptionValue().equals(NotificationValues.ecoleLemania)) {
+							currentSchool.setSchoolAddress( NotificationValues.lemania_address );
+							currentSchool.setSchoolEmailInfo( NotificationValues.lemania_emailinfo );
+							currentSchool.setSchoolName( NotificationValues.lemania_schoolName );
+						}
+						if ( setting.getOptionValue().equals(NotificationValues.pierreViret)) {
+							currentSchool.setSchoolAddress( NotificationValues.pv_address );
+							currentSchool.setSchoolEmailInfo( NotificationValues.pv_emailinfo );
+							currentSchool.setSchoolName( NotificationValues.pv_schoolName );
+						}
+						//
+						getEventBus().fireEvent( new DrawSchoolInterfaceEvent(currentSchool) );
 					}
 				}
 			}

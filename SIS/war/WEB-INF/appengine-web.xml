@@ -3,11 +3,11 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
 <!--    <application>lclausanne-eprofil</application> -->
-	<application>lemania-eprofil</application>
-<!-- 	<application>pierreviret-eprofil</application> -->
+<!-- 	<application>lemania-eprofil</application> -->
+	<application>pierreviret-eprofil</application>
 <!-- 	<application>sis-dev</application> -->
   
-	<version>6-20161031-1</version>
+	<version>6-20161114-1</version>
 
 	<threadsafe>true</threadsafe>
 
@@ -42,6 +42,12 @@
 
 <!--
 CHANGE LOG
+
+6-20161114-1
+............
+- Absence - Rapports quotidien - Envoyer par email
+
+
 
 6-20161031-1
 ............

@@ -98,7 +98,9 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 	
 	private enum messageType {
 		SMS,
-		Email
+		Email,
+		SMSSummary,
+		EmailSummary
 	}
 	private messageType sendMethod;
 	
@@ -147,6 +149,7 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 	@UiField Label lblSendMethod;
 	@UiField Button cmdClosePopupSMS;
 	@UiField Button cmdSend;
+	@UiField Button cmdSendSummary;
 	@UiField TextArea txtSendMessage;
 	@UiField HTML lblNotificationDates;
 	
@@ -161,6 +164,9 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 		providerAbsentStudents.getList().clear();
 		providerAbsentStudents.setList(studentList);
 		providerAbsentStudents.flush();
+		//
+		tblStudents.setRowCount( studentList.size() );
+		pagerStudents.setPageSize( studentList.size() );
 	}
 	
 	
@@ -227,11 +233,11 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 				+ "ECOLE LEMANIA" );
 		}
 		//
-		if ( method == messageType.SMS ) {
+		if (( method == messageType.SMS ) || ( method == messageType.SMSSummary )) {
 			lblSendMethod.setText( "SMS" );
 			showNotificationDatesSMS( selectedAbsenceItem );
 		}
-		if ( method == messageType.Email ) {
+		if (( method == messageType.Email ) || ( method == messageType.EmailSummary )) {
 			lblSendMethod.setText( "Email" );
 			showNotificationDatesEmail( selectedAbsenceItem );
 		}
@@ -677,6 +683,9 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 		providerAbsences.getList().clear();
 		providerAbsences.getList().addAll(absenceItems);
 		providerAbsences.flush();
+		//
+		tblAbsences.setPageSize( absenceItems.size() );
+		pagerAbsences.setPageSize( absenceItems.size() );
 	}
 
 	
@@ -998,6 +1007,23 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 					txtSendMessage.getText() );
 		}
 		//
+		if ( sendMethod == messageType.EmailSummary ) {
+			if ( !selectedParent.isAcceptEmail() ) {
+				Window.alert( "Le responsable n'a pas choisi cette option de notification.");
+				return;
+			}
+			if ( lstParents.getSelectedIndex() < 1 ) {
+				Window.alert( NotificationValues.invalid_input + " - Parents");
+				return;
+			}
+			getUiHandlers().sendEmailSummary( 
+					providerAbsences.getList(),
+					selectedAbsentStudent.getStudentName(), 
+					selectedParent.getFirstName() + " " + selectedParent.getLastName(),
+					selectedParent.geteMail(), 
+					txtSendMessage.getText() );
+		}
+		//
 		if ( sendMethod == messageType.SMS ) {
 			if ( !selectedParent.isAcceptSMS() ) {
 				Window.alert( "Le responsable n'a pas choisi cette option de notification.");
@@ -1015,7 +1041,65 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 	}
 	
 	
+	
+	/*
+	 * */
+	@UiHandler("cmdSendSummary")
+	void onCmdSendSummaryClick( ClickEvent event ) {
+		//
+		showSummarySendDialog( messageType.EmailSummary );
+	}
+	
+	
+	
+	/*
+	 * */
+	private void showSummarySendDialog( messageType method ) {
+		//
+		sendMethod = method;
+		lblNotifStudentName.setText( selectedAbsentStudent.getStudentName() );
+		String sendMessage = "";
+		
+		//
+		sendMessage = sendMessage + "Relevé des absences de " + selectedAbsentStudent.getStudentName();
+		for ( AbsenceItemProxy aip : providerAbsences.getList() ) {
+			if ( aip.getCodeAbsenceType().equals( AbsenceValues.absenceType_Exclude_Code ) ) {
+				//
+				sendMessage = sendMessage + "\n\n"
+						+ "Exclusion"  
+						+ " le " + aip.getStrAbsenceDate().substring(6) + "." + aip.getStrAbsenceDate().substring(4,6) + "." + aip.getStrAbsenceDate().substring(0,4)  
+						+ " de "+ aip.getPeriodDesc().replace(":", "h")
+						+ ", cours " + aip.getSubjectName();
+			} else {
+				//
+				sendMessage = sendMessage + "\n\n"
+					+ "Absence" 
+					+ " le " + aip.getStrAbsenceDate().substring(6) + "." + aip.getStrAbsenceDate().substring(4,6) + "." + aip.getStrAbsenceDate().substring(0,4)  
+					+ " de "+ aip.getPeriodDesc().replace(":", "h")
+					+ ", cours " + aip.getSubjectName();
+					
+			}
+		}
+		sendMessage = sendMessage + "\n\n" + "Merci d’en prendre note et de nous faire parvenir rapidement l’éventuelle excuse.";
+		sendMessage = sendMessage + "\n\n" + getUiHandlers().getCurrentSchool().getSchoolName();
+		txtSendMessage.setText( sendMessage );
+		
+		//
+		lblSendMethod.setText( "Email" );
+		
+		//
+		populateParentList( method );
+		
+		//
+		pnlSMSEmail.setVisible( true );
+		
+		//
+		popupSMSEmail.add( pnlSMSEmail );
+		popupSMSEmail.center();
+	}
+	
 
+	
 	/*
 	 * */
 	@Override
@@ -1033,7 +1117,7 @@ public class AbsenceManagementView extends ViewWithUiHandlers<AbsenceManagementU
 		lstParents.clear();
 		lstParents.addItem("Choisir");
 		for ( ParentProxy pp : providerParents.getList() ) {
-			if ( pp.isAcceptEmail() && (type == messageType.Email) )
+			if ( pp.isAcceptEmail() && ( (type == messageType.Email) || (type == messageType.EmailSummary) ) )
 				lstParents.addItem( pp.getFirstName() + " " + pp.getLastName() + " - " + pp.geteMail() + " - " + pp.getPhoneMobile(), pp.getId().toString() );
 			if ( pp.isAcceptSMS() && (type == messageType.SMS) )
 				lstParents.addItem( pp.getFirstName() + " " + pp.getLastName() + " - " + pp.geteMail() + " - " + pp.getPhoneMobile(), pp.getId().toString() );
